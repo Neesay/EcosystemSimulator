@@ -22,6 +22,7 @@ public class Deer extends Animal {
     private static final int BREEDING_AGE = 10;
     private static final int MAX_AGE = 80;
     private static final double BREEDING_PROBABILITY = 0.10;
+    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 2;
     private static final int FOOD_VALUE = 18;
     
@@ -30,6 +31,8 @@ public class Deer extends Animal {
     
     // Instance variable to track the age of the deer.
     private int age;
+    private boolean disease = false;
+    private int life_left = MAX_AGE/10;
 
     /**
      * Create a new deer.
@@ -68,6 +71,19 @@ public class Deer extends Animal {
             } else {
                 // Death occurs if the deer cannot move due to overcrowding.
                 setDead();
+            }
+            
+            if (!disease){
+                double chance = rand.nextDouble();
+                if (chance < DISEASE_PROBABILITY) {
+                    disease = true;
+                }
+                
+            } else{
+                life_left--;
+                if (life_left <= 0){
+                    setDead();
+                }
             }
         }
     }

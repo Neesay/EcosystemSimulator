@@ -17,6 +17,7 @@ public class Fox extends Animal {
     private static final int BREEDING_AGE = 15;
     private static final int MAX_AGE = 120;
     private static final double BREEDING_PROBABILITY = 0.08;
+    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 2;
     private static final Random rand = Randomizer.getRandom();
     private static final int MAX_FOOD_VALUE = 10; //might have to adjust later
@@ -24,6 +25,8 @@ public class Fox extends Animal {
     private int age;
     private int foodLevel;
     private Rabbit rabbit;
+    private boolean disease = false;
+    private int life_left = MAX_AGE/10;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -71,6 +74,19 @@ public class Fox extends Animal {
             else {
                 // Overcrowding.
                 setDead();
+            }
+            
+            if (!disease){
+                double chance = rand.nextDouble();
+                if (chance < DISEASE_PROBABILITY) {
+                    disease = true;
+                }
+                
+            } else{
+                life_left--;
+                if (life_left <= 0){
+                    setDead();
+                }
             }
         }
     }

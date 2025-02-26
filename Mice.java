@@ -24,6 +24,7 @@ public class Mice extends Animal {
     private static final int BREEDING_AGE = 3;
     private static final int MAX_AGE = 20;
     private static final double BREEDING_PROBABILITY = 0.15;
+    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 9;
     private static final int FOOD_VALUE = 4;
     
@@ -32,6 +33,8 @@ public class Mice extends Animal {
     
     // The current age of the mice.
     private int age;
+    private boolean disease = false;
+    private int life_left = MAX_AGE/10;
 
     /**
      * Create a new mice. A mice may be created as a newborn or with a random age.
@@ -71,6 +74,19 @@ public class Mice extends Animal {
             else {
                 // If no free location is available, the mice dies due to overcrowding.
                 setDead();
+            }
+            
+            if (!disease){
+                double chance = rand.nextDouble();
+                if (chance < DISEASE_PROBABILITY) {
+                    disease = true;
+                }
+                
+            } else{
+                life_left--;
+                if (life_left <= 0){
+                    setDead();
+                }
             }
         }
     }

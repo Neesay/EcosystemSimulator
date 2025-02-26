@@ -21,6 +21,7 @@ public class Wolf extends Animal {
     private static final int BREEDING_AGE = 20;
     private static final int MAX_AGE = 130;
     private static final double BREEDING_PROBABILITY = 0.06;
+    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 2;
     private static final int MAX_FOOD_VALUE = 15; //might have to adjust later
 
@@ -32,6 +33,8 @@ public class Wolf extends Animal {
     private int age;
     private int foodLevel;
     private Rabbit rabbit;
+    private boolean disease = false;
+    private int life_left = MAX_AGE/10;
     /**
      * Construct a new Wolf.
      * If randomAge is true, the wolf will have a random age and a random food level based on
@@ -79,6 +82,19 @@ public class Wolf extends Animal {
             } else {
                 // No movement possible due to overcrowding, so the wolf dies.
                 setDead();
+            }
+            
+            if (!disease){
+                double chance = rand.nextDouble();
+                if (chance < DISEASE_PROBABILITY) {
+                    disease = true;
+                }
+                
+            } else{
+                life_left--;
+                if (life_left <= 0){
+                    setDead();
+                }
             }
         }
     }

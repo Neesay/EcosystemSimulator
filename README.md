@@ -21,7 +21,7 @@
       
     - Deer - Prey
           - breeds slow
-          - low food value (18)
+          - high food value (18)
           - litter size (2)
           - max age (80)
           - breeding prob. (0.10)

@@ -29,4 +29,5 @@
 
 2. Ideas:
     - Have different colours in the spectrum to show age of animal or whatever, so like bright red would be new born and it would get darker as they age towards their max age
+    - edit the preditor classes so that it adds the foodvalue of the prey it eats to its foodlevel (not just rabbit).
     - pray should have hunger. (copy from preditor classes)

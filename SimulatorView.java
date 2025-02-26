@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 /**
  * A graphical view of the simulation grid. The view displays a rectangle for
  * each location.
@@ -71,9 +72,11 @@ public class SimulatorView extends Application {
         
         stage.setScene(scene);          
         stage.setTitle("Predator/Prey Simulation");
-        updateCanvas(simulator.getStep(), simulator.getField());
-        
+        updateCanvas(simulator.getStep(), simulator.getField());   
         stage.show();
+        
+        simulate(20);
+            
     }
 
     /**

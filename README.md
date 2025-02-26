@@ -5,11 +5,10 @@
 1. Add new Organisms:
     - Wolves - Predator
           - breeds slow
-          - low food value (4)
-          - litter size (9)
-          - max age (20)
-          - breeding prob. (0.15)
-          - breeding age (3)
+          - litter size (2)
+          - max age (130)
+          - breeding prob. (0.06)
+          - breeding age (20)
 
       
     - Mice - Prey

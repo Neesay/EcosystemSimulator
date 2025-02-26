@@ -27,3 +27,5 @@
           - breeding prob. (0.10)
           - breeding age (10)
 
+2. Ideas:
+    - Have different colours in the spectrum to show age of animal or whatever, so like bright red would be new born and it would get darker as they age towards their max age

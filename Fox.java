@@ -18,12 +18,12 @@ public class Fox extends Animal {
     private static final int MAX_AGE = 120;
     private static final double BREEDING_PROBABILITY = 0.08;
     private static final int MAX_LITTER_SIZE = 2;
-    private static final int RABBIT_FOOD_VALUE = 9;
     private static final Random rand = Randomizer.getRandom();
     
     private int age;
     private int foodLevel;
-    
+    private Rabbit rabbit;
+
     /**
      * Create a fox. A fox can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -37,11 +37,11 @@ public class Fox extends Animal {
         
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
+            foodLevel = rand.nextInt(rabbit.getFoodValue());
         }
         else {
             age = 0;
-            foodLevel = RABBIT_FOOD_VALUE;
+            foodLevel = rabbit.getFoodValue();
         }
     }
     
@@ -110,7 +110,7 @@ public class Fox extends Animal {
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                     rabbit.setDead();
-                    foodLevel = RABBIT_FOOD_VALUE;
+                    foodLevel = rabbit.getFoodValue();
                     return where;
                 }
             }

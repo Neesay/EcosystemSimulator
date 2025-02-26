@@ -17,7 +17,7 @@ public class Rabbit extends Animal {
     private static final double BREEDING_PROBABILITY = 0.12;
     private static final int MAX_LITTER_SIZE = 4;
     private static final Random rand = Randomizer.getRandom();
-    
+    private static final int FOOD_VALUE = 9;
     private int age;
 
     /**
@@ -106,5 +106,9 @@ public class Rabbit extends Animal {
      */
     private boolean canBreed() {
         return age >= BREEDING_AGE;
+    }
+    
+    public int getFoodValue() {
+        return FOOD_VALUE;
     }
 }

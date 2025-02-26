@@ -15,7 +15,10 @@ import javafx.scene.paint.Color;
 public class Simulator {
 
     private static final double FOX_CREATION_PROBABILITY = 0.02;
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
+    private static final double RABBIT_CREATION_PROBABILITY = 0.08;
+    private static final double WOLF_CREATION_PROBABILITY = 0.015;
+    private static final double MICE_CREATION_PROBABILITY = 0.10;
+    private static final double DEER_CREATION_PROBABILITY = 0.04; 
 
     private List<Animal> animals;
     private Field field;

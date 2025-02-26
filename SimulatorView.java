@@ -75,7 +75,7 @@ public class SimulatorView extends Application {
         updateCanvas(simulator.getStep(), simulator.getField());   
         stage.show();
         
-        simulate(20);
+        simulate(2000);
             
     }
 

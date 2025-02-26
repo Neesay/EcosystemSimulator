@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 
 public class Grass extends Animal{
 
-    private static final int MAX_AGEING = 5;
+    private static final int MAX_AGEING = 3;
     private static final int MAX_LITTER_SIZE = 9;
     private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
@@ -29,7 +29,7 @@ public class Grass extends Animal{
     public Grass(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
         age = 0;
-        
+
         if(randomAge) {
             age = rand.nextInt(MAX_AGEING);
         }
@@ -63,21 +63,12 @@ public class Grass extends Animal{
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = rand.nextInt(MAX_LITTER_SIZE);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Grass young = new Grass(false, field, loc, color);
             newGrass.add(young);
         }
-    }
-        
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed() {
-        return rand.nextInt(MAX_LITTER_SIZE) + 1;
     }
 
     /**

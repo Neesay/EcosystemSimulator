@@ -22,6 +22,8 @@ public class Wolf extends Animal {
     private static final int MAX_AGE = 130;
     private static final double BREEDING_PROBABILITY = 0.06;
     private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_FOOD_VALUE = 15; //might have to adjust later
+
     
     // A shared random number generator for controlling breeding and other random behaviors.
     private static final Random rand = Randomizer.getRandom();
@@ -45,11 +47,11 @@ public class Wolf extends Animal {
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             // Set the food level to a random value up to the rabbit's food value.
-            foodLevel = rand.nextInt(rabbit.getFoodValue());
+            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
         } else {
             age = 0;
             // Start with the full food level provided by the rabbit's food value.
-            foodLevel = rabbit.getFoodValue();
+            foodLevel = MAX_FOOD_VALUE;
         }
     }
     

@@ -50,17 +50,22 @@ public class Wolf extends Animal {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
             
-            BREEDING_AGE = 20;
-            MAX_AGE = 130;
-            BREEDING_PROBABILITY = 0.06;
+            BREEDING_AGE = rand.nextInt(17,23);
+            MAX_AGE = rand.nextInt(115,145);
+            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
             DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-            MAX_LITTER_SIZE = 2;
+            MAX_LITTER_SIZE = rand.nextInt(1,3);
             METABOLISM = rand.nextDouble(0.25, 1);
         } else {
             age = 0;
-        
-            // Start with the full food level provided by the rabbit's food value.
             foodLevel = MAX_FOOD_VALUE;
+            
+            BREEDING_AGE = rand.nextInt(17,23);
+            MAX_AGE = rand.nextInt(115,145);
+            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = 2;
+            METABOLISM = rand.nextDouble(0.25, 1);
         }
         
     }

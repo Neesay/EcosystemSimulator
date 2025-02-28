@@ -29,10 +29,6 @@ public class Fox extends Animal {
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-<<<<<<< HEAD
-=======
-    private static double METABOLISM;
->>>>>>> 41dfa850230c5aec3effa2534379a8cadc1eacdb
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -48,10 +44,23 @@ public class Fox extends Animal {
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-        }
-        else {
+            
+            BREEDING_AGE = rand.nextInt(12,19);
+            MAX_AGE = rand.nextInt(105,136);
+            BREEDING_PROBABILITY = rand.nextDouble(0.05,0.12);
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = rand.nextInt(1,4);
+            METABOLISM = rand.nextDouble(0.25, 1);
+        } else {
             age = 0;
             foodLevel = MAX_FOOD_VALUE;
+            
+            BREEDING_AGE = rand.nextInt(17,23);
+            MAX_AGE = rand.nextInt(115,145);
+            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = 2;
+            METABOLISM = rand.nextDouble(0.25, 1);
         }
     }
     

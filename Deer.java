@@ -71,6 +71,7 @@ public class Deer extends Animal {
      */
     public void act(List<Animal> newDeer) {
         incrementAge();
+        incrementHunger();
         if(isAlive()) {
             giveBirth(newDeer);
             // Try to move into a free adjacent location.
@@ -103,6 +104,17 @@ public class Deer extends Animal {
     private void incrementAge() {
         age++;
         if(age > MAX_AGE) {
+            setDead();
+        }
+    }
+    
+    /**
+     * Decrease the wolf's food level to simulate hunger.
+     * If the food level reaches zero, the wolf dies.
+     */
+    private void incrementHunger() {
+        foodLevel -= 1 + metabolism;
+        if(foodLevel <= 0) {
             setDead();
         }
     }

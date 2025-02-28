@@ -121,31 +121,32 @@ public class Wolf extends Animal {
     }
     
     /**
-     * Look for rabbits in adjacent locations.
-     * If a live rabbit is found, kill it and restore the wolf's food level based
-     * on the rabbit's food value.
-     * 
-     * @return The location where food was found, or null if no food is present.
+     * Look for prey in adjacent locations. The wolf will check for rabbits, deer, or mice.
+     * If a live prey is found, the wolf kills it and restores its food level based on the prey's food value.
+     *
+     * @return The location where prey was found, or null if no prey is present.
      */
     private Location findFood() {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit) animal;
-                if(rabbit.isAlive()) {
-                    // Kill the rabbit and restore the food level.
-                    rabbit.setDead();
-                    foodLevel = rabbit.getFoodValue();
+            // Check if the object is an instance of Rabbit, Mice, or Deer.
+            if (animal instanceof Rabbit || animal instanceof Mice || animal instanceof Deer) {
+                Animal prey = (Animal) animal;
+                if (prey.isAlive()) {
+                    // Kill the prey and restore the wolf's food level based on the prey's food value.
+                    prey.setDead();
+                    foodLevel = prey.getFoodValue();
                     return where;
                 }
             }
         }
         return null;
     }
+
     
     /**
      * Allow the wolf to give birth to new wolves in free adjacent locations.
@@ -184,4 +185,10 @@ public class Wolf extends Animal {
     private boolean canBreed() {
         return age >= BREEDING_AGE;
     }
+    
+    @Override
+    public int getFoodValue() {
+        return 0; // Predators aren't meant to be food.
+    }
+
 }

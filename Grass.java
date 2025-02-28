@@ -1,6 +1,6 @@
 import java.util.*;
 import javafx.scene.paint.Color; 
-
+import static java.lang.Math.min;
 /**
  * A simple model of grass.
  * Grass age, and die.
@@ -15,8 +15,8 @@ public class Grass extends Animal{
     private static final int MAX_LITTER_SIZE = 9;
     private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
-    
-    private int age;
+    private static int age;
+    private static final int FOOD_VALUE = Math.min(age, MAX_AGEING);
 
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -77,5 +77,10 @@ public class Grass extends Animal{
      */
     private boolean canBreed() {
         return age >= MAX_AGEING;
+    }
+    
+    @Override
+    public int getFoodValue() {
+        return FOOD_VALUE;
     }
 }

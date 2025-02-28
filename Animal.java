@@ -98,4 +98,9 @@ public abstract class Animal {
     public Color getColor() {
         return color;
     }   
+    
+    /**
+     * Abstract method for retrievign the food value of prey anuimals.
+     */
+    public abstract int getFoodValue();
 }

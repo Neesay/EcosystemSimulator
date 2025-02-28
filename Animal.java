@@ -22,6 +22,13 @@ public abstract class Animal {
     private Location location;
     private Color color = Color.BLACK;
     
+    private static int BREEDING_AGE;
+    private static int MAX_AGE;
+    private static double BREEDING_PROBABILITY;
+    private static double DISEASE_PROBABILITY;
+    private static int MAX_LITTER_SIZE;
+    private static double METABOLISM;
+    
     /**
      * Create a new animal at location in field.
      * 

@@ -27,7 +27,7 @@ public class Fox extends Animal {
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-    private double metabolism; 
+    private static double METABOLISM;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -106,7 +106,7 @@ public class Fox extends Animal {
      * Make this fox more hungry. This could result in the fox's death.
      */
     private void incrementHunger() {
-        foodLevel--;
+        foodLevel -= 1 + METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }

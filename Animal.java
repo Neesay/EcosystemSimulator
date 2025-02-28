@@ -52,6 +52,8 @@ public abstract class Animal {
         alive = false;
         if(location != null) {
             field.clear(location);
+            field.place(new Grass(true, field, location, Color.DARKSEAGREEN), location);
+            
             location = null;
             field = null;
         }

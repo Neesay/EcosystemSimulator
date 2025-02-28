@@ -74,6 +74,7 @@ public class Mice extends Animal {
     public void act(List<Animal> newMice) {
         // Increase the age and check for death due to old age.
         incrementAge();
+        incrementHunger();
         if(isAlive()) {
             // Attempt to give birth to new mice.
             giveBirth(newMice);            
@@ -109,6 +110,17 @@ public class Mice extends Animal {
     private void incrementAge() {
         age++;
         if(age > MAX_AGE) {
+            setDead();
+        }
+    }
+    
+    /**
+     * Decrease the wolf's food level to simulate hunger.
+     * If the food level reaches zero, the wolf dies.
+     */
+    private void incrementHunger() {
+        foodLevel -= 1 + metabolism;
+        if(foodLevel <= 0) {
             setDead();
         }
     }

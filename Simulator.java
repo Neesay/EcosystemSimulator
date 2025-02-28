@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
 
 public class Simulator {
 
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
+    private static final double FOX_CREATION_PROBABILITY = 0.05;
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
-    private static final double WOLF_CREATION_PROBABILITY = 0.015;
+    private static final double WOLF_CREATION_PROBABILITY = 0.03;
     private static final double MICE_CREATION_PROBABILITY = 0.10;
     private static final double DEER_CREATION_PROBABILITY = 0.04; 
 
@@ -80,15 +80,25 @@ public class Simulator {
             for(int col = 0; col < field.getWidth(); col++) {
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, field, location, Color.BROWN);
+                    Fox fox = new Fox(true, field, location, Color.DARKSALMON);
                     animals.add(fox);
-                }
-                else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                } else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, field, location, Color.GREY);
+                    Rabbit rabbit = new Rabbit(true, field, location, Color.CYAN);
                     animals.add(rabbit);
-                }
-                else {
+                } else if(rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Wolf wolf = new Wolf(true, field, location, Color.BLACK);
+                    animals.add(wolf);
+                } else if(rand.nextDouble() <= MICE_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Mice mice = new Mice(true, field, location, Color.GREY);
+                    animals.add(mice);
+                } else if(rand.nextDouble() <= DEER_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Deer deer = new Deer(true, field, location, Color.RED);
+                    animals.add(deer);
+                } else {
                     Location location = new Location(row, col);
                     Grass grass = new Grass(true, field, location, Color.DARKSEAGREEN);
                     plants.add(grass);

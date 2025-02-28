@@ -22,9 +22,9 @@ public class Mice extends Animal {
 
     // Mice-specific constants.
     private static final int BREEDING_AGE = 3;
-    private static final int MAX_AGE = 20;
+    private static final int MAX_AGE = 5;
     private static final double BREEDING_PROBABILITY = 0.15;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
     private static final int MAX_LITTER_SIZE = 9;
     private static final int FOOD_VALUE = 4;
     

@@ -131,7 +131,7 @@ public class Fox extends Animal {
                 if (prey.isAlive()) {
                     // Kill the prey and restore the wolf's food level based on the prey's food value.
                     prey.setDead();
-                    foodLevel = prey.getFoodValue();
+                    foodLevel += prey.getFoodValue();
                     return where;
                 }
             }

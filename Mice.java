@@ -26,7 +26,7 @@ public class Mice extends Animal {
     private static final double BREEDING_PROBABILITY = 0.15;
     private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
     private static final int MAX_LITTER_SIZE = 9;
-    private static final int FOOD_VALUE = 4;
+    private static final int MAX_FOOD_VALUE = 4;
     
     // Random number generator for breeding and age initialization.
     private static final Random rand = Randomizer.getRandom();
@@ -36,6 +36,8 @@ public class Mice extends Animal {
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
     private double metabolism; 
+    private int foodLevel;
+
     
     /**
      * Create a new mice. A mice may be created as a newborn or with a random age.
@@ -52,6 +54,14 @@ public class Mice extends Animal {
         // If randomAge is true, initialize with a random age up to the maximum age.
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
+             // Set the food level to a random value up to the rabbit's food value.
+            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
+            metabolism = rand.nextDouble(0.25, 1);
+        } else {
+            age = 0;
+        
+            // Start with the full food level provided by the rabbit's food value.
+            foodLevel = MAX_FOOD_VALUE;
         }
     }
     
@@ -149,6 +159,6 @@ public class Mice extends Animal {
      * @return the food value of the mice.
      */
     public int getFoodValue() {
-        return FOOD_VALUE;
+        return MAX_FOOD_VALUE;
     }
 }

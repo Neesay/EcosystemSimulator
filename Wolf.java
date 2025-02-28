@@ -118,7 +118,7 @@ public class Wolf extends Animal {
      * If the food level reaches zero, the wolf dies.
      */
     private void incrementHunger() {
-        foodLevel--;
+        foodLevel -= 1 + metabolism;
         if(foodLevel <= 0) {
             setDead();
         }

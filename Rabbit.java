@@ -18,11 +18,12 @@ public class Rabbit extends Animal {
     private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 4;
     private static final Random rand = Randomizer.getRandom();
-    private static final int FOOD_VALUE = 9;
+    private static final int MAX_FOOD_VALUE = 9;
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
     private double metabolism; 
+    private int foodLevel;
     
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -37,7 +38,13 @@ public class Rabbit extends Animal {
         age = 0;
         
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
+            age = rand.nextInt(MAX_AGE);foodLevel = rand.nextInt(MAX_FOOD_VALUE);
+            metabolism = rand.nextDouble(0.25, 1);
+        } else {
+            age = 0;
+        
+            // Start with the full food level provided by the rabbit's food value.
+            foodLevel = MAX_FOOD_VALUE;
         }
     }
     
@@ -126,6 +133,6 @@ public class Rabbit extends Animal {
     }
     
     public int getFoodValue() {
-        return FOOD_VALUE;
+        return MAX_FOOD_VALUE;
     }
 }

@@ -24,7 +24,7 @@ public class Deer extends Animal {
     private static final double BREEDING_PROBABILITY = 0.10;
     private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 2;
-    private static final int FOOD_VALUE = 18;
+    private static final int MAX_FOOD_VALUE = 18;
     
     // Random number generator for controlling random events like breeding.
     private static final Random rand = Randomizer.getRandom();
@@ -34,7 +34,8 @@ public class Deer extends Animal {
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
     private double metabolism; 
-    
+    private int foodLevel;
+
     /**
      * Create a new deer.
      * If randomAge is true, the deer is assigned a random age (up to its maximum age).
@@ -50,6 +51,13 @@ public class Deer extends Animal {
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
+            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
+            metabolism = rand.nextDouble(0.25, 1);
+        } else {
+            age = 0;
+        
+            // Start with the full food level provided by the rabbit's food value.
+            foodLevel = MAX_FOOD_VALUE;
         }
     }
     
@@ -147,6 +155,6 @@ public class Deer extends Animal {
      * @return The food value of a deer (18).
      */
     public int getFoodValue() {
-        return FOOD_VALUE;
+        return MAX_FOOD_VALUE;
     }
 }

@@ -19,12 +19,13 @@ import javafx.scene.paint.Color;
 public class Deer extends Animal {
 
     // Constants that define deer behavior and properties.
-    private static final int BREEDING_AGE = 10;
-    private static final int MAX_AGE = 80;
-    private static final double BREEDING_PROBABILITY = 0.10;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static final int MAX_LITTER_SIZE = 2;
-    private static final int MAX_FOOD_VALUE = 18;
+    private static int BREEDING_AGE = 10;
+    private static int MAX_AGE = 80;
+    private static double BREEDING_PROBABILITY = 0.10;
+    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+    private static int MAX_LITTER_SIZE = 2;
+    private static int MAX_FOOD_VALUE = 18;
+    private double METABOLISM; 
     
     // Random number generator for controlling random events like breeding.
     private static final Random rand = Randomizer.getRandom();
@@ -33,7 +34,6 @@ public class Deer extends Animal {
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-    private double metabolism; 
     private int foodLevel;
 
     /**
@@ -113,7 +113,7 @@ public class Deer extends Animal {
      * If the food level reaches zero, the wolf dies.
      */
     private void incrementHunger() {
-        foodLevel -= 1 + metabolism;
+        foodLevel -= 1 + METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }

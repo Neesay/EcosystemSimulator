@@ -18,13 +18,13 @@ import javafx.scene.paint.Color;
  */
 public class Wolf extends Animal {
     // Constants specific to wolves.
-    private static final int BREEDING_AGE = 20;
-    private static final int MAX_AGE = 130;
-    private static final double BREEDING_PROBABILITY = 0.06;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static final int MAX_LITTER_SIZE = 2;
+    private static int BREEDING_AGE = 20;
+    private static int MAX_AGE = 130;
+    private static double BREEDING_PROBABILITY = 0.06;
+    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+    private static int MAX_LITTER_SIZE = 2;
     private static final int MAX_FOOD_VALUE = 15; //might have to adjust later
-
+    private static double METABOLISM;
     
     // A shared random number generator for controlling breeding and other random behaviors.
     private static final Random rand = Randomizer.getRandom();
@@ -35,7 +35,7 @@ public class Wolf extends Animal {
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-    private double metabolism; 
+
     /**
      * Construct a new Wolf.
      * If randomAge is true, the wolf will have a random age and a random food level based on
@@ -52,7 +52,7 @@ public class Wolf extends Animal {
             age = rand.nextInt(MAX_AGE);
             // Set the food level to a random value up to the rabbit's food value.
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            metabolism = rand.nextDouble(0.25, 1);
+            METABOLISM = rand.nextDouble(0.25, 1);
         } else {
             age = 0;
         
@@ -118,7 +118,7 @@ public class Wolf extends Animal {
      * If the food level reaches zero, the wolf dies.
      */
     private void incrementHunger() {
-        foodLevel -= 1 + metabolism;
+        foodLevel -= 1 + METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }

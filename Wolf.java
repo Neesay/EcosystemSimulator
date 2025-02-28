@@ -17,19 +17,17 @@ import javafx.scene.paint.Color;
  * @version 
  */
 public class Wolf extends Animal {
-    // Constants specific to wolves.
-    private static int BREEDING_AGE = 20;
-    private static int MAX_AGE = 130;
-    private static double BREEDING_PROBABILITY = 0.06;
-    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static int MAX_LITTER_SIZE = 2;
-    private static final int MAX_FOOD_VALUE = 15; //might have to adjust later
+    
+    private static int BREEDING_AGE;
+    private static int MAX_AGE;
+    private static double BREEDING_PROBABILITY;
+    private static double DISEASE_PROBABILITY;
+    private static int MAX_LITTER_SIZE;
     private static double METABOLISM;
     
-    // A shared random number generator for controlling breeding and other random behaviors.
+    private static final int MAX_FOOD_VALUE = 15;
     private static final Random rand = Randomizer.getRandom();
     
-    // Instance variables to track the wolf's age and hunger level.
     private int age;
     private int foodLevel;
     private Rabbit rabbit;
@@ -50,14 +48,24 @@ public class Wolf extends Animal {
         super(field, location, col);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            // Set the food level to a random value up to the rabbit's food value.
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
+            
+            BREEDING_AGE = rand.nextInt(17,23);
+            MAX_AGE = rand.nextInt(115,145);
+            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = rand.nextInt(1,3);
             METABOLISM = rand.nextDouble(0.25, 1);
         } else {
             age = 0;
-        
-            // Start with the full food level provided by the rabbit's food value.
             foodLevel = MAX_FOOD_VALUE;
+            
+            BREEDING_AGE = rand.nextInt(17,23);
+            MAX_AGE = rand.nextInt(115,145);
+            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = 2;
+            METABOLISM = rand.nextDouble(0.25, 1);
         }
         
     }

@@ -34,6 +34,13 @@ public class Rabbit extends Animal {
      * Create a new rabbit. A rabbit may be created with age zero (a newborn) or with a random age.
      *
      * When randomAge is true, the rabbit's properties are assigned random values within defined ranges:
+     *   BREEDING_AGE: [3, 8)  -> 3 to 7 inclusive
+     *   MAX_AGE: [33, 48)     -> 33 to 47 inclusive
+     *   BREEDING_PROBABILITY: [0.06, 0.12)
+     *   DISEASE_PROBABILITY: BREEDING_PROBABILITY - 0.02
+     *   MAX_LITTER_SIZE: [3, 6)  -> 3 to 5 inclusive
+     *   MAX_FOOD_VALUE: [8, 11)  -> 8 to 10 inclusive
+     *   metabolism: [0.25, 1.0)
      * 
      * @param randomAge If true, the rabbit will have a random age and properties.
      * @param field The field currently occupied.
@@ -123,7 +130,7 @@ public class Rabbit extends Animal {
      * If the food level reaches zero, the wolf dies.
      */
     private void incrementHunger() {
-        foodLevel -= 1 + metabolism;
+        foodLevel -= 1 + METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }

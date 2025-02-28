@@ -9,6 +9,13 @@ import javafx.scene.paint.Color;
  */
 
 public abstract class Animal {
+    public int BREEDING_AGE;
+    public int MAX_AGE; 
+    public double BREEDING_PROBABILITY; 
+    public double DISEASE_PROBABILITY;
+    public int MAX_LITTER_SIZE;
+    public int MAX_FOOD_VALUE;
+    public double METABOLISM;
     
     private boolean alive;
     private Field field;

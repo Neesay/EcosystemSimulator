@@ -21,12 +21,6 @@ import javafx.scene.paint.Color;
 public class Mice extends Animal {
 
     // Mice-specific constants.
-    private static final int BREEDING_AGE = 3;
-    private static final int MAX_AGE = 5;
-    private static final double BREEDING_PROBABILITY = 0.15;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
-    private static final int MAX_LITTER_SIZE = 9;
-    private static final int MAX_FOOD_VALUE = 4;
     
     // Random number generator for breeding and age initialization.
     private static final Random rand = Randomizer.getRandom();
@@ -49,18 +43,32 @@ public class Mice extends Animal {
      */
     public Mice(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        age = 0;
-        
-        // If randomAge is true, initialize with a random age up to the maximum age.
         if(randomAge) {
+            // Randomly assign property values.
+            BREEDING_AGE = rand.nextInt(2, 5);               // 2 to 4 inclusive.
+            MAX_AGE = rand.nextInt(4, 7);                      // 4 to 6 inclusive.
+            BREEDING_PROBABILITY = rand.nextDouble(0.12, 0.18); // Random between 0.12 and 0.18.
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
+            MAX_LITTER_SIZE = rand.nextInt(7, 11);             // 7 to 10 inclusive.
+            MAX_FOOD_VALUE = rand.nextInt(3, 6);               // 3 to 5 inclusive.
+            metabolism = rand.nextDouble(0.25, 1.0);           // Between 0.25 and 1.0.
+
+            // Compute dependent variables.
+            life_left = (int) Math.ceil(MAX_AGE / 10.0);
             age = rand.nextInt(MAX_AGE);
-             // Set the food level to a random value up to the rabbit's food value.
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            metabolism = rand.nextDouble(0.25, 1);
         } else {
+            // Use default base values.
+            BREEDING_AGE = 3;
+            MAX_AGE = 5;
+            BREEDING_PROBABILITY = 0.15;
+            DISEASE_PROBABILITY = 0.14; // 0.15 - 0.01.
+            MAX_LITTER_SIZE = 9;
+            MAX_FOOD_VALUE = 4;
+            metabolism = 1.0;
+
+            life_left = (int) Math.ceil(MAX_AGE / 10.0);
             age = 0;
-        
-            // Start with the full food level provided by the rabbit's food value.
             foodLevel = MAX_FOOD_VALUE;
         }
     }

@@ -14,14 +14,14 @@ import javafx.scene.paint.Color;
 
 public class Fox extends Animal {
 
-    private static final int BREEDING_AGE = 15;
-    private static final int MAX_AGE = 120;
-    private static final double BREEDING_PROBABILITY = 0.08;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static final int MAX_LITTER_SIZE = 2;
+    private static int BREEDING_AGE = 15;
+    private static int MAX_AGE = 120;
+    private static double BREEDING_PROBABILITY = 0.08;
+    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+    private static int MAX_LITTER_SIZE = 2;
+    private static int MAX_FOOD_VALUE = 10; //might have to adjust later
+
     private static final Random rand = Randomizer.getRandom();
-    private static final int MAX_FOOD_VALUE = 10; //might have to adjust later
-    
     private int age;
     private int foodLevel;
     private Rabbit rabbit;

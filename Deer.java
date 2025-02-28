@@ -2,64 +2,72 @@ import java.util.List;
 import java.util.Random;
 import javafx.scene.paint.Color;
 
-/**
- * A simple model of a deer.
- * Deer are prey animals that age, move, breed, and eventually die.
- * They breed more slowly compared to rabbits and have a low food value.
- *
- * Deer characteristics:
- * - Breeding age: 10
- * - Maximum age: 80
- * - Breeding probability: 0.10
- * - Maximum litter size: 2
- * - Food value: 18 (derived from Rabbit.getRabbitFoodValue())
- *
- * This class follows a similar structure to the Rabbit class.
- */
 public class Deer extends Animal {
 
-    // Constants that define deer behavior and properties.
-    private static int BREEDING_AGE = 10;
-    private static int MAX_AGE = 80;
-    private static double BREEDING_PROBABILITY = 0.10;
-    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static int MAX_LITTER_SIZE = 2;
-    private static int MAX_FOOD_VALUE = 18;
-    private double METABOLISM; 
-    
-    // Random number generator for controlling random events like breeding.
-    private static final Random rand = Randomizer.getRandom();
-    
-    // Instance variable to track the age of the deer.
+    // Instance variables defining deer behavior and properties.
+    private int BREEDING_AGE;           // Random value between 7 and 13
+    private int MAX_AGE;                // Random value between 77 and 83
+    private double BREEDING_PROBABILITY; // Random value between 0.07 and 0.13
+    private double DISEASE_PROBABILITY;  // Set to BREEDING_PROBABILITY - 0.02
+    private int MAX_LITTER_SIZE;        // Random value between (2 - 3) and (2 + 3), clamped to at least 1
+    private int MAX_FOOD_VALUE = 18;         // Random value between 15 and 21
+    private double METABOLISM;          // Random value between 0.25 and 1
+
+    // Other instance variables.
     private int age;
     private boolean disease = false;
-    private int life_left = MAX_AGE/10;
+    private int life_left;              // Calculated from MAX_AGE (e.g., MAX_AGE / 10)
     private int foodLevel;
+
+    // Random number generator.
+    private static final Random rand = Randomizer.getRandom();
 
     /**
      * Create a new deer.
-     * If randomAge is true, the deer is assigned a random age (up to its maximum age).
-     * Otherwise, it starts as a newborn.
+     * If randomAge is true, the deer's behavior properties (in caps) are randomly chosen 
+     * within the defined ranges. Otherwise, default base values are used.
      *
-     * @param randomAge If true, initialize the deer with a random age.
+     * @param randomAge If true, assign random properties; otherwise, use default base values.
      * @param field The field where the deer exists.
      * @param location The initial location of the deer within the field.
      * @param col The color representing the deer.
      */
     public Deer(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        age = 0;
         if(randomAge) {
+            // Assign random values within the specified ranges.
+            BREEDING_AGE = rand.nextInt(7, 14);  // Generates a value between 7 and 13.
+            MAX_AGE = rand.nextInt(65, 96);        // Generates a value between 65 and 95.
+            BREEDING_PROBABILITY = rand.nextDouble(0.07, 0.14);  // Value between 0.07 and 0.14.
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = Math.max(1, rand.nextInt(1, 3)); // Generates either 1 or 2.
+            MAX_FOOD_VALUE = rand.nextInt(15, 22);  // Generates a value between 15 and 21.
+            METABOLISM = rand.nextDouble(0.25, 1.0);  // Value between 0.25 and 1.0.
+
+            // Calculate dependent properties.
+            life_left = MAX_AGE / 10;
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            metabolism = rand.nextDouble(0.25, 1);
         } else {
+            // Use default base values.
+            BREEDING_AGE = 10;
+            MAX_AGE = 80;
+            BREEDING_PROBABILITY = 0.10;
+            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+            MAX_LITTER_SIZE = 2;
+            MAX_FOOD_VALUE = 18;
+            METABOLISM = 1.0;
+
+            life_left = MAX_AGE / 10;
             age = 0;
-        
-            // Start with the full food level provided by the rabbit's food value.
             foodLevel = MAX_FOOD_VALUE;
         }
     }
+    
+    
+    // Additional methods (act, incrementAge, giveBirth, etc.) would follow here.
+
+
     
     /**
      * Define the behavior of the deer during each simulation step.

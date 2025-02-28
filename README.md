@@ -1,6 +1,11 @@
 # EcosystemSimulator
 
 # To-Do:
+At the moment:
+- Ediz: figuring out how to have dynamic approach for prey consumption by predators
+- Yaseen: trying to make Grass breed and implement grass introduction when animals die
+
+
 
 1. Add new Organisms:
     - Wolves - Predator
@@ -35,5 +40,5 @@
 
 3. disease:
     - set number of steps til death
-    - set the probability of catching a desiese
+    - set the probability of catching a disease
     - 

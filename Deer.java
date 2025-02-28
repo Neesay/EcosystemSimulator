@@ -24,11 +24,11 @@ public class Deer extends Animal {
     private static double BREEDING_PROBABILITY = 0.10;
     private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static int MAX_LITTER_SIZE = 2;
-    private static int MAX_FOOD_VALUE = 18;
-    private double METABOLISM; 
+    private static double METABOLISM;
     
-    // Random number generator for controlling random events like breeding.
+    private static final int MAX_FOOD_VALUE = 18;
     private static final Random rand = Randomizer.getRandom();
+
     
     // Instance variable to track the age of the deer.
     private int age;
@@ -52,7 +52,7 @@ public class Deer extends Animal {
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            metabolism = rand.nextDouble(0.25, 1);
+            METABOLISM = rand.nextDouble(0.25, 1);
         } else {
             age = 0;
         

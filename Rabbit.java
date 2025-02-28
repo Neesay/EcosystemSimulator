@@ -12,17 +12,19 @@ import javafx.scene.paint.Color;
 
 public class Rabbit extends Animal {
 
-    private static final int BREEDING_AGE = 5;
-    private static final int MAX_AGE = 40;
-    private static final double BREEDING_PROBABILITY = 0.09;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static final int MAX_LITTER_SIZE = 4;
-    private static final Random rand = Randomizer.getRandom();
+    private static int BREEDING_AGE = 5;
+    private static int MAX_AGE = 40;
+    private static double BREEDING_PROBABILITY = 0.09;
+    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+    private static int MAX_LITTER_SIZE = 4;
+    private static double METABOLISM; 
+
     private static final int MAX_FOOD_VALUE = 9;
+    private static final Random rand = Randomizer.getRandom();
+    
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-    private double metabolism; 
     private int foodLevel;
     
     /**
@@ -39,7 +41,7 @@ public class Rabbit extends Animal {
         
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            metabolism = rand.nextDouble(0.25, 1);
+            METABOLISM = rand.nextDouble(0.25, 1);
         } else {
             age = 0;
         
@@ -99,7 +101,7 @@ public class Rabbit extends Animal {
      * If the food level reaches zero, the wolf dies.
      */
     private void incrementHunger() {
-        foodLevel -= 1 + metabolism;
+        foodLevel -= 1 + METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }

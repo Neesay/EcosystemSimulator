@@ -20,18 +20,15 @@ import javafx.scene.paint.Color;
 
 public class Mice extends Animal {
 
-    // Mice-specific constants.
-    private static final int BREEDING_AGE = 3;
-    private static final int MAX_AGE = 5;
-    private static final double BREEDING_PROBABILITY = 0.15;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
-    private static final int MAX_LITTER_SIZE = 9;
-    private static final int MAX_FOOD_VALUE = 4;
+    private static int BREEDING_AGE = 3;
+    private static int MAX_AGE = 5;
+    private static double BREEDING_PROBABILITY = 0.15;
+    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
+    private static int MAX_LITTER_SIZE = 9;
     
-    // Random number generator for breeding and age initialization.
+    private static final int MAX_FOOD_VALUE = 4;
     private static final Random rand = Randomizer.getRandom();
     
-    // The current age of the mice.
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;

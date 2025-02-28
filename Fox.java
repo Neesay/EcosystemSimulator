@@ -14,20 +14,21 @@ import javafx.scene.paint.Color;
 
 public class Fox extends Animal {
 
-    private static final int BREEDING_AGE = 15;
-    private static final int MAX_AGE = 120;
-    private static final double BREEDING_PROBABILITY = 0.08;
-    private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static final int MAX_LITTER_SIZE = 2;
+    private static int BREEDING_AGE = 15;
+    private static int MAX_AGE = 120;
+    private static double BREEDING_PROBABILITY = 0.08;
+    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+    private static int MAX_LITTER_SIZE = 2;
+    private static double METABOLISM;
+    
+    private static final int MAX_FOOD_VALUE = 10;
     private static final Random rand = Randomizer.getRandom();
-    private static final int MAX_FOOD_VALUE = 10; //might have to adjust later
     
     private int age;
     private int foodLevel;
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-    private double metabolism; 
 
     /**
      * Create a fox. A fox can be created as a new born (age zero

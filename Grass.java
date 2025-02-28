@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 public class Grass extends Animal{
 
     private static final int MAX_AGEING = 3;
-    private static final int MAX_LITTER_SIZE = 9;
+    private static final int MAX_LITTER_SIZE = 3;
     private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
     
@@ -31,7 +31,7 @@ public class Grass extends Animal{
         age = 0;
 
         if(randomAge) {
-            age = rand.nextInt(MAX_AGEING);
+            age = rand.nextInt(MAX_AGEING + 1);
         }
     }
     
@@ -42,7 +42,7 @@ public class Grass extends Animal{
      */
     public void act(List<Animal> newGrass) {
         incrementAge();
-        giveBirth(newGrass);  
+        //giveBirth(newGrass);  
     }
 
     /**

@@ -14,7 +14,7 @@ public class Rabbit extends Animal {
 
     private static final int BREEDING_AGE = 5;
     private static final int MAX_AGE = 40;
-    private static final double BREEDING_PROBABILITY = 0.12;
+    private static final double BREEDING_PROBABILITY = 0.09;
     private static final double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
     private static final int MAX_LITTER_SIZE = 4;
     private static final Random rand = Randomizer.getRandom();

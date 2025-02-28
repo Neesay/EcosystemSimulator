@@ -35,6 +35,7 @@ public class Wolf extends Animal {
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
+    private double metabolism; 
     /**
      * Construct a new Wolf.
      * If randomAge is true, the wolf will have a random age and a random food level based on
@@ -51,11 +52,14 @@ public class Wolf extends Animal {
             age = rand.nextInt(MAX_AGE);
             // Set the food level to a random value up to the rabbit's food value.
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
+            metabolism = rand.nextDouble(0.25, 1);
         } else {
             age = 0;
+        
             // Start with the full food level provided by the rabbit's food value.
             foodLevel = MAX_FOOD_VALUE;
         }
+        
     }
     
     /**

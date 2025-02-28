@@ -33,7 +33,8 @@ public class Deer extends Animal {
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-
+    private double metabolism; 
+    
     /**
      * Create a new deer.
      * If randomAge is true, the deer is assigned a random age (up to its maximum age).

@@ -22,7 +22,8 @@ public class Rabbit extends Animal {
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-
+    private double metabolism; 
+    
     /**
      * Create a new rabbit. A rabbit may be created with age
      * zero (a new born) or with a random age.

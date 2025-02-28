@@ -27,6 +27,7 @@ public class Fox extends Animal {
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
+    private double metabolism; 
 
     /**
      * Create a fox. A fox can be created as a new born (age zero

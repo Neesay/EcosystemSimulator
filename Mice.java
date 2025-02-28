@@ -35,7 +35,8 @@ public class Mice extends Animal {
     private int age;
     private boolean disease = false;
     private int life_left = MAX_AGE/10;
-
+    private double metabolism; 
+    
     /**
      * Create a new mice. A mice may be created as a newborn or with a random age.
      *

@@ -48,18 +48,29 @@ public class Wolf extends Animal {
             DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
             MAX_LITTER_SIZE = rand.nextInt(1,3);
             METABOLISM = rand.nextDouble(0.25, 1);
-        } else {
-            age = 0;
-            foodLevel = MAX_FOOD_VALUE;
-            
-            BREEDING_AGE = rand.nextInt(17,23);
-            MAX_AGE = rand.nextInt(115,145);
-            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
-            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-            MAX_LITTER_SIZE = 2;
-            METABOLISM = rand.nextDouble(0.25, 1);
         }
         
+    }
+    
+    public Wolf(boolean randomAge, Field field, Location location, Color col, Wolf parent) {
+        super(field, location, col);
+        age = 0;
+        foodLevel = MAX_FOOD_VALUE;
+        
+        // For Wolf, valid ranges (from its randomAge constructor):
+        // BREEDING_AGE: [17, 23)  → 17 to 22
+        // MAX_AGE: [115, 145)    → 115 to 144
+        // BREEDING_PROBABILITY: [0.03, 0.09)
+        // MAX_LITTER_SIZE: [1, 3) → 1 or 2
+        // METABOLISM: [0.25, 1.0)
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
+        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+        
+        createGeneString();
     }
     
     /**
@@ -163,7 +174,7 @@ public class Wolf extends Animal {
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Wolf young = new Wolf(false, field, loc, getColor());
+            Wolf young = new Wolf(false, field, loc, getColor(), this);
             newWolves.add(young);
         }
     }

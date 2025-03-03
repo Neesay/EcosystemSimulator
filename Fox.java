@@ -64,18 +64,30 @@ public class Fox extends Animal {
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) {
+    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) { 
         super(field, location, col);
         
+        // Newborn fox: age is zero and starts with full food level.
         age = 0;
         foodLevel = MAX_FOOD_VALUE;
         
-        BREEDING_AGE = parent.getBreedingAgeFromGene();
-        MAX_AGE = parent.;
-        BREEDING_PROBABILITY = parent.;
-        DISEASE_PROBABILITY = parent.;
-        MAX_LITTER_SIZE = 2;
-        METABOLISM = parent.;
+        // Derive properties from the parent's gene with adjustments,
+        // and clamp each value using Math.min/Math.max.
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
+        
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
+        
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        
+        // Disease probability is computed from the breeding probability.
+        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
+        
+        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+        
+        // Finally, create the gene string for the child fox.
+        createGeneString();
     }
     
     /**
@@ -180,7 +192,7 @@ public class Fox extends Animal {
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Fox young = new Fox(false, field, loc, getColor());
+            Fox young = new Fox(false, field, loc, getColor(), this);
             newFoxes.add(young);
         }
     }

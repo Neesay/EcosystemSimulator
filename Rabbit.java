@@ -62,20 +62,30 @@ public class Rabbit extends Animal {
             // Compute dependent properties.
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-        } else {
-            // Use default base values.
-            BREEDING_AGE = 5;
-            MAX_AGE = 40;
-            BREEDING_PROBABILITY = 0.09;
-            DISEASE_PROBABILITY = 0.07; // 0.09 - 0.02.
-            MAX_LITTER_SIZE = 4;
-            MAX_FOOD_VALUE = 9;
-            metabolism = 1.0;
-            
-            age = 0;
-            foodLevel = MAX_FOOD_VALUE;
         }
     }
+    
+    public Rabbit(boolean randomAge, Field field, Location location, Color col, Rabbit parent) {
+        super(field, location, col);
+        age = 0;
+        foodLevel = MAX_FOOD_VALUE;
+        
+        // For Rabbit, valid ranges (from its randomAge constructor):
+        // BREEDING_AGE: [3, 8)   → 3 to 7
+        // MAX_AGE: [33, 48)      → 33 to 47
+        // BREEDING_PROBABILITY: [0.06, 0.12)
+        // MAX_LITTER_SIZE: [3, 6) → 3 to 5
+        // METABOLISM: [0.25, 1.0)
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-2, 3), 12), 90);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-7, 8), 10), 120);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
+        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+        
+        createGeneString();
+    }
+
     
     /**
      * This is what the rabbit does most of the time - it runs 
@@ -147,7 +157,7 @@ public class Rabbit extends Animal {
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc, getColor());
+            Rabbit young = new Rabbit(false, field, loc, getColor(), this);
             newRabbits.add(young);
         }
     }

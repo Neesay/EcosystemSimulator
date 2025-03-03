@@ -2,127 +2,96 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.LinkedList;
-import javafx.scene.paint.Color; 
+import javafx.scene.paint.Color;
 
 /**
  * A simple model of a fox.
  * Foxes age, move, eat rabbits, and die.
- * 
- * @author David J. Barnes and Michael Kölling
- * @version 2025.02.10
+ *
+ * @author Yaseen Alam and Ulvis Turkers
+ * @version 03/03/2025
  */
 
 public class Fox extends Animal {
 
-    private static int BREEDING_AGE = 15;
-    private static int MAX_AGE = 120;
-    private static double BREEDING_PROBABILITY = 0.08;
-    private static double DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-    private static int MAX_LITTER_SIZE = 2;
-    private static int MAX_FOOD_VALUE = 10; //might have to adjust later
-
     private static final Random rand = Randomizer.getRandom();
- 
-    
-
     private int age;
     private int foodLevel;
-    private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = 12;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
-     * 
+     *
      * @param randomAge If true, the fox will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
     public Fox(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            
-            BREEDING_AGE = rand.nextInt(12,19);
-            MAX_AGE = rand.nextInt(105,136);
-            BREEDING_PROBABILITY = rand.nextDouble(0.05,0.12);
-            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-            MAX_LITTER_SIZE = rand.nextInt(1,4);
-            METABOLISM = rand.nextDouble(0.25, 1);
+            age = rand.nextInt(120);
+            foodLevel = rand.nextInt(10);
+
+            gene.BREEDING_AGE = rand.nextInt(12,19);
+            gene.MAX_AGE = rand.nextInt(105,136);
+            gene.BREEDING_PROBABILITY = rand.nextDouble(0.05,0.12);
+            gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.02;
+            gene.MAX_LITTER_SIZE = rand.nextInt(1,4);
+            gene.METABOLISM = rand.nextDouble(0.25, 1);
             createGeneString();
         }
     }
-    
+
     /**
-     * Create a newborn fox. A fox can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
-     * 
+     * Create a newborn fox.
+     *
      * @param randomAge If true, the fox will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) { 
+    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) {
         super(field, location, col);
-        
-        // Newborn fox: age is zero and starts with full food level.
         age = 0;
-        foodLevel = MAX_FOOD_VALUE;
-        
-        // Derive properties from the parent's gene with adjustments,
-        // and clamp each value using Math.min/Math.max.
-        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
-        
-        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
-        
-        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
-        
-        // Disease probability is computed from the breeding probability.
-        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
-        
-        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
-        
-        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
-        
-        // Finally, create the gene string for the child fox.
+        foodLevel = 10;
+
+        gene.BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
+        gene.MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
+        gene.BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        gene.DISEASE_PROBABILITY = Math.min(Math.max(gene.BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        gene.MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
+        gene.METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+
         createGeneString();
     }
-    
+
     /**
      * This is what the fox does most of the time: it hunts for
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
-     * @param field The field currently occupied.
-     * @param newFoxes A list to return newly born foxes.
      */
     public void act(List<Animal> newFoxes) {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newFoxes);            
-            // Move towards a source of food if found.
+            giveBirth(newFoxes);
             Location newLocation = findFood();
-            if(newLocation == null) { 
-                // No food found - try to move to a free location.
+            if(newLocation == null) {
                 newLocation = getField().getFreeAdjacentLocation(getLocation());
             }
-            // See if it was possible to move.
             if(newLocation != null) {
                 setLocation(newLocation);
             }
             else {
-                // Overcrowding.
                 setDead();
             }
-            
+
             if (!disease){
                 double chance = rand.nextDouble();
-                if (chance < DISEASE_PROBABILITY) {
+                if (chance < gene.DISEASE_PROBABILITY) {
                     disease = true;
                 }
-                
             } else{
                 life_left--;
                 if (life_left <= 0){
@@ -137,39 +106,33 @@ public class Fox extends Animal {
      */
     private void incrementAge() {
         age++;
-        if(age > MAX_AGE) {
+        if(age > gene.MAX_AGE) {
             setDead();
         }
     }
-    
+
     /**
      * Make this fox more hungry. This could result in the fox's death.
      */
     private void incrementHunger() {
-        foodLevel -= 1 + METABOLISM;
+        foodLevel -= 1 + gene.METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }
     }
-    
+
     /**
-     * Look for prey in adjacent locations. The wolf will check for rabbits, deer, or mice.
-     * If a live prey is found, the wolf kills it and restores its food level based on the prey's food value.
-     *
-     * @return The location where prey was found, or null if no prey is present.
+     * Look for prey in adjacent locations.
      */
     private Location findFood() {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
+        List<Location> adjacent = getField().adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
         while (it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            // Check if the object is an instance of Rabbit, Mice, or Deer.
+            Object animal = getField().getObjectAt(where);
             if (animal instanceof Rabbit || animal instanceof Mice || animal instanceof Deer) {
                 Animal prey = (Animal) animal;
                 if (prey.isAlive()) {
-                    // Kill the prey and restore the wolf's food level based on the prey's food value.
                     prey.setDead();
                     foodLevel += prey.getFoodValue();
                     return where;
@@ -178,34 +141,28 @@ public class Fox extends Animal {
         }
         return null;
     }
-    
+
     /**
      * Check whether or not this fox is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * @param newFoxes A list to return newly born foxes.
      */
     private void giveBirth(List<Animal> newFoxes) {
-        // New foxes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Fox young = new Fox(false, field, loc, getColor(), this);
+            Fox young = new Fox(false, getField(), loc, getColor(), this);
             newFoxes.add(young);
         }
     }
-        
+
     /**
      * Generate a number representing the number of births,
      * if it can breed.
-     * @return The number of births (may be zero).
      */
     private int breed() {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+        if(canBreed() && rand.nextDouble() <= gene.BREEDING_PROBABILITY) {
+            births = rand.nextInt(gene.MAX_LITTER_SIZE) + 1;
         }
         return births;
     }
@@ -214,11 +171,11 @@ public class Fox extends Animal {
      * A fox can breed if it has reached the breeding age.
      */
     private boolean canBreed() {
-        return age >= BREEDING_AGE;
+        return age >= gene.BREEDING_AGE;
     }
-    
+
     @Override
     public int getFoodValue() {
-        return 0; // Predators aren't meant to be food.
+        return 0;
     }
 }

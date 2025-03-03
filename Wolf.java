@@ -5,106 +5,70 @@ import javafx.scene.paint.Color;
 
 /**
  * A simple model of a wolf.
- * Wolves are predators that age, move, hunt rabbits, breed slowly, and eventually die.
- * This class follows a similar structure to the Fox class.
- * 
- * Wolves have a breeding age of 20, a maximum age of 130,
- * a breeding probability of 0.06, and a maximum litter size of 2.
- * Instead of using a constant food value, the wolf obtains its food value
- * by calling the Rabbit.getRabbitFoodValue() method.
- * 
- * @author 
- * @version 
+ * Wolves age, move, hunt rabbits, breed slowly, and eventually die.
  */
+
 public class Wolf extends Animal {
-    
-    private static final int MAX_FOOD_VALUE = 15;
+
+    private static final int BASE_FOOD_VALUE = 15;
     private static final Random rand = Randomizer.getRandom();
-    
+
     private int age;
     private int foodLevel;
-    private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = 13;
-    /**
-     * Construct a new Wolf.
-     * If randomAge is true, the wolf will have a random age and a random food level based on
-     * the rabbit's food value. Otherwise, it starts as a newborn with a full food level.
-     * 
-     * @param randomAge If true, initialize with a random age and hunger level.
-     * @param field The field in which the wolf exists.
-     * @param location The wolf's initial location within the field.
-     * @param col The color used to represent the wolf.
-     */
+
     public Wolf(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
         if(randomAge) {
-            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-            
-            BREEDING_AGE = rand.nextInt(17,23);
-            MAX_AGE = rand.nextInt(115,145);
-            age = rand.nextInt(1, MAX_AGE);
-            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
-            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-            MAX_LITTER_SIZE = rand.nextInt(1,3);
-            METABOLISM = rand.nextDouble(0.25, 1);
+            foodLevel = rand.nextInt(BASE_FOOD_VALUE);
+
+            gene.BREEDING_AGE = rand.nextInt(17,23);
+            gene.MAX_AGE = rand.nextInt(115,145);
+            age = rand.nextInt(1, gene.MAX_AGE);
+            gene.BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
+            gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.02;
+            gene.MAX_LITTER_SIZE = rand.nextInt(1,3);
+            gene.METABOLISM = rand.nextDouble(0.25, 1);
+            createGeneString();
         }
-        
     }
-    
+
     public Wolf(boolean randomAge, Field field, Location location, Color col, Wolf parent) {
         super(field, location, col);
         age = 0;
-        foodLevel = MAX_FOOD_VALUE;
-        
-        // For Wolf, valid ranges (from its randomAge constructor):
-        // BREEDING_AGE: [17, 23)  → 17 to 22
-        // MAX_AGE: [115, 145)    → 115 to 144
-        // BREEDING_PROBABILITY: [0.03, 0.09)
-        // MAX_LITTER_SIZE: [1, 3) → 1 or 2
-        // METABOLISM: [0.25, 1.0)
-        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
-        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
-        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
-        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
-        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
-        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
-        
+        foodLevel = BASE_FOOD_VALUE;
+
+        gene.BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
+        gene.MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
+        gene.BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        gene.DISEASE_PROBABILITY = Math.min(Math.max(gene.BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        gene.MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
+        gene.METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+
         createGeneString();
     }
-    
-    /**
-     * Define the wolf's behavior during its turn.
-     * The wolf ages, gets hungrier, may give birth, hunts for food,
-     * and moves to a new location if possible.
-     * 
-     * @param newWolves A list to add newly born wolves.
-     */
+
     public void act(List<Animal> newWolves) {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
             giveBirth(newWolves);
-            // Try to find food in adjacent locations.
             Location newLocation = findFood();
-            if(newLocation == null) { 
-                // If no food is found, attempt to move to a free adjacent location.
+            if(newLocation == null) {
                 newLocation = getField().getFreeAdjacentLocation(getLocation());
             }
-            // Move to the new location if one was found.
             if(newLocation != null) {
                 setLocation(newLocation);
             } else {
-                // No movement possible due to overcrowding, so the wolf dies.
                 setDead();
             }
-            
+
             if (!disease){
                 double chance = rand.nextDouble();
-                if (chance < DISEASE_PROBABILITY) {
+                if (chance < gene.DISEASE_PROBABILITY) {
                     disease = true;
                 }
-                
             } else{
                 life_left--;
                 if (life_left <= 0){
@@ -113,46 +77,30 @@ public class Wolf extends Animal {
             }
         }
     }
-    
-    /**
-     * Increase the wolf's age. If the wolf exceeds its maximum age, it dies.
-     */
+
     private void incrementAge() {
         age++;
-        if(age > MAX_AGE) {
+        if(age > gene.MAX_AGE) {
             setDead();
         }
     }
-    
-    /**
-     * Decrease the wolf's food level to simulate hunger.
-     * If the food level reaches zero, the wolf dies.
-     */
+
     private void incrementHunger() {
-        foodLevel -= 1 + METABOLISM;
+        foodLevel -= 1 + gene.METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }
     }
-    
-    /**
-     * Look for prey in adjacent locations. The wolf will check for rabbits, deer, or mice.
-     * If a live prey is found, the wolf kills it and restores its food level based on the prey's food value.
-     *
-     * @return The location where prey was found, or null if no prey is present.
-     */
+
     private Location findFood() {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
+        List<Location> adjacent = getField().adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
         while (it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            // Check if the object is an instance of Rabbit, Mice, or Deer.
+            Object animal = getField().getObjectAt(where);
             if (animal instanceof Rabbit || animal instanceof Mice || animal instanceof Deer) {
                 Animal prey = (Animal) animal;
                 if (prey.isAlive()) {
-                    // Kill the prey and restore the wolf's food level based on the prey's food value.
                     prey.setDead();
                     foodLevel += prey.getFoodValue();
                     return where;
@@ -162,48 +110,30 @@ public class Wolf extends Animal {
         return null;
     }
 
-    
-    /**
-     * Allow the wolf to give birth to new wolves in free adjacent locations.
-     * 
-     * @param newWolves The list where newly born wolves will be added.
-     */
     private void giveBirth(List<Animal> newWolves) {
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Wolf young = new Wolf(false, field, loc, getColor(), this);
+            Wolf young = new Wolf(false, getField(), loc, getColor(), this);
             newWolves.add(young);
         }
     }
-    
-    /**
-     * Determine the number of births based on the wolf's breeding probability and litter size.
-     * 
-     * @return The number of new wolves (could be zero if breeding does not occur).
-     */
+
     private int breed() {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+        if(canBreed() && rand.nextDouble() <= gene.BREEDING_PROBABILITY) {
+            births = rand.nextInt(gene.MAX_LITTER_SIZE) + 1;
         }
         return births;
     }
-    
-    /**
-     * Check if the wolf is old enough to breed.
-     * 
-     * @return True if the wolf's age is at least the breeding age.
-     */
+
     private boolean canBreed() {
-        return age >= BREEDING_AGE;
-    }
-    
-    @Override
-    public int getFoodValue() {
-        return 0; // Predators aren't meant to be food.
+        return age >= gene.BREEDING_AGE;
     }
 
+    @Override
+    public int getFoodValue() {
+        return 0;
+    }
 }

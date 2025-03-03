@@ -2,21 +2,11 @@ import java.util.List;
 import java.util.Random;
 import javafx.scene.paint.Color;
 
-public class Deer extends Animal {
-
-    // Variables representing deer properties; these will be assigned values in the constructor.
-    private int BREEDING_AGE;           // Random value between 7 and 13.
-    private int MAX_AGE;                // Random value between 65 and 95.
-    private double BREEDING_PROBABILITY; // Random value between 0.07 and 0.14.
-    private double DISEASE_PROBABILITY;  // Computed as BREEDING_PROBABILITY - 0.02.
-    private int MAX_LITTER_SIZE;        // Random value between 1 and 2.
-    private int MAX_FOOD_VALUE;         // Random value between 15 and 21.
-    private double METABOLISM;          // Random value between 0.25 and 1.0.
-    
-    // Other instance variables.
+public class Deer extends Animal {    
+    // Instance variables.
     private int age;
     private boolean disease = false;
-    private int life_left;              // Computed as MAX_AGE / 10.
+    private int life_left = 8;
     private int foodLevel;
 
     // Random number generator.

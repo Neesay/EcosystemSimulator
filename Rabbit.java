@@ -24,7 +24,7 @@ public class Rabbit extends Animal {
     // Other instance variables.
     private int age;
     private boolean disease = false;
-    private int life_left;
+    private int life_left = 4;
     private int foodLevel;
 
     // Random number generator.
@@ -60,7 +60,6 @@ public class Rabbit extends Animal {
             metabolism = rand.nextDouble(0.25, 1.0);  // Between 0.25 and 1.0.
 
             // Compute dependent properties.
-            life_left = MAX_AGE / 10;
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
         } else {
@@ -73,7 +72,6 @@ public class Rabbit extends Animal {
             MAX_FOOD_VALUE = 9;
             metabolism = 1.0;
             
-            life_left = MAX_AGE / 10;
             age = 0;
             foodLevel = MAX_FOOD_VALUE;
         }

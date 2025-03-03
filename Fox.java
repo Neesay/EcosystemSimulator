@@ -22,20 +22,15 @@ public class Fox extends Animal {
     private static int MAX_FOOD_VALUE = 10; //might have to adjust later
 
     private static final Random rand = Randomizer.getRandom();
-    private static int BREEDING_AGE;
-    private static int MAX_AGE;
-    private static double BREEDING_PROBABILITY;
-    private static double DISEASE_PROBABILITY;
-    private static int MAX_LITTER_SIZE;
+ 
     
-    private static final int MAX_FOOD_VALUE = 10;
-    private static final Random rand = Randomizer.getRandom();
+
     
     private int age;
     private int foodLevel;
     private Rabbit rabbit;
     private boolean disease = false;
-    private int life_left = MAX_AGE/10;
+    private int life_left = 12;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero

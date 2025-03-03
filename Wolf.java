@@ -25,7 +25,7 @@ public class Wolf extends Animal {
     private int foodLevel;
     private Rabbit rabbit;
     private boolean disease = false;
-    private int life_left = MAX_AGE/10;
+    private int life_left = 13;
 
     /**
      * Construct a new Wolf.
@@ -40,11 +40,11 @@ public class Wolf extends Animal {
     public Wolf(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
             
             BREEDING_AGE = rand.nextInt(17,23);
             MAX_AGE = rand.nextInt(115,145);
+            age = rand.nextInt(1, MAX_AGE);
             BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
             DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
             MAX_LITTER_SIZE = rand.nextInt(1,3);

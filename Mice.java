@@ -19,13 +19,10 @@ import javafx.scene.paint.Color;
  */
 
 public class Mice extends Animal {
-    
-    private static final int MAX_FOOD_VALUE = 4;
     private static final Random rand = Randomizer.getRandom();
-    
     private int age;
     private boolean disease = false;
-    private int life_left = MAX_AGE/10;
+    private int life_left = 2;
     private double metabolism; 
     private int foodLevel;
 
@@ -50,8 +47,6 @@ public class Mice extends Animal {
             MAX_FOOD_VALUE = rand.nextInt(3, 6);               // 3 to 5 inclusive.
             metabolism = rand.nextDouble(0.25, 1.0);           // Between 0.25 and 1.0.
 
-            // Compute dependent variables.
-            life_left = (int) Math.ceil(MAX_AGE / 10.0);
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
         } else {
@@ -64,7 +59,6 @@ public class Mice extends Animal {
             MAX_FOOD_VALUE = 4;
             metabolism = 1.0;
 
-            life_left = (int) Math.ceil(MAX_AGE / 10.0);
             age = 0;
             foodLevel = MAX_FOOD_VALUE;
         }

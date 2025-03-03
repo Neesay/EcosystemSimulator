@@ -63,11 +63,11 @@ public class Mice extends Animal {
         // BREEDING_PROBABILITY: [0.12, 0.18)
         // MAX_LITTER_SIZE: [7, 11) → 7 to 10
         // METABOLISM: [0.25, 1.0)
-        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-1, 2), 2), 4);
-        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-1, 2), 4), 6);
-        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0.12), 0.18);
-        DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
-        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 7), 10);
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-1, 2), 12), 90);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-1, 2), 10), 120);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
         METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
         
         createGeneString();

@@ -61,11 +61,11 @@ public class Deer extends Animal {
         // BREEDING_PROBABILITY: [0.07, 0.14)
         // MAX_LITTER_SIZE: [1, 3) → 1 or 2
         // METABOLISM: [0.25, 1.0)
-        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 7), 13);
-        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 65), 95);
-        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0.07), 0.14);
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
         DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 2);
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
         METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
         
         createGeneString();

@@ -63,11 +63,11 @@ public class Wolf extends Animal {
         // BREEDING_PROBABILITY: [0.03, 0.09)
         // MAX_LITTER_SIZE: [1, 3) → 1 or 2
         // METABOLISM: [0.25, 1.0)
-        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 17), 22);
-        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 115), 144);
-        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0.03), 0.09);
-        DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 2);
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
+        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
         METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
         
         createGeneString();

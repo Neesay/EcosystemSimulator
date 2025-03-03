@@ -64,33 +64,30 @@ public class Fox extends Animal {
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) {
+    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) { 
         super(field, location, col);
         
+        // Newborn fox: age is zero and starts with full food level.
         age = 0;
         foodLevel = MAX_FOOD_VALUE;
         
-        // Derive properties from the parent's gene with small random adjustments.
-        BREEDING_AGE = parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4); // ±3 adjustment.
-        // Clamp to valid range (first constructor: 12 to 18)
+        // Derive properties from the parent's gene with adjustments,
+        // and clamp each value using Math.min/Math.max.
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
         
-        MAX_AGE = parent.getLifeSpanFromGene() + rand.nextInt(-10, 11); // ±10 adjustment.
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
         
-        BREEDING_PROBABILITY = parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
         
         // Disease probability is computed from the breeding probability.
-        DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
         
-        // Adjust litter size by ±1.
-        MAX_LITTER_SIZE = parent.getLitterSizeFromGene() + rand.nextInt(-1, 2);
-
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
         
-        // Adjust metabolism by ±0.1.
-        METABOLISM = parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1);
+        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
         
-        // Now that all properties have been set, update the gene string.
+        // Finally, create the gene string for the child fox.
         createGeneString();
-
     }
     
     /**

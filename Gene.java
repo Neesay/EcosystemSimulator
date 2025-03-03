@@ -1,12 +1,16 @@
 /**
- * Representing genes of animals with methods for different
- * situations.
+ * Representing genes of animals with methods for different situations.
+ *
+ * Example usage:
+ *   Gene gene = new Gene(5, 100, 0.50, 3, 0.10, 20, 1.25);
+ *   System.out.println("Gene String: " + gene.getGeneString());
+ *   System.out.println("Breeding Age: " + gene.getBreedingAgeFromGene());
  *
  * @author Yaseen Alam and Ulvis Turkers
  * @version 03/03/2025
  */
-public class Gene
-{
+public class Gene {
+    // Gene properties are stored as proper numeric types.
     public int BREEDING_AGE;
     public int MAX_AGE;
     public double BREEDING_PROBABILITY;
@@ -15,11 +19,42 @@ public class Gene
     public int MAX_FOOD_VALUE;
     public double METABOLISM;
 
-    private String gene_string;
+    private String geneString; // The formatted gene string
 
-    public Gene() {
+    /**
+     * Constructs a Gene object with the specified values.
+     *
+     * @param breedingAge the breeding age (expected to be between 0 and 99)
+     * @param maxAge the maximum age (expected to be between 0 and 999)
+     * @param breedingProbability the breeding probability (0.0 - 1.0)
+     * @param maxLitterSize the maximum litter size (expected to be between 0 and 99)
+     * @param diseaseProbability the disease probability (0.0 - 1.0)
+     * @param maxFoodValue the maximum food value (not used in gene string but stored)
+     * @param metabolism the metabolism value
+     */
+    public Gene(int breedingAge, int maxAge, double breedingProbability,
+                int maxLitterSize, double diseaseProbability, int maxFoodValue,
+                double metabolism) {
+        this.BREEDING_AGE = breedingAge;
+        this.MAX_AGE = maxAge;
+        this.BREEDING_PROBABILITY = breedingProbability;
+        this.MAX_LITTER_SIZE = maxLitterSize;
+        this.DISEASE_PROBABILITY = diseaseProbability;
+        this.MAX_FOOD_VALUE = maxFoodValue;
+        this.METABOLISM = metabolism;
+        createGeneString();
     }
 
+    /**
+     * Default constructor.
+     */
+    public Gene() {
+        // Default values can be set here if needed.
+    }
+
+    /**
+     * Creates a 14-digit gene string using the current values.
+     */
     public void createGeneString() {
         // 1) Breeding Age: 2 digits
         String breedingAgeStr = String.format("%02d", BREEDING_AGE);
@@ -27,56 +62,103 @@ public class Gene
         // 2) Life Span (MAX_AGE): 3 digits
         String lifeSpanStr = String.format("%03d", MAX_AGE);
 
-        // 3) Breeding Probability: 2 digits (multiply by 100)
+        // 3) Breeding Probability: 2 digits (multiplied by 100)
         String breedingProbStr = String.format("%02d", (int) (BREEDING_PROBABILITY * 100));
 
         // 4) Litter Size: 2 digits
         String litterSizeStr = String.format("%02d", MAX_LITTER_SIZE);
 
-        // 5) Disease Probability: 2 digits (multiply by 100)
+        // 5) Disease Probability: 2 digits (multiplied by 100)
         String diseaseProbStr = String.format("%02d", (int) (DISEASE_PROBABILITY * 100));
 
-        // 6) Metabolism: 3 digits (multiply by 100)
+        // 6) Metabolism: 3 digits (multiplied by 100)
         String metabolismStr = String.format("%03d", (int) (METABOLISM * 100));
 
         // Concatenate into a single 14-digit string.
-        gene_string = breedingAgeStr
-                + lifeSpanStr
-                + breedingProbStr
-                + litterSizeStr
-                + diseaseProbStr
-                + metabolismStr;
+        geneString = breedingAgeStr + lifeSpanStr + breedingProbStr
+                + litterSizeStr + diseaseProbStr + metabolismStr;
     }
 
+    /**
+     * Returns the full gene string.
+     *
+     * @return the gene string
+     */
     public String getGeneString(){
-        return gene_string;
+        return geneString;
     }
 
+    /**
+     * Extracts the breeding age from the gene string.
+     *
+     * @return the breeding age as an integer
+     */
     public int getBreedingAgeFromGene() {
-        // We know gene_string is already 14 digits, so just parse it:
-        return Integer.parseInt(gene_string.substring(0, 2));
+        return Integer.parseInt(geneString.substring(0, 2));
     }
 
+    /**
+     * Extracts the life span (maximum age) from the gene string.
+     *
+     * @return the life span as an integer
+     */
     public int getLifeSpanFromGene() {
-        return Integer.parseInt(gene_string.substring(2, 5));
+        return Integer.parseInt(geneString.substring(2, 5));
     }
 
+    /**
+     * Extracts the breeding probability from the gene string.
+     *
+     * @return the breeding probability as a double
+     */
     public double getBreedingProbabilityFromGene() {
-        int probValue = Integer.parseInt(gene_string.substring(5, 7));
+        int probValue = Integer.parseInt(geneString.substring(5, 7));
         return probValue / 100.0;
     }
 
+    /**
+     * Extracts the litter size from the gene string.
+     *
+     * @return the litter size as an integer
+     */
     public int getLitterSizeFromGene() {
-        return Integer.parseInt(gene_string.substring(7, 9));
+        return Integer.parseInt(geneString.substring(7, 9));
     }
 
+    /**
+     * Extracts the disease probability from the gene string.
+     *
+     * @return the disease probability as a double
+     */
     public double getDiseaseProbabilityFromGene() {
-        int diseaseValue = Integer.parseInt(gene_string.substring(9, 11));
+        int diseaseValue = Integer.parseInt(geneString.substring(9, 11));
         return diseaseValue / 100.0;
     }
 
+    /**
+     * Extracts the metabolism value from the gene string.
+     *
+     * @return the metabolism value as a double
+     */
     public double getMetabolismFromGene() {
-        int metabolismValue = Integer.parseInt(gene_string.substring(11, 14));
+        int metabolismValue = Integer.parseInt(geneString.substring(11, 14));
         return metabolismValue / 100.0;
+    }
+
+    /**
+     * Main method for simple testing.
+     */
+    public static void main(String[] args) {
+        // Example initialization:
+        // BREEDING_AGE = 5, MAX_AGE = 100, BREEDING_PROBABILITY = 0.50,
+        // MAX_LITTER_SIZE = 3, DISEASE_PROBABILITY = 0.10, MAX_FOOD_VALUE = 20, METABOLISM = 1.25
+        Gene gene = new Gene(5, 100, 0.50, 3, 0.10, 20, 1.25);
+        System.out.println("Gene String: " + gene.getGeneString());
+        System.out.println("Breeding Age: " + gene.getBreedingAgeFromGene());
+        System.out.println("Life Span: " + gene.getLifeSpanFromGene());
+        System.out.println("Breeding Probability: " + gene.getBreedingProbabilityFromGene());
+        System.out.println("Litter Size: " + gene.getLitterSizeFromGene());
+        System.out.println("Disease Probability: " + gene.getDiseaseProbabilityFromGene());
+        System.out.println("Metabolism: " + gene.getMetabolismFromGene());
     }
 }

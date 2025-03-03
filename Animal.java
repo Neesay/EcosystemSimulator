@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * A class representing shared characteristics of animals.
  *
- * @author ...
+ * @author Ulvis Turkers and Yaseen Alam
  * @version ...
  */
 

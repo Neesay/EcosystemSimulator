@@ -3,18 +3,18 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 
 /**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
+ * A simple model of a squirrel.
+ * Squirrels age, move, breed, and die.
  */
 
-public class Rabbit extends Animal {
+public class Squirrel extends Animal {
     private int age;
     private boolean disease = false;
     private int life_left = 4;
     private int foodLevel;
     private static final Random rand = Randomizer.getRandom();
 
-    public Rabbit(boolean randomAge, Field field, Location location, Color col) {
+    public Squirrel(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
         if(randomAge) {
             gene.BREEDING_AGE = rand.nextInt(3, 8);
@@ -31,7 +31,7 @@ public class Rabbit extends Animal {
         }
     }
 
-    public Rabbit(boolean randomAge, Field field, Location location, Color col, Rabbit parent) {
+    public Squirrel(boolean randomAge, Field field, Location location, Color col, Squirrel parent) {
         super(field, location, col);
         age = 0;
         foodLevel = gene.MAX_FOOD_VALUE;
@@ -46,11 +46,11 @@ public class Rabbit extends Animal {
         createGeneString();
     }
 
-    public void act(List<Animal> newRabbits) {
+    public void act(List<Animal> newSquirrels) {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newRabbits);
+            giveBirth(newSquirrels);
             Location newLocation = getField().getFreeAdjacentLocation(getLocation());
             if(newLocation != null) {
                 setLocation(newLocation);
@@ -86,13 +86,13 @@ public class Rabbit extends Animal {
         }
     }
 
-    private void giveBirth(List<Animal> newRabbits) {
+    private void giveBirth(List<Animal> newSquirrels) {
         List<Location> free = getField().getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, getField(), loc, getColor(), this);
-            newRabbits.add(young);
+            Squirrel young = new Squirrel(false, getField(), loc, getColor(), this);
+            newSquirrels.add(young);
         }
     }
 

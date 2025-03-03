@@ -80,12 +80,12 @@ public class Simulator {
             for(int col = 0; col < field.getWidth(); col++) {
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, field, location, Color.DARKSALMON);
-                    animals.add(fox);
+                    Coyote coyote = new Coyote(true, field, location, Color.DARKSALMON);
+                    animals.add(coyote);
                 } else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, field, location, Color.CYAN);
-                    animals.add(rabbit);
+                    Squirrel squirrel = new Squirrel(true, field, location, Color.CYAN);
+                    animals.add(squirrel);
                 } else if(rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Wolf wolf = new Wolf(true, field, location, Color.BLACK);

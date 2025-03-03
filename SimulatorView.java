@@ -136,6 +136,10 @@ public class SimulatorView extends Application {
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });
+
+                if (!isViable(simulator.getField())) {
+
+                }
             }
             
         }).start();

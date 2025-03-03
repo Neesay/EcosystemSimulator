@@ -98,7 +98,7 @@ public class Wolf extends Animal {
         while (it.hasNext()) {
             Location where = it.next();
             Object animal = getField().getObjectAt(where);
-            if (animal instanceof Rabbit || animal instanceof Mice || animal instanceof Deer) {
+            if (animal instanceof Squirrel || animal instanceof Mice || animal instanceof Deer) {
                 Animal prey = (Animal) animal;
                 if (prey.isAlive()) {
                     prey.setDead();

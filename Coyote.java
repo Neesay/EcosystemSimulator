@@ -5,15 +5,15 @@ import java.util.LinkedList;
 import javafx.scene.paint.Color;
 
 /**
- * A simple model of a fox.
- * Foxes age, move, eat rabbits, and die.
+ * A simple model of a coyote.
+ * coyotes age, move, eat rabbits, and die.
  *
  * @author Yaseen Alam and Ulvis Turkers
  * @version 03/03/2025
  */
 
-public class Fox extends Animal {
-
+public class Coyote extends Animal {
+    
     private static final Random rand = Randomizer.getRandom();
     private int age;
     private int foodLevel;
@@ -21,14 +21,14 @@ public class Fox extends Animal {
     private int life_left = 12;
 
     /**
-     * Create a fox. A fox can be created as a new born (age zero
+     * Create a coyote. A coyote can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      *
-     * @param randomAge If true, the fox will have random age and hunger level.
+     * @param randomAge If true, the coyote will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location, Color col) {
+    public Coyote(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
         if(randomAge) {
             age = rand.nextInt(120);
@@ -45,13 +45,13 @@ public class Fox extends Animal {
     }
 
     /**
-     * Create a newborn fox.
+     * Create a newborn coyote.
      *
-     * @param randomAge If true, the fox will have random age and hunger level.
+     * @param randomAge If true, the coyote will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) {
+    public Coyote(boolean randomAge, Field field, Location location, Color col, Coyote parent) {
         super(field, location, col);
         age = 0;
         foodLevel = 10;
@@ -67,15 +67,15 @@ public class Fox extends Animal {
     }
 
     /**
-     * This is what the fox does most of the time: it hunts for
+     * This is what the coyote does most of the time: it hunts for
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      */
-    public void act(List<Animal> newFoxes) {
+    public void act(List<Animal> newCoyotes) {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newFoxes);
+            giveBirth(newCoyotes);
             Location newLocation = findFood();
             if(newLocation == null) {
                 newLocation = getField().getFreeAdjacentLocation(getLocation());
@@ -102,7 +102,7 @@ public class Fox extends Animal {
     }
 
     /**
-     * Increase the age. This could result in the fox's death.
+     * Increase the age. This could result in the coyote's death.
      */
     private void incrementAge() {
         age++;
@@ -112,7 +112,7 @@ public class Fox extends Animal {
     }
 
     /**
-     * Make this fox more hungry. This could result in the fox's death.
+     * Make this coyote more hungry. This could result in the coyote's death.
      */
     private void incrementHunger() {
         foodLevel -= 1 + gene.METABOLISM;
@@ -130,7 +130,7 @@ public class Fox extends Animal {
         while (it.hasNext()) {
             Location where = it.next();
             Object animal = getField().getObjectAt(where);
-            if (animal instanceof Rabbit || animal instanceof Mice || animal instanceof Deer) {
+            if (animal instanceof Squirrel || animal instanceof Mice || animal instanceof Deer) {
                 Animal prey = (Animal) animal;
                 if (prey.isAlive()) {
                     prey.setDead();
@@ -143,15 +143,15 @@ public class Fox extends Animal {
     }
 
     /**
-     * Check whether or not this fox is to give birth at this step.
+     * Check whether or not this coyote is to give birth at this step.
      */
-    private void giveBirth(List<Animal> newFoxes) {
+    private void giveBirth(List<Animal> newCoyotes) {
         List<Location> free = getField().getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Fox young = new Fox(false, getField(), loc, getColor(), this);
-            newFoxes.add(young);
+            Coyote young = new Coyote(false, getField(), loc, getColor(), this);
+            newCoyotes.add(young);
         }
     }
 
@@ -168,7 +168,7 @@ public class Fox extends Animal {
     }
 
     /**
-     * A fox can breed if it has reached the breeding age.
+     * A coyote can breed if it has reached the breeding age.
      */
     private boolean canBreed() {
         return age >= gene.BREEDING_AGE;

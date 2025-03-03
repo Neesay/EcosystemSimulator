@@ -26,7 +26,6 @@ public class Wolf extends Animal {
     private Rabbit rabbit;
     private boolean disease = false;
     private int life_left = 13;
-
     /**
      * Construct a new Wolf.
      * If randomAge is true, the wolf will have a random age and a random food level based on

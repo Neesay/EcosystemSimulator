@@ -21,6 +21,7 @@ public abstract class Animal {
     private Field field;
     private Location location;
     private Color color = Color.BLACK;
+    private String gene_string;
     
     /**
      * Create a new animal at location in field.
@@ -112,4 +113,89 @@ public abstract class Animal {
      * Abstract method for retrievign the food value of prey anuimals.
      */
     public abstract int getFoodValue();
+    
+    public void createGeneString() {
+        // 1) Breeding Age: 2 digits
+        String breedingAgeStr = String.format("%02d", BREEDING_AGE);
+        
+        // 2) Life Span (MAX_AGE): 3 digits (e.g. 86 → "086", 120 → "120")
+        String lifeSpanStr = String.format("%03d", MAX_AGE);
+        
+        // 3) Breeding Probability: 2 digits (multiply by 100, e.g. 0.35 → 35 → "35")
+        String breedingProbStr = String.format("%02d", (int) (BREEDING_PROBABILITY * 100));
+        
+        // 4) Litter Size: 2 digits
+        String litterSizeStr = String.format("%02d", MAX_LITTER_SIZE);
+        
+        // 5) Disease Probability: 2 digits (multiply by 100, e.g. 0.12 → 12 → "12")
+        String diseaseProbStr = String.format("%02d", (int) (DISEASE_PROBABILITY * 100));
+        
+        // 6) Metabolism: 3 digits (multiply by 100, e.g. 0.80 → 80 → "080")
+        // If METABOLISM can be 1.0, that becomes 100 → "100".
+        String metabolismStr = String.format("%03d", (int) (METABOLISM * 100));
+        
+        // Concatenate into a single 14-digit string.
+        String gene_string = breedingAgeStr
+                    + lifeSpanStr
+                    + breedingProbStr
+                    + litterSizeStr
+                    + diseaseProbStr
+                    + metabolismStr;
+    }
+    
+    public String getGeneString(){
+        return gene_string;
+    }
+    
+    public int getBreedingAgeFromGene() {
+        // Ensure a 14-character string with leading zeros if necessary.
+        String gene = String.format("%014d", gene_string);
+        return Integer.parseInt(gene.substring(0, 2));
+    }
+
+    /**
+     * Return the life span (integer) by decoding digits [2..5).
+     */
+    public int getLifeSpanFromGene() {
+        String gene = String.format("%014d", gene_string);
+        return Integer.parseInt(gene.substring(2, 5));
+    }
+
+    /**
+     * Return the breeding probability (double) by decoding digits [5..7)
+     * and dividing by 100.0.
+     */
+    public double getBreedingProbabilityFromGene() {
+        String gene = String.format("%014d", gene_string);
+        int probValue = Integer.parseInt(gene.substring(5, 7));
+        return probValue / 100.0;
+    }
+
+    /**
+     * Return the litter size (integer) by decoding digits [7..9).
+     */
+    public int getLitterSizeFromGene() {
+        String gene = String.format("%014d", gene_string);
+        return Integer.parseInt(gene.substring(7, 9));
+    }
+
+    /**
+     * Return the disease probability (double) by decoding digits [9..11)
+     * and dividing by 100.0.
+     */
+    public double getDiseaseProbabilityFromGene() {
+        String gene = String.format("%014d", gene_string);
+        int diseaseValue = Integer.parseInt(gene.substring(9, 11));
+        return diseaseValue / 100.0;
+    }
+
+    /**
+     * Return the metabolism (double) by decoding digits [11..14)
+     * and dividing by 100.0.
+     */
+    public double getMetabolismFromGene() {
+        String gene = String.format("%014d", gene_string);
+        int metabolismValue = Integer.parseInt(gene.substring(11, 14));
+        return metabolismValue / 100.0;
+    }
 }

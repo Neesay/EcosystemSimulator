@@ -25,7 +25,6 @@ public class Fox extends Animal {
  
     
 
-    
     private int age;
     private int foodLevel;
     private Rabbit rabbit;
@@ -53,7 +52,9 @@ public class Fox extends Animal {
             DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
             MAX_LITTER_SIZE = rand.nextInt(1,4);
             METABOLISM = rand.nextDouble(0.25, 1);
+            createGeneString();
         }else {
+            
             age = 0;
             foodLevel = MAX_FOOD_VALUE;
             

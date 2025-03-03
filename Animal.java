@@ -35,6 +35,7 @@ public abstract class Animal {
         this.field = field;
         setLocation(location);
         setColor(col);
+        
     }
     
     /**

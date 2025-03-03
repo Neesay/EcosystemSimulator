@@ -70,12 +70,27 @@ public class Fox extends Animal {
         age = 0;
         foodLevel = MAX_FOOD_VALUE;
         
-        BREEDING_AGE = parent.getBreedingAgeFromGene();
-        MAX_AGE = parent.;
-        BREEDING_PROBABILITY = parent.;
-        DISEASE_PROBABILITY = parent.;
-        MAX_LITTER_SIZE = 2;
-        METABOLISM = parent.;
+        // Derive properties from the parent's gene with small random adjustments.
+        BREEDING_AGE = parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4); // ±3 adjustment.
+        // Clamp to valid range (first constructor: 12 to 18)
+        
+        MAX_AGE = parent.getLifeSpanFromGene() + rand.nextInt(-10, 11); // ±10 adjustment.
+        
+        BREEDING_PROBABILITY = parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02);
+        
+        // Disease probability is computed from the breeding probability.
+        DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+        
+        // Adjust litter size by ±1.
+        MAX_LITTER_SIZE = parent.getLitterSizeFromGene() + rand.nextInt(-1, 2);
+
+        
+        // Adjust metabolism by ±0.1.
+        METABOLISM = parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1);
+        
+        // Now that all properties have been set, update the gene string.
+        createGeneString();
+
     }
     
     /**
@@ -180,7 +195,7 @@ public class Fox extends Animal {
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Fox young = new Fox(false, field, loc, getColor());
+            Fox young = new Fox(false, field, loc, getColor(), this);
             newFoxes.add(young);
         }
     }

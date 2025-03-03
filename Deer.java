@@ -47,21 +47,30 @@ public class Deer extends Animal {
             life_left = MAX_AGE / 10;
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-        } else {
-            // Use default base values.
-            BREEDING_AGE = 10;
-            MAX_AGE = 80;
-            BREEDING_PROBABILITY = 0.10;
-            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-            MAX_LITTER_SIZE = 2;
-            MAX_FOOD_VALUE = 18;
-            METABOLISM = 1.0;
-
-            life_left = MAX_AGE / 10;
-            age = 0;
-            foodLevel = MAX_FOOD_VALUE;
         }
     }
+    
+    public Deer(boolean randomAge, Field field, Location location, Color col, Deer parent) {
+        super(field, location, col);
+        age = 0;
+        foodLevel = MAX_FOOD_VALUE;
+        
+        // For Deer, valid ranges (from its randomAge constructor):
+        // BREEDING_AGE: [7, 14)  → 7 to 13
+        // MAX_AGE: [65, 96)     → 65 to 95
+        // BREEDING_PROBABILITY: [0.07, 0.14)
+        // MAX_LITTER_SIZE: [1, 3) → 1 or 2
+        // METABOLISM: [0.25, 1.0)
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 7), 13);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 65), 95);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0.07), 0.14);
+        DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 2);
+        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+        
+        createGeneString();
+    }
+
     
     
     // Additional methods (act, incrementAge, giveBirth, etc.) would follow here.
@@ -138,7 +147,7 @@ public class Deer extends Animal {
         int births = breed();
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Deer young = new Deer(false, field, loc, getColor());
+            Deer young = new Deer(false, field, loc, getColor(), this);
             newDeer.add(young);
         }
     }

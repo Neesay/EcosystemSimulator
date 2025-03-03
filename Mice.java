@@ -49,20 +49,30 @@ public class Mice extends Animal {
 
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-        } else {
-            // Use default base values.
-            BREEDING_AGE = 3;
-            MAX_AGE = 5;
-            BREEDING_PROBABILITY = 0.15;
-            DISEASE_PROBABILITY = 0.14; // 0.15 - 0.01.
-            MAX_LITTER_SIZE = 9;
-            MAX_FOOD_VALUE = 4;
-            metabolism = 1.0;
-
-            age = 0;
-            foodLevel = MAX_FOOD_VALUE;
         }
     }
+    
+    public Mice(boolean randomAge, Field field, Location location, Color col, Mice parent) {
+        super(field, location, col);
+        age = 0;
+        foodLevel = MAX_FOOD_VALUE;
+        
+        // For Mice, valid ranges (from its randomAge constructor):
+        // BREEDING_AGE: [2, 5)   → 2 to 4
+        // MAX_AGE: [4, 7)        → 4 to 6
+        // BREEDING_PROBABILITY: [0.12, 0.18)
+        // MAX_LITTER_SIZE: [7, 11) → 7 to 10
+        // METABOLISM: [0.25, 1.0)
+        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-1, 2), 2), 4);
+        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-1, 2), 4), 6);
+        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0.12), 0.18);
+        DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
+        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 7), 10);
+        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
+        
+        createGeneString();
+    }
+
     
     /**
      * Define the behavior of the mice for each simulation step.
@@ -136,7 +146,7 @@ public class Mice extends Animal {
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Mice young = new Mice(false, field, loc, getColor());
+            Mice young = new Mice(false, field, loc, getColor(), this);
             newMice.add(young);
         }
     }

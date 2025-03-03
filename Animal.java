@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
  */
 
 public abstract class Animal {
+    public int gender; // 0 for male and 1 for female
     public int BREEDING_AGE;
     public int MAX_AGE; 
     public double BREEDING_PROBABILITY; 

@@ -53,18 +53,29 @@ public class Fox extends Animal {
             MAX_LITTER_SIZE = rand.nextInt(1,4);
             METABOLISM = rand.nextDouble(0.25, 1);
             createGeneString();
-        }else {
-            
-            age = 0;
-            foodLevel = MAX_FOOD_VALUE;
-            
-            BREEDING_AGE = rand.nextInt(17,23);
-            MAX_AGE = rand.nextInt(115,145);
-            BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
-            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.02;
-            MAX_LITTER_SIZE = 2;
-            METABOLISM = rand.nextDouble(0.25, 1);
         }
+    }
+    
+    /**
+     * Create a newborn fox. A fox can be created as a new born (age zero
+     * and not hungry) or with a random age and food level.
+     * 
+     * @param randomAge If true, the fox will have random age and hunger level.
+     * @param field The field currently occupied.
+     * @param location The location within the field.
+     */
+    public Fox(boolean randomAge, Field field, Location location, Color col, Fox parent) {
+        super(field, location, col);
+        
+        age = 0;
+        foodLevel = MAX_FOOD_VALUE;
+        
+        BREEDING_AGE = parent.getBreedingAgeFromGene();
+        MAX_AGE = parent.;
+        BREEDING_PROBABILITY = parent.;
+        DISEASE_PROBABILITY = parent.;
+        MAX_LITTER_SIZE = 2;
+        METABOLISM = parent.;
     }
     
     /**

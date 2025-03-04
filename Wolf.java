@@ -129,7 +129,7 @@ public class Wolf extends Animal {
     }
 
     private boolean canBreed() {
-        return age >= gene.BREEDING_AGE;
+        return age >= gene.BREEDING_AGE && getField().findOppositeGenderAnimal(getLocation(), getGender());
     }
 
     @Override

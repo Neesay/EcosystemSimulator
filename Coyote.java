@@ -172,7 +172,7 @@ public class Coyote extends Animal {
      * A coyote can breed if it has reached the breeding age.
      */
     private boolean canBreed() {
-        return age >= gene.BREEDING_AGE;
+        return age >= gene.BREEDING_AGE && getField().findOppositeGenderAnimal(getLocation(), getGender());
     }
 
     @Override

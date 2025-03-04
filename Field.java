@@ -203,14 +203,14 @@ public class Field {
     }
 
     // Finds an animal of the opposite gender in the surrounding 8 squares.
-    public Animal findOppositeGenderAnimal(Location location, int currentGender) {
+    public boolean findOppositeGenderAnimal(Location location, int currentGender) {
         List<Location> adjacent = adjacentLocations(location);
         for(Location loc : adjacent) {
             Animal a = getObjectAt(loc);
             if(a != null && a.isAlive() && a.getGender() != currentGender) {
-                return a;
+                return true;
             }
         }
-        return null;
+        return false;
     }
 }

@@ -99,7 +99,7 @@ public class Deer extends Animal {
     }
 
     private boolean canBreed() {
-        return age >= gene.BREEDING_AGE;
+        return age >= gene.BREEDING_AGE && getField().findOppositeGenderAnimal(getLocation(), getGender());
     }
 
     public int getFoodValue() {

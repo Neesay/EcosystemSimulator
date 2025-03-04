@@ -2,10 +2,15 @@
 
 # To-Do:
 At the moment:
-    - genders male or female 50%
-    - reproduce with opposite genders only
     - mutation, 20% chance to decide to mutate, 50% of the time you add one value and subtract one value
+    - 
 
+Animals   Age
+Wolf       
+Coyote     
+Squirrel   
+Mice       
+Deer       
 
 
 1. Add new Organisms:

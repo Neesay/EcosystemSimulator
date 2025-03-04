@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Representing genes of animals with methods for different situations.
  *
@@ -10,6 +12,8 @@
  * @version 03/03/2025
  */
 public class Gene {
+    private static final Random rand = Randomizer.getRandom();
+
     // Gene properties are stored as proper numeric types.
     public int BREEDING_AGE;
     public int MAX_AGE;
@@ -49,11 +53,15 @@ public class Gene {
         createGeneString();
     }
 
-    /**
-     * Default constructor.
-     */
     public Gene(Animal parent1, Animal parent2) {
-        // Default values can be set here if needed.
+        // 20% chance to run this block
+        if (rand.nextDouble() < 0.20) {
+            
+            // This code runs 20% of the time
+            String genePart = String.valueOf(parent1.getGeneString());
+        }
+        
+        // Other code for splitGene method can follow here...
     }
 
     /**

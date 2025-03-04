@@ -48,7 +48,7 @@ public class Gene {
     /**
      * Default constructor.
      */
-    public Gene() {
+    public Gene(Animal parent1, Animal parent2) {
         // Default values can be set here if needed.
     }
 

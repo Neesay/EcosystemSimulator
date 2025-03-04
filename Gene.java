@@ -54,59 +54,34 @@ public class Gene {
     }
 
     public Gene(Animal parent1, Animal parent2) {
-        this.BREEDING_AGE = parent1.getBreedingAgeFromGene();
-        this.MAX_AGE = parent1.getLifeSpanFromGene();
-        this.BREEDING_PROBABILITY = parent1.getBreedingProbabilityFromGene();
-
-        this.MAX_LITTER_SIZE = parent2.getLitterSizeFromGene();
-        this.DISEASE_PROBABILITY = parent2.getDiseaseProbabilityFromGene();
-        this.METABOLISM = parent2.getMetabolismFromGene();
-
-        if (rand.nextDouble() < 0.20) {
-            if (rand.nextDouble() < 0.50) {
-                this.BREEDING_AGE += 1;
-            } else {
-                this.BREEDING_AGE -= 1;
-            }
-        }
-        if (rand.nextDouble() < 0.20) {
-            if (rand.nextDouble() < 0.50) {
-                this.MAX_AGE += 1;
-            } else {
-                this.MAX_AGE -= 1;
-            }
-        }
-        if (rand.nextDouble() < 0.20) {
-            if (rand.nextDouble() < 0.50) {
-                this.BREEDING_PROBABILITY += 0.01;
-            } else {
-                this.BREEDING_PROBABILITY -= 0.01;
-            }
-        }
-        if (rand.nextDouble() < 0.20) {
-            if (rand.nextDouble() < 0.50) {
-                this.MAX_LITTER_SIZE += 1;
-            } else {
-                this.MAX_LITTER_SIZE -= 1;
-            }
-        }
-        if (rand.nextDouble() < 0.20) {
-            if (rand.nextDouble() < 0.50) {
-                this.DISEASE_PROBABILITY += 0.01;
-            } else {
-                this.DISEASE_PROBABILITY -= 0.01;
-            }
-        }
-        if (rand.nextDouble() < 0.20) {
-            if (rand.nextDouble() < 0.50) {
-                this.METABOLISM += 0.01;
-            } else {
-                this.METABOLISM -= 0.01;
-            }
-        }
-
+        // Combine genes from the two parents.
+        this.BREEDING_AGE = mutate(parent1.getBreedingAgeFromGene());
+        this.MAX_AGE = mutate(parent1.getLifeSpanFromGene());
+        this.BREEDING_PROBABILITY = mutate(parent1.getBreedingProbabilityFromGene(), 0.01);
+        this.MAX_LITTER_SIZE = mutate(parent2.getLitterSizeFromGene());
+        this.DISEASE_PROBABILITY = mutate(parent2.getDiseaseProbabilityFromGene(), 0.01);
+        this.METABOLISM = mutate(parent2.getMetabolismFromGene(), 0.01);
+        
         createGeneString();
     }
+    
+    // Helper method for integer genes.
+    private int mutate(int value) {
+        if (rand.nextDouble() < 0.20) {
+            // 20% chance to change: add or subtract 1.
+            return value + (rand.nextDouble() < 0.50 ? 1 : -1);
+        }
+        return value;
+    }
+    
+    // Helper method for double genes, where delta is the mutation step (e.g. 0.01).
+    private double mutate(double value, double delta) {
+        if (rand.nextDouble() < 0.20) {
+            return value + (rand.nextDouble() < 0.50 ? delta : -delta);
+        }
+        return value;
+    }
+    
 
     /**
      * Creates a 14-digit gene string using the current values.

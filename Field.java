@@ -7,8 +7,8 @@ import java.util.Random;
  * Represent a rectangular grid of field positions.
  * Each position stores an Animal
  *
- * @author David J. Barnes, Michael Kölling & Jeffery Raphael
- * @version 2022.01.06
+ * @author Yaseen Alam and Ulvis Turkers
+ * @version 03/03/2025
  */
 
 public class Field {
@@ -108,7 +108,7 @@ public class Field {
      */
     public List<Location> adjacentLocations(Location location) {
         assert location != null : "Null location passed to adjacentLocations";
-        
+
         List<Location> locations = new LinkedList<>();
         if (location != null) {
             int row = location.getRow();
@@ -118,17 +118,13 @@ public class Field {
                 if (nextRow >= 0 && nextRow < depth) {
                     for (int coffset = -1; coffset <= 1; coffset++) {
                         int nextCol = col + coffset;
-                        
-                        // Exclude invalid locations and the original location.
+
                         if (nextCol >= 0 && nextCol < width && (roffset != 0 || coffset != 0)) {
                             locations.add(new Location(nextRow, nextCol));
                         }
                     }
                 }
             }
-
-            // Shuffle the list. Several other methods rely on the list
-            // being in a random order.
             Collections.shuffle(locations, rand);
         }
         return locations;
@@ -140,21 +136,19 @@ public class Field {
      * @return A list of living neighbours
      */
     public List<Animal> getLivingNeighbours(Location location) {
-
-      assert location != null : "Null location passed to adjacentLocations";
-      List<Animal> neighbours = new LinkedList<>();
-
-      if (location != null) {
-        List<Location> adjLocations = adjacentLocations(location);
-
-        for (Location loc : adjLocations) {
-          Animal animal = field[loc.getRow()][loc.getCol()];
-          if (animal.isAlive())
-            neighbours.add(animal);
+        assert location != null : "Null location passed to adjacentLocations";
+        List<Animal> neighbours = new LinkedList<>();
+        if (location != null) {
+            List<Location> adjLocations = adjacentLocations(location);
+            for (Location loc : adjLocations) {
+                Animal animal = field[loc.getRow()][loc.getCol()];
+                if (animal != null && animal.isAlive()) {
+                    neighbours.add(animal);
+                }
+            }
+            Collections.shuffle(neighbours, rand);
         }
-        Collections.shuffle(neighbours, rand);
-      }
-      return neighbours;
+        return neighbours;
     }
 
     /**
@@ -172,7 +166,7 @@ public class Field {
     public int getWidth() {
         return width;
     }
-    
+
     /**
      * Get a shuffled list of the free adjacent locations.
      * @param location Get locations adjacent to this.
@@ -182,13 +176,14 @@ public class Field {
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
         for(Location next : adjacent) {
-            if(getObjectAt(next) == null || getObjectAt(next) instanceof Grass) {
+            Animal a = getObjectAt(next);
+            if(a == null || a instanceof Grass) {
                 free.add(next);
             }
         }
         return free;
     }
-    
+
     /**
      * Try to find a free location that is adjacent to the
      * given location. If there is none, return null.
@@ -198,7 +193,6 @@ public class Field {
      * @return A valid location within the grid area.
      */
     public Location getFreeAdjacentLocation(Location location) {
-        
         List<Location> free = getFreeAdjacentLocations(location);
         if(free.size() > 0) {
             return free.get(0);
@@ -206,5 +200,28 @@ public class Field {
         else {
             return null;
         }
+    }
+
+    // Finds an animal of the opposite gender in the surrounding 8 squares.
+    public boolean findOppositeGenderAnimal(Location location, int currentGender) {
+        List<Location> adjacent = adjacentLocations(location);
+        for(Location loc : adjacent) {
+            Animal a = getObjectAt(loc);
+            if(a != null && a.isAlive() && a.getGender() != currentGender) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Animal findParent(Location location, int currentGender) {
+        List<Location> adjacent = adjacentLocations(location);
+        for(Location loc : adjacent) {
+            Animal a = getObjectAt(loc);
+            if(a != null && a.isAlive() && a.getGender() != currentGender) {
+                return a;
+            }
+        }
+        return null;
     }
 }

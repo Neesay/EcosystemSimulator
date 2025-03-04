@@ -1,21 +1,10 @@
 import java.util.List;
 import java.util.Random;
-import javafx.scene.paint.Color; 
-
+import javafx.scene.paint.Color;
 
 /**
  * A simple model of a mice.
- * Mice age, move, breed, and die. They are a type of prey that
- * breed quickly, have a low food value, and live for a short period.
- * 
- * Breeding details for mice:
- * - Breeding Age: 3 steps
- * - Maximum Age: 20 steps
- * - Breeding Probability: 0.15 (15% chance of breeding when conditions are met)
- * - Maximum Litter Size: 9 offspring per breeding event
- * - Food Value: 4 units
- * 
- * This class is used as part of the predator/prey simulation.
+ * Mice age, move, breed, and die.
  */
 
 public class Mice extends Animal {
@@ -23,86 +12,43 @@ public class Mice extends Animal {
     private int age;
     private boolean disease = false;
     private int life_left = 2;
-    private double metabolism; 
+    private double metabolism;
     private int foodLevel;
 
-    
-    /**
-     * Create a new mice. A mice may be created as a newborn or with a random age.
-     *
-     * @param randomAge If true, the mice will have a random age (useful for populating an initial field).
-     * @param field The field currently occupied.
-     * @param location The location within the field.
-     * @param col The color to represent this mice.
-     */
     public Mice(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        if(randomAge) {
-            // Randomly assign property values.
-            BREEDING_AGE = rand.nextInt(2, 5);               // 2 to 4 inclusive.
-            MAX_AGE = rand.nextInt(4, 7);                      // 4 to 6 inclusive.
-            BREEDING_PROBABILITY = rand.nextDouble(0.12, 0.18); // Random between 0.12 and 0.18.
-            DISEASE_PROBABILITY = BREEDING_PROBABILITY - 0.01;
-            MAX_LITTER_SIZE = rand.nextInt(7, 11);             // 7 to 10 inclusive.
-            MAX_FOOD_VALUE = rand.nextInt(3, 6);               // 3 to 5 inclusive.
-            metabolism = rand.nextDouble(0.25, 1.0);           // Between 0.25 and 1.0.
+            gene.BREEDING_AGE = rand.nextInt(2, 5);
+            gene.MAX_AGE = rand.nextInt(4, 15);
+            gene.BREEDING_PROBABILITY = rand.nextDouble(0.12, 0.18);
+            gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.01;
+            gene.MAX_LITTER_SIZE = rand.nextInt(7, 11);
+            gene.MAX_FOOD_VALUE = rand.nextInt(3, 6);
+            gene.METABOLISM = rand.nextDouble(0.25, 1.0);
 
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
-        }
-    }
-    
-    public Mice(boolean randomAge, Field field, Location location, Color col, Mice parent) {
-        super(field, location, col);
-        age = 0;
-        foodLevel = MAX_FOOD_VALUE;
-        
-        // For Mice, valid ranges (from its randomAge constructor):
-        // BREEDING_AGE: [2, 5)   → 2 to 4
-        // MAX_AGE: [4, 7)        → 4 to 6
-        // BREEDING_PROBABILITY: [0.12, 0.18)
-        // MAX_LITTER_SIZE: [7, 11) → 7 to 10
-        // METABOLISM: [0.25, 1.0)
-        BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-1, 2), 12), 90);
-        MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-1, 2), 10), 120);
-        BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
-        DISEASE_PROBABILITY = Math.min(Math.max(BREEDING_PROBABILITY - 0.02, 0), 0.5);
-        MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
-        METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
-        
-        createGeneString();
+            age = rand.nextInt(gene.MAX_AGE);
+            foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
+            createGeneString();
     }
 
     
-    /**
-     * Define the behavior of the mice for each simulation step.
-     * The mice ages, attempts to breed, and moves to a new location if possible.
-     *
-     * @param newMice A list to collect newly born mice.
-     */
+
     public void act(List<Animal> newMice) {
-        // Increase the age and check for death due to old age.
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            // Attempt to give birth to new mice.
-            giveBirth(newMice);            
-            // Try to move into a free adjacent location.
+            giveBirth(newMice);
             Location newLocation = getField().getFreeAdjacentLocation(getLocation());
             if(newLocation != null) {
                 setLocation(newLocation);
             }
             else {
-                // If no free location is available, the mice dies due to overcrowding.
                 setDead();
             }
-            
             if (!disease){
                 double chance = rand.nextDouble();
-                if (chance < DISEASE_PROBABILITY) {
+                if (chance < gene.DISEASE_PROBABILITY) {
                     disease = true;
                 }
-                
             } else{
                 life_left--;
                 if (life_left <= 0){
@@ -112,74 +58,51 @@ public class Mice extends Animal {
         }
     }
 
-    /**
-     * Increment the age of the mice.
-     * If the age exceeds the maximum allowed age, the mice dies.
-     */
     private void incrementAge() {
         age++;
-        if(age > MAX_AGE) {
+        if(age > gene.MAX_AGE) {
             setDead();
         }
     }
-    
-    /**
-     * Decrease the wolf's food level to simulate hunger.
-     * If the food level reaches zero, the wolf dies.
-     */
+
     private void incrementHunger() {
-        foodLevel -= 1 + metabolism;
+        foodLevel -= 1 + gene.METABOLISM;
         if(foodLevel <= 0) {
             setDead();
         }
     }
-    
-    /**
-     * Check if the mice is ready to breed and produce offspring.
-     * New offspring are placed in adjacent free locations.
-     *
-     * @param newMice A list to collect newly born mice.
-     */
+
     private void giveBirth(List<Animal> newMice) {
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Mice young = new Mice(false, field, loc, getColor(), this);
-            newMice.add(young);
+        if (getGender() == 1) {
+            List<Location> free = getField().getFreeAdjacentLocations(getLocation());
+            int births = breed();
+            for(int b = 0; b < births && free.size() > 0; b++) {
+                Location loc = free.remove(0);
+                Mice young = new Mice(false, getField(), loc, getColor());
+                Animal mate = getField().findParent(getLocation(), getGender());
+                if (mate == null) {
+                    // Fallback: use the same animal as mate if no valid mate found.
+                    mate = this;
+                }
+                young.gene = new Gene(this, mate);
+                newMice.add(young);
+            }
         }
     }
-        
-    /**
-     * Determine the number of births based on the mice's breeding conditions.
-     *
-     * @return The number of new mice born, or zero if the mice cannot breed.
-     */
+
     private int breed() {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+        if(canBreed() && rand.nextDouble() <= gene.BREEDING_PROBABILITY) {
+            births = rand.nextInt(gene.MAX_LITTER_SIZE) + 1;
         }
         return births;
     }
 
-    /**
-     * Check whether the mice is of breeding age.
-     *
-     * @return true if the mice is old enough to breed, false otherwise.
-     */
     private boolean canBreed() {
-        return age >= BREEDING_AGE;
+        return age >= gene.BREEDING_AGE && getField().findOppositeGenderAnimal(getLocation(), getGender());
     }
-    
-    /**
-     * Get the food value of the mice.
-     * This value is used by predators to determine the nutritional benefit.
-     *
-     * @return the food value of the mice.
-     */
+
     public int getFoodValue() {
-        return MAX_FOOD_VALUE;
+        return gene.MAX_FOOD_VALUE;
     }
 }

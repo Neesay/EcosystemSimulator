@@ -21,6 +21,10 @@ public class Gene {
 
     private String geneString; // The formatted gene string
 
+    public Gene() {
+        // Default values can be set here if needed.
+    }
+
     /**
      * Constructs a Gene object with the specified values.
      *

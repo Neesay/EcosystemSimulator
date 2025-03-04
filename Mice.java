@@ -19,7 +19,7 @@ public class Mice extends Animal {
         super(field, location, col);
         if(randomAge) {
             gene.BREEDING_AGE = rand.nextInt(2, 5);
-            gene.MAX_AGE = rand.nextInt(4, 7);
+            gene.MAX_AGE = rand.nextInt(4, 15);
             gene.BREEDING_PROBABILITY = rand.nextDouble(0.12, 0.18);
             gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.01;
             gene.MAX_LITTER_SIZE = rand.nextInt(7, 11);

@@ -24,7 +24,7 @@ public class Wolf extends Animal {
             foodLevel = rand.nextInt(BASE_FOOD_VALUE);
 
             gene.BREEDING_AGE = rand.nextInt(17,23);
-            gene.MAX_AGE = rand.nextInt(115,145);
+            gene.MAX_AGE = rand.nextInt(40,80);
             age = rand.nextInt(1, gene.MAX_AGE);
             gene.BREEDING_PROBABILITY = rand.nextDouble(0.03,0.09);
             gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.02;

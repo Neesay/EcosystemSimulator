@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing rabbits and foxes.
+ * containing animals.
  * 
  * @author David J. Barnes, Michael Kölling and Jeffery Raphael
  * @version 2025.02.10
@@ -14,11 +14,11 @@ import javafx.scene.paint.Color;
 
 public class Simulator {
 
-    private static final double FOX_CREATION_PROBABILITY = 0.05;
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
-    private static final double WOLF_CREATION_PROBABILITY = 0.03;
+    private static final double COYOTE_CREATION_PROBABILITY = 0.03;
+    private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
+    private static final double WOLF_CREATION_PROBABILITY = 0.02;
     private static final double MICE_CREATION_PROBABILITY = 0.10;
-    private static final double DEER_CREATION_PROBABILITY = 0.04; 
+    private static final double DEER_CREATION_PROBABILITY = 0.06;
 
     private List<Animal> animals;
     private List<Animal> plants;
@@ -42,7 +42,7 @@ public class Simulator {
     /**
      * Run the simulation from its current state for a single step.
      * Iterate over the whole field updating the state of each
-     * fox and rabbit.
+     * animal.
      */
     public void simulateOneStep() {
         step++;
@@ -69,7 +69,7 @@ public class Simulator {
     }
     
     /**
-     * Randomly populate the field with foxes and rabbits.
+     * Randomly populate the field with animals.
      */
     private void populate() {
         
@@ -78,11 +78,11 @@ public class Simulator {
         
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= COYOTE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Coyote coyote = new Coyote(true, field, location, Color.DARKSALMON);
                     animals.add(coyote);
-                } else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                } else if(rand.nextDouble() <= SQUIRREL_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Squirrel squirrel = new Squirrel(true, field, location, Color.CYAN);
                     animals.add(squirrel);

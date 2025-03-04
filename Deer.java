@@ -20,7 +20,6 @@ public class Deer extends Animal {
             gene.MAX_FOOD_VALUE = rand.nextInt(15, 22);
             gene.METABOLISM = rand.nextDouble(0.25, 1.0);
 
-            life_left = gene.MAX_AGE / 10;
             age = rand.nextInt(gene.MAX_AGE);
             foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
             createGeneString();

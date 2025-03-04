@@ -200,21 +200,4 @@ public class Gene {
         int metabolismValue = Integer.parseInt(geneString.substring(11, 14));
         return metabolismValue / 100.0;
     }
-
-    /**
-     * Main method for simple testing.
-     */
-    public static void main(String[] args) {
-        // Example initialization:
-        // BREEDING_AGE = 5, MAX_AGE = 100, BREEDING_PROBABILITY = 0.50,
-        // MAX_LITTER_SIZE = 3, DISEASE_PROBABILITY = 0.10, MAX_FOOD_VALUE = 20, METABOLISM = 1.25
-        Gene gene = new Gene(5, 100, 0.50, 3, 0.10, 20, 1.25);
-        System.out.println("Gene String: " + gene.getGeneString());
-        System.out.println("Breeding Age: " + gene.getBreedingAgeFromGene());
-        System.out.println("Life Span: " + gene.getLifeSpanFromGene());
-        System.out.println("Breeding Probability: " + gene.getBreedingProbabilityFromGene());
-        System.out.println("Litter Size: " + gene.getLitterSizeFromGene());
-        System.out.println("Disease Probability: " + gene.getDiseaseProbabilityFromGene());
-        System.out.println("Metabolism: " + gene.getMetabolismFromGene());
-    }
 }

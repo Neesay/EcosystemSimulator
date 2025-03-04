@@ -20,7 +20,6 @@ public class Wolf extends Animal {
 
     public Wolf(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        if(randomAge) {
             foodLevel = rand.nextInt(BASE_FOOD_VALUE);
 
             gene.BREEDING_AGE = rand.nextInt(17,23);
@@ -31,7 +30,6 @@ public class Wolf extends Animal {
             gene.MAX_LITTER_SIZE = rand.nextInt(1,3);
             gene.METABOLISM = rand.nextDouble(0.25, 1);
             createGeneString();
-        }
     }
 
     public Wolf(boolean randomAge, Field field, Location location, Color col, Wolf parent) {
@@ -116,7 +114,8 @@ public class Wolf extends Animal {
             int births = breed();
             for(int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
-                Wolf young = new Wolf(false, getField(), loc, getColor(), this);
+                Wolf young = new Wolf(false, getField(), loc, getColor());
+                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newWolves.add(young);
             }
         }

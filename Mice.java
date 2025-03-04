@@ -17,7 +17,6 @@ public class Mice extends Animal {
 
     public Mice(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        if(randomAge) {
             gene.BREEDING_AGE = rand.nextInt(2, 5);
             gene.MAX_AGE = rand.nextInt(4, 15);
             gene.BREEDING_PROBABILITY = rand.nextDouble(0.12, 0.18);
@@ -29,7 +28,6 @@ public class Mice extends Animal {
             age = rand.nextInt(gene.MAX_AGE);
             foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
             createGeneString();
-        }
     }
 
     public Mice(boolean randomAge, Field field, Location location, Color col, Mice parent) {
@@ -93,7 +91,8 @@ public class Mice extends Animal {
             int births = breed();
             for(int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
-                Mice young = new Mice(false, getField(), loc, getColor(), this);
+                Mice young = new Mice(false, getField(), loc, getColor());
+                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newMice.add(young);
             }
         }

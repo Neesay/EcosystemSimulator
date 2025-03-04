@@ -16,7 +16,6 @@ public class Squirrel extends Animal {
 
     public Squirrel(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        if(randomAge) {
             gene.BREEDING_AGE = rand.nextInt(3, 8);
             gene.MAX_AGE = rand.nextInt(33, 48);
             gene.BREEDING_PROBABILITY = rand.nextDouble(0.06, 0.12);
@@ -28,7 +27,6 @@ public class Squirrel extends Animal {
             age = rand.nextInt(gene.MAX_AGE);
             foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
             createGeneString();
-        }
     }
 
     public Squirrel(boolean randomAge, Field field, Location location, Color col, Squirrel parent) {
@@ -93,7 +91,8 @@ public class Squirrel extends Animal {
             for(int b = 0; b < births && free.size() > 0; b++) {
 
                 Location loc = free.remove(0);
-                Squirrel young = new Squirrel(false, getField(), loc, getColor(), this);
+                Squirrel young = new Squirrel(false, getField(), loc, getColor());
+                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newSquirrels.add(young);
             }
         }

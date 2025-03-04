@@ -11,7 +11,6 @@ public class Deer extends Animal {
 
     public Deer(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        if(randomAge) {
             gene.BREEDING_AGE = rand.nextInt(7, 14);
             gene.MAX_AGE = rand.nextInt(65, 96);
             gene.BREEDING_PROBABILITY = rand.nextDouble(0.07, 0.14);
@@ -23,7 +22,6 @@ public class Deer extends Animal {
             age = rand.nextInt(gene.MAX_AGE);
             foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
             createGeneString();
-        }
     }
 
     public Deer(boolean randomAge, Field field, Location location, Color col, Deer parent) {
@@ -86,7 +84,7 @@ public class Deer extends Animal {
             int births = breed();
             for (int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
-                Deer young = new Deer(false, getField(), loc, getColor(), this);
+                Deer young = new Deer(false, getField(), loc, getColor());
                 young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newDeer.add(young);
             }

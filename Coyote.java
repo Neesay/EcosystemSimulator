@@ -30,7 +30,6 @@ public class Coyote extends Animal {
      */
     public Coyote(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
-        if(randomAge) {
             foodLevel = rand.nextInt(10);
 
             gene.BREEDING_AGE = rand.nextInt(12,19);
@@ -42,7 +41,6 @@ public class Coyote extends Animal {
 
             age = rand.nextInt(1, gene.MAX_AGE);
             createGeneString();
-        }
     }
 
     /**
@@ -152,7 +150,7 @@ public class Coyote extends Animal {
             int births = breed();
             for(int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
-                Coyote young = new Coyote(false, getField(), loc, getColor(), this);
+                Coyote young = new Coyote(false, getField(), loc, getColor());
                 young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newCoyotes.add(young);
             }

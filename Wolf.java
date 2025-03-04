@@ -32,20 +32,6 @@ public class Wolf extends Animal {
             createGeneString();
     }
 
-    public Wolf(boolean randomAge, Field field, Location location, Color col, Wolf parent) {
-        super(field, location, col);
-        age = 0;
-        foodLevel = BASE_FOOD_VALUE;
-
-        gene.BREEDING_AGE = Math.min(Math.max(parent.getBreedingAgeFromGene() + rand.nextInt(-3, 4), 12), 90);
-        gene.MAX_AGE = Math.min(Math.max(parent.getLifeSpanFromGene() + rand.nextInt(-10, 11), 10), 120);
-        gene.BREEDING_PROBABILITY = Math.min(Math.max(parent.getBreedingProbabilityFromGene() + rand.nextDouble(-0.02, 0.02), 0), 0.50);
-        gene.DISEASE_PROBABILITY = Math.min(Math.max(gene.BREEDING_PROBABILITY - 0.02, 0), 0.5);
-        gene.MAX_LITTER_SIZE = Math.min(Math.max(parent.getLitterSizeFromGene() + rand.nextInt(-1, 2), 1), 12);
-        gene.METABOLISM = Math.min(Math.max(parent.getMetabolismFromGene() + rand.nextDouble(-0.1, 0.1), 0.25), 1.0);
-
-        createGeneString();
-    }
 
     public void act(List<Animal> newWolves) {
         incrementAge();

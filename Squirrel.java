@@ -79,7 +79,12 @@ public class Squirrel extends Animal {
 
                 Location loc = free.remove(0);
                 Squirrel young = new Squirrel(false, getField(), loc, getColor());
-                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
+                Animal mate = getField().findParent(getLocation(), getGender());
+                if (mate == null) {
+                    // Fallback: use the same animal as mate if no valid mate found.
+                    mate = this;
+                }
+                young.gene = new Gene(this, mate);
                 newSquirrels.add(young);
             }
         }

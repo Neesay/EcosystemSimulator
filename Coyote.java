@@ -130,7 +130,12 @@ public class Coyote extends Animal {
             for(int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
                 Coyote young = new Coyote(false, getField(), loc, getColor());
-                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
+                Animal mate = getField().findParent(getLocation(), getGender());
+                if (mate == null) {
+                    // Fallback: use the same animal as mate if no valid mate found.
+                    mate = this;
+                }
+                young.gene = new Gene(this, mate);
                 newCoyotes.add(young);
             }
         }

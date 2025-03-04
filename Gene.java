@@ -67,12 +67,13 @@ public class Gene {
     
     // Helper method for integer genes.
     private int mutate(int value) {
+        int result = value;
         if (rand.nextDouble() < 0.20) {
-            // 20% chance to change: add or subtract 1.
-            return value + (rand.nextDouble() < 0.50 ? 1 : -1);
+            result = value + (rand.nextDouble() < 0.50 ? 1 : -1);
         }
-        return value;
+        return Math.max(1, result);
     }
+
     
     // Helper method for double genes, where delta is the mutation step (e.g. 0.01).
     private double mutate(double value, double delta) {
@@ -153,8 +154,12 @@ public class Gene {
      * @return the litter size as an integer
      */
     public int getLitterSizeFromGene() {
+        if(geneString == null) {
+            createGeneString();
+        }
         return Integer.parseInt(geneString.substring(7, 9));
     }
+
 
     /**
      * Extracts the disease probability from the gene string.

@@ -90,6 +90,7 @@ public class Squirrel extends Animal {
         List<Location> free = getField().getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
+            
             Location loc = free.remove(0);
             Squirrel young = new Squirrel(false, getField(), loc, getColor(), this);
             newSquirrels.add(young);
@@ -105,7 +106,7 @@ public class Squirrel extends Animal {
     }
 
     private boolean canBreed() {
-        return age >= gene.BREEDING_AGE && getField().findOppositeGenderAnimal(getLocation(), getGender());
+        return age >= gene.BREEDING_AGE && getField().findOppositeGenderAnimal(getLocation(), getGender()) && GENDER == 1;
     }
 
     public int getFoodValue() {

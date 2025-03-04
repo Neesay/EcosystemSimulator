@@ -147,12 +147,14 @@ public class Coyote extends Animal {
      * Check whether or not this coyote is to give birth at this step.
      */
     private void giveBirth(List<Animal> newCoyotes) {
-        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Coyote young = new Coyote(false, getField(), loc, getColor(), this);
-            newCoyotes.add(young);
+        if (getGender() == 1) {
+            List<Location> free = getField().getFreeAdjacentLocations(getLocation());
+            int births = breed();
+            for(int b = 0; b < births && free.size() > 0; b++) {
+                Location loc = free.remove(0);
+                Coyote young = new Coyote(false, getField(), loc, getColor(), this);
+                newCoyotes.add(young);
+            }
         }
     }
 

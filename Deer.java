@@ -81,12 +81,14 @@ public class Deer extends Animal {
     }
 
     private void giveBirth(List<Animal> newDeer) {
-        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for (int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Deer young = new Deer(false, getField(), loc, getColor(), this);
-            newDeer.add(young);
+        if (getGender() == 1) {
+            List<Location> free = getField().getFreeAdjacentLocations(getLocation());
+            int births = breed();
+            for (int b = 0; b < births && free.size() > 0; b++) {
+                Location loc = free.remove(0);
+                Deer young = new Deer(false, getField(), loc, getColor(), this);
+                newDeer.add(young);
+            }
         }
     }
 

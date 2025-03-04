@@ -87,13 +87,15 @@ public class Squirrel extends Animal {
     }
 
     private void giveBirth(List<Animal> newSquirrels) {
-        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            
-            Location loc = free.remove(0);
-            Squirrel young = new Squirrel(false, getField(), loc, getColor(), this);
-            newSquirrels.add(young);
+        if (getGender() == 1) {
+            List<Location> free = getField().getFreeAdjacentLocations(getLocation());
+            int births = breed();
+            for(int b = 0; b < births && free.size() > 0; b++) {
+
+                Location loc = free.remove(0);
+                Squirrel young = new Squirrel(false, getField(), loc, getColor(), this);
+                newSquirrels.add(young);
+            }
         }
     }
 

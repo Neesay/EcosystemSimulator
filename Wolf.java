@@ -111,12 +111,14 @@ public class Wolf extends Animal {
     }
 
     private void giveBirth(List<Animal> newWolves) {
-        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Wolf young = new Wolf(false, getField(), loc, getColor(), this);
-            newWolves.add(young);
+        if (getGender() == 1) {
+            List<Location> free = getField().getFreeAdjacentLocations(getLocation());
+            int births = breed();
+            for(int b = 0; b < births && free.size() > 0; b++) {
+                Location loc = free.remove(0);
+                Wolf young = new Wolf(false, getField(), loc, getColor(), this);
+                newWolves.add(young);
+            }
         }
     }
 

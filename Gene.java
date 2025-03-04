@@ -54,14 +54,58 @@ public class Gene {
     }
 
     public Gene(Animal parent1, Animal parent2) {
-        // 20% chance to run this block
+        this.BREEDING_AGE = parent1.getBreedingAgeFromGene();
+        this.MAX_AGE = parent1.getLifeSpanFromGene();
+        this.BREEDING_PROBABILITY = parent1.getBreedingProbabilityFromGene();
+
+        this.MAX_LITTER_SIZE = parent2.getLitterSizeFromGene();
+        this.DISEASE_PROBABILITY = parent2.getDiseaseProbabilityFromGene();
+        this.METABOLISM = parent2.getMetabolismFromGene();
+
         if (rand.nextDouble() < 0.20) {
-            
-            // This code runs 20% of the time
-            String genePart = String.valueOf(parent1.getGeneString());
+            if (rand.nextDouble() < 0.50) {
+                this.BREEDING_AGE += 1;
+            } else {
+                this.BREEDING_AGE -= 1;
+            }
         }
-        
-        // Other code for splitGene method can follow here...
+        if (rand.nextDouble() < 0.20) {
+            if (rand.nextDouble() < 0.50) {
+                this.MAX_AGE += 1;
+            } else {
+                this.MAX_AGE -= 1;
+            }
+        }
+        if (rand.nextDouble() < 0.20) {
+            if (rand.nextDouble() < 0.50) {
+                this.BREEDING_PROBABILITY += 0.01;
+            } else {
+                this.BREEDING_PROBABILITY -= 0.01;
+            }
+        }
+        if (rand.nextDouble() < 0.20) {
+            if (rand.nextDouble() < 0.50) {
+                this.MAX_LITTER_SIZE += 1;
+            } else {
+                this.MAX_LITTER_SIZE -= 1;
+            }
+        }
+        if (rand.nextDouble() < 0.20) {
+            if (rand.nextDouble() < 0.50) {
+                this.DISEASE_PROBABILITY += 0.01;
+            } else {
+                this.DISEASE_PROBABILITY -= 0.01;
+            }
+        }
+        if (rand.nextDouble() < 0.20) {
+            if (rand.nextDouble() < 0.50) {
+                this.METABOLISM += 0.01;
+            } else {
+                this.METABOLISM -= 0.01;
+            }
+        }
+
+        createGeneString();
     }
 
     /**

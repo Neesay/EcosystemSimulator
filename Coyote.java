@@ -153,6 +153,7 @@ public class Coyote extends Animal {
             for(int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
                 Coyote young = new Coyote(false, getField(), loc, getColor(), this);
+                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newCoyotes.add(young);
             }
         }

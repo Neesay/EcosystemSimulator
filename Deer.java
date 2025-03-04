@@ -87,6 +87,7 @@ public class Deer extends Animal {
             for (int b = 0; b < births && free.size() > 0; b++) {
                 Location loc = free.remove(0);
                 Deer young = new Deer(false, getField(), loc, getColor(), this);
+                young.gene = new Gene(this, getField().findParent(getLocation(), getGender()));
                 newDeer.add(young);
             }
         }

@@ -213,4 +213,15 @@ public class Field {
         }
         return false;
     }
+
+    public Animal findParent(Location location, int currentGender) {
+        List<Location> adjacent = adjacentLocations(location);
+        for(Location loc : adjacent) {
+            Animal a = getObjectAt(loc);
+            if(a != null && a.isAlive() && a.getGender() != currentGender) {
+                return a;
+            }
+        }
+        return null;
+    }
 }

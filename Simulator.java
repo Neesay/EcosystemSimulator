@@ -17,7 +17,7 @@ public class Simulator {
     private static final double COYOTE_CREATION_PROBABILITY = 0.03;
     private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
     private static final double WOLF_CREATION_PROBABILITY = 0.02;
-    private static final double MICE_CREATION_PROBABILITY = 0.10;
+    private static final double MICE_CREATION_PROBABILITY = 0.20;
     private static final double DEER_CREATION_PROBABILITY = 0.06;
 
     private List<Animal> animals;

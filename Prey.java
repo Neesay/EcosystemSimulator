@@ -31,7 +31,7 @@ public abstract class Prey extends Animal {
         if (isAlive()) {
             giveBirth(newOffspring);
             // Try to graze (eat grass) first.
-            Location foodLocation = graze();
+            Location foodLocation = feed();
             if (foodLocation == null) {
                 // No grass found; move to a free adjacent location.
                 foodLocation = getField().getFreeAdjacentLocation(getLocation());
@@ -65,7 +65,7 @@ public abstract class Prey extends Animal {
      *
      * @return The location where grass was eaten, or null if none found.
      */
-    protected Location graze() {
+    protected Location feed() {
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
             Object obj = getField().getObjectAt(loc);

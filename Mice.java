@@ -13,7 +13,7 @@ public class Mice extends Prey {
         gene.BREEDING_PROBABILITY = rand.nextDouble(0.12, 0.18);
         gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.01;
         gene.MAX_LITTER_SIZE = rand.nextInt(7, 11);
-        gene.MAX_FOOD_VALUE = rand.nextInt(3, 6);
+        gene.MAX_FOOD_VALUE = rand.nextInt(9, 12);
         gene.METABOLISM = rand.nextDouble(0.25, 1.0);
 
         age = rand.nextInt(gene.MAX_AGE);

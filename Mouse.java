@@ -3,9 +3,9 @@ import javafx.scene.paint.Color;
 /**
  * A model of a mice. Extends Prey.
  */
-public class Mice extends Prey {
+public class Mouse extends Prey {
 
-    public Mice(boolean randomAge, Field field, Location location, Color col) {
+    public Mouse(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
         // Initialize gene parameters for Mice.
         gene.BREEDING_AGE = rand.nextInt(2, 5);
@@ -25,6 +25,6 @@ public class Mice extends Prey {
 
     @Override
     protected Prey createYoung(Location loc) {
-        return new Mice(false, getField(), loc, getColor());
+        return new Mouse(false, getField(), loc, getColor());
     }
 }

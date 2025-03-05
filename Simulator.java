@@ -17,7 +17,7 @@ public class Simulator {
     private static final double COYOTE_CREATION_PROBABILITY = 0.03;
     private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
     private static final double WOLF_CREATION_PROBABILITY = 0.02;
-    private static final double MICE_CREATION_PROBABILITY = 0.10;
+    private static final double MOUSE_CREATION_PROBABILITY = 0.10;
     private static final double DEER_CREATION_PROBABILITY = 0.06;
 
     private List<Animal> animals;
@@ -90,10 +90,10 @@ public class Simulator {
                     Location location = new Location(row, col);
                     Wolf wolf = new Wolf(true, field, location, Color.BLACK);
                     animals.add(wolf);
-                } else if(rand.nextDouble() <= MICE_CREATION_PROBABILITY) {
+                } else if(rand.nextDouble() <= MOUSE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Mice mice = new Mice(true, field, location, Color.GREY);
-                    animals.add(mice);
+                    Mouse mouse = new Mouse(true, field, location, Color.GREY);
+                    animals.add(mouse);
                 } else if(rand.nextDouble() <= DEER_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Deer deer = new Deer(true, field, location, Color.RED);

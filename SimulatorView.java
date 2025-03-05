@@ -155,7 +155,7 @@ public class SimulatorView extends Application {
         new Thread(() -> {
             for (int gen = 1; gen <= numStep; gen++) {
                 simulator.simulateOneStep();
-                simulator.delay(2500);
+                simulator.delay(1000);
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });

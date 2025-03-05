@@ -14,11 +14,11 @@ import javafx.scene.paint.Color;
 
 public class Simulator {
 
-    private static final double COYOTE_CREATION_PROBABILITY = 0.03;
-    private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
-    private static final double WOLF_CREATION_PROBABILITY = 0.02;
+    private static final double COYOTE_CREATION_PROBABILITY = 0;
+    private static final double SQUIRREL_CREATION_PROBABILITY = 0;
+    private static final double WOLF_CREATION_PROBABILITY = 0;
     private static final double MOUSE_CREATION_PROBABILITY = 0.10;
-    private static final double DEER_CREATION_PROBABILITY = 0.06;
+    private static final double DEER_CREATION_PROBABILITY = 0;
 
     private List<Animal> animals;
     private List<Animal> plants;

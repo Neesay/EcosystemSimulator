@@ -10,7 +10,7 @@ import static java.lang.Math.min;
  */
 
 public class Grass extends Animal {
-    private static final int MAX_AGEING = 3;
+    private static final int MAX_AGEING = 500;
     private static final int MAX_LITTER_SIZE = 3;
     private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
@@ -35,6 +35,6 @@ public class Grass extends Animal {
 
     @Override
     public int getFoodValue() {
-        return Math.min(age, MAX_AGEING); // Now based on the instance's age.
+        return Math.max(age, MAX_AGEING); // Now based on the instance's age.
     }
 }

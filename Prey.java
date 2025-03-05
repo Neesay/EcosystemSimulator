@@ -71,12 +71,9 @@ public abstract class Prey extends Animal {
             Object obj = getField().getObjectAt(loc);
             if (obj instanceof Grass) {
                 Grass grass = (Grass) obj;
-                if (grass.isAlive()) {
-                    int food = grass.getFoodValue();
-                    foodLevel += food;
-                    grass.setDead(); // Remove grass from the field.
-                    return loc;
-                }
+                foodLevel = Math.min(foodLevel + grass.getFoodValue(), gene.MAX_FOOD_VALUE);
+                grass.setDead();
+                break; // Eat only one patch of grass per act cycle.
             }
         }
         return null;

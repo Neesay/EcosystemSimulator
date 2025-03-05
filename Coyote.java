@@ -11,7 +11,7 @@ public class Coyote extends Predator {
         foodLevel = rand.nextInt(10);
         gene.BREEDING_AGE = rand.nextInt(12, 19);
         gene.MAX_AGE = rand.nextInt(40, 60);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.05, 0.12);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.48, 0.5);
         gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.02;
         gene.MAX_LITTER_SIZE = rand.nextInt(1, 4);
         gene.METABOLISM = rand.nextDouble(0.25, 1);

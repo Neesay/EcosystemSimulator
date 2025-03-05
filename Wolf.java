@@ -12,7 +12,7 @@ public class Wolf extends Predator {
         gene.BREEDING_AGE = rand.nextInt(17, 23);
         gene.MAX_AGE = rand.nextInt(40, 80);
         age = rand.nextInt(1, gene.MAX_AGE);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.03, 0.09);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.48, 0.5);
         gene.DISEASE_PROBABILITY = gene.BREEDING_PROBABILITY - 0.02;
         gene.MAX_LITTER_SIZE = rand.nextInt(1, 3);
         gene.METABOLISM = rand.nextDouble(0.25, 1);

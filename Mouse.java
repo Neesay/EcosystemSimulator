@@ -9,12 +9,12 @@ public class Mouse extends Prey {
         super(field, location, col);
         // Initialize gene parameters for Mouse.
         gene.BREEDING_AGE = rand.nextInt(2, 5);
-        gene.MAX_AGE = rand.nextInt(4, 38);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.3, 0.38);
+        gene.MAX_AGE = rand.nextInt(18, 28);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.668, 0.717);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
-        gene.MAX_LITTER_SIZE = rand.nextInt(7, 11);
+        gene.MAX_LITTER_SIZE = rand.nextInt(10, 15);
         // Lower metabolism so mice lose food more slowly.
-        gene.MAX_FOOD_VALUE = Math.max(1, rand.nextInt(9, 15));
+        gene.MAX_FOOD_VALUE = Math.max(1, rand.nextInt(5, 9));
         gene.METABOLISM = rand.nextDouble(0.25, 0.5);
 
         age = rand.nextInt(gene.MAX_AGE);

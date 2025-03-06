@@ -10,7 +10,7 @@ public class Squirrel extends Prey {
         // Initialize gene parameters for Squirrel.
         gene.BREEDING_AGE = rand.nextInt(3, 8);
         gene.MAX_AGE = rand.nextInt(6, 48);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.29, 0.37);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.307, 0.356);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
         gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(3, 6));
         gene.MAX_FOOD_VALUE = rand.nextInt(12, 16); 

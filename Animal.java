@@ -1,4 +1,4 @@
-    import java.util.List;
+import java.util.List;
 import javafx.scene.paint.Color;
 import java.util.Random;
 
@@ -8,11 +8,10 @@ import java.util.Random;
  * @author Ulvis Turkers and Yaseen Alam
  * @version ...
  */
-
 public abstract class Animal {
     public int GENDER; // 0 for male and 1 for female
     private static final Random rand = Randomizer.getRandom();
-
+    protected boolean disease;
     private boolean alive;
     private Field field;
     private Location location;
@@ -20,6 +19,8 @@ public abstract class Animal {
 
     // The gene object now holds breeding/age/metabolism fields.
     public Gene gene;
+    
+ 
 
     /**
      * Create a new animal at location in field.
@@ -116,7 +117,7 @@ public abstract class Animal {
     }
 
     /**
-     * Abstract method for retrievign the food value of prey anuimals.
+     * Abstract method for retrieving the food value of prey animals.
      */
     public abstract int getFoodValue();
 
@@ -175,4 +176,15 @@ public abstract class Animal {
     public double getMetabolismFromGene() {
         return gene.getMetabolismFromGene();
     }
+    
+    /**
+     * Sets the disease status of this animal.
+     * @param diseased true if the animal should be marked as diseased.
+     */
+    public void setDiseased(boolean disease) {}
+    
+    public boolean isDiseased() {
+        return disease;
+    }
 }
+

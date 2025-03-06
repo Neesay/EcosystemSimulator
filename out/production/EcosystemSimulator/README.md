@@ -2,9 +2,15 @@
 
 # To-Do:
 At the moment:
-- Ediz: figuring out how to have dynamic approach for prey consumption by predators
-- Yaseen: trying to make Grass breed and implement grass introduction when animals die
+    - mutation, 20% chance to decide to mutate, 50% of the time you add one value and subtract one value
+    - 
 
+Animals   Age
+Wolf       
+Coyote     
+Squirrel   
+Mice       
+Deer       
 
 
 1. Add new Organisms:

@@ -30,20 +30,22 @@ public abstract class Prey extends Animal {
         incrementHunger();
         if (isAlive()) {
             giveBirth(newOffspring);
-            // Try to graze (eat grass) first.
             Location foodLocation = feed();
             if (foodLocation == null) {
-                // No grass found; move to a free adjacent location.
                 foodLocation = getField().getFreeAdjacentLocation(getLocation());
             }
             if (foodLocation != null) {
                 setLocation(foodLocation);
             } else {
                 setDead();
+                return; // Exit act() if the animal is dead.
             }
             handleDisease();
+            diseaseSpread(); // Now safe to call since the animal is alive.
         }
     }
+
+
 
     protected void incrementAge() {
         age++;
@@ -87,12 +89,15 @@ public abstract class Prey extends Animal {
      * if already diseased, reduce lifeLeft and possibly die.
      */
     protected void handleDisease() {
+        System.out.println("handleDisease()");
         if (!disease) {
             if (rand.nextDouble() < gene.DISEASE_PROBABILITY) {
                 disease = true;
+                System.out.println("disease false");
             }
         } else {
             lifeLeft--;
+            System.out.println("decrease life left");
             if (lifeLeft <= 0) {
                 setDead();
             }
@@ -152,4 +157,58 @@ public abstract class Prey extends Animal {
      * @return A new instance of the prey.
      */
     protected abstract Prey createYoung(Location loc);
+    
+    
+    // New methods for disease spreading:
+    
+    /**
+     * Returns whether this animal is diseased.
+     * @return true if diseased, false otherwise.
+     */
+    public boolean isDiseased() {
+        return disease;
+    }
+    
+    /**
+     * Sets the disease status of this animal.
+     * @param diseased true if the animal should be marked as diseased.
+     */
+    public void setDiseased(boolean disease) {
+        this.disease = disease;
+        System.out.println("called setDiseased()");
+    }
+    
+    /**
+     * Spread disease to adjacent animals of the same species.
+     * For each adjacent animal (of the same class) that is not already diseased,
+     * it is infected with a probability of 0.05.
+     */
+    public void diseaseSpread() {
+        double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
+        if (isDiseased()){
+            System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
+        }
+        // Only spread disease if this animal is already diseased.
+        if (!isDiseased()) {
+            return;
+        }
+        if (!isAlive()) {
+            return;
+        }
+
+        // Retrieve all adjacent locations.
+        List<Location> adjacent = getField().adjacentLocations(getLocation());
+        for (Location loc : adjacent) {
+            Animal other = getField().getObjectAt(loc);
+            if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
+                System.out.println("Checking adjacent animal at " + loc + " (" + other.getClass().getSimpleName() + ")");
+                if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
+                    other.setDiseased(true);
+                    System.out.println("Infected animal at " + loc);
+                } else {
+                    System.out.println("Did not infect animal at " + loc);
+                }
+            }
+        }
+    }
 }

@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
 
 public class Simulator {
     private static final double COYOTE_CREATION_PROBABILITY = 0.02;
-    private static final double SQUIRREL_CREATION_PROBABILITY = 0.09;
+    private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
     private static final double WOLF_CREATION_PROBABILITY = 0.012;
-    private static final double MOUSE_CREATION_PROBABILITY = 0.10;
+    private static final double MOUSE_CREATION_PROBABILITY = 0.15;
     private static final double DEER_CREATION_PROBABILITY = 0.06;
 
     private List<Animal> animals;
@@ -46,17 +46,18 @@ public class Simulator {
     public void simulateOneStep() {
         step++;
         List<Animal> newAnimals = new ArrayList<>();        
-
-        for(Iterator<Animal> it = animals.iterator(); it.hasNext(); ) {
-            Animal animal = it.next();
+        
+        // Iterate over a copy to avoid concurrent modification errors.
+        for (Animal animal : new ArrayList<>(animals)) {
             animal.act(newAnimals);
-            if(! animal.isAlive()) {
-                it.remove();
+            if (!animal.isAlive()) {
+                animals.remove(animal);
             }
         }
                
         animals.addAll(newAnimals);
     }
+
         
     /**
      * Reset the simulation to a starting position.

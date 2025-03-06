@@ -30,7 +30,7 @@ public class Grass extends Animal {
     public void act(List<Animal> newGrass) {
         // Only update grass every 5 act calls.
         actCounter++;
-        if(actCounter % 25 != 0) {
+        if(actCounter % 5 != 0) {
             return;
         }
         // Proceed with normal actions.
@@ -55,7 +55,7 @@ public class Grass extends Animal {
      * in all free adjacent locations.
      */
     private void spread(List<Animal> newGrass) {
-        double reproductionProbability = 0.05; // 10% chance to reproduce per act cycle.
+        double reproductionProbability = 0.01; // 1% chance to reproduce per act cycle.
         if(rand.nextDouble() < reproductionProbability) {
             List<Location> free = getField().getFreeAdjacentLocations(getLocation());
             for(Location loc : free) {

@@ -25,6 +25,7 @@ public abstract class Predator extends Animal {
      * - Hunt for food (by checking for any Prey).
      * - Move to a new location (food or free adjacent).
      * - Handle disease.
+     * - Spread disease to adjacent animals of the same species.
      */
     @Override
     public void act(List<Animal> newPredators) {
@@ -42,6 +43,7 @@ public abstract class Predator extends Animal {
                 setDead();
             }
             handleDisease();
+            diseaseSpread();
         }
     }
 
@@ -77,7 +79,7 @@ public abstract class Predator extends Animal {
 
     /**
      * Looks for food in adjacent locations.
-     * Now checks if the animal is an instance of Prey.
+     * Checks if the animal is an instance of Prey.
      * If a live prey is found, it is killed, foodLevel is increased, and its location returned.
      */
     protected Location findFood() {
@@ -148,3 +150,4 @@ public abstract class Predator extends Animal {
         return 0;
     }
 }
+    

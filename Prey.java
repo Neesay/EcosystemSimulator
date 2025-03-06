@@ -30,10 +30,8 @@ public abstract class Prey extends Animal {
         incrementHunger();
         if (isAlive()) {
             giveBirth(newOffspring);
-            // Try to graze (eat grass) first.
             Location foodLocation = feed();
             if (foodLocation == null) {
-                // No grass found; move to a free adjacent location.
                 foodLocation = getField().getFreeAdjacentLocation(getLocation());
             }
             if (foodLocation != null) {
@@ -42,8 +40,10 @@ public abstract class Prey extends Animal {
                 setDead();
             }
             handleDisease();
+            diseaseSpread(); // Spread disease to adjacent animals.
         }
     }
+
 
     protected void incrementAge() {
         age++;

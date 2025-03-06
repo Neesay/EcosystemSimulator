@@ -9,17 +9,16 @@ public class Squirrel extends Prey {
         super(field, location, col);
         // Initialize gene parameters for Squirrel.
         gene.BREEDING_AGE = rand.nextInt(3, 8);
-        gene.MAX_AGE = rand.nextInt(33, 48);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.48, 0.5);
+        gene.MAX_AGE = rand.nextInt(6, 48);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.29, 0.37);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
-        gene.MAX_LITTER_SIZE = rand.nextInt(3, 6);
-        gene.MAX_FOOD_VALUE = rand.nextInt(8, 11);
-        gene.METABOLISM = rand.nextDouble(0.25, 1.0);
+        gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(3, 6));
+        gene.MAX_FOOD_VALUE = rand.nextInt(12, 16); 
+        gene.METABOLISM = rand.nextDouble(0.1, 0.3);  
 
-        // Initialize instance fields.
         age = rand.nextInt(gene.MAX_AGE);
         foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
-        lifeLeft = 4;
+        lifeLeft = 10; // increased survival buffer
         disease = false;
         createGeneString();
     }

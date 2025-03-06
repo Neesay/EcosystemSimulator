@@ -4,16 +4,16 @@ import static java.lang.Math.min;
 
 /**
  * A simple model of grass.
- * Grass age, and die.
- * 
- * @author Yaseen A.
- * @version 26.02.2025
+ * Grass ages, dies, and now also reproduces (spreads).
  */
 public class Grass extends Animal {
-    private static final int MAX_AGEING = 500;
+    private static final int MAX_AGEING = 5;
     private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
-    private int age;  // Now an instance variable.
+    private int age;  // Instance variable.
+    
+    // New variable: only act every 5 steps.
+    private int actCounter = 0;
 
     public Grass(boolean randomAge, Field field, Location location, Color col) {
         super(field, location, col);
@@ -23,16 +23,22 @@ public class Grass extends Animal {
         }
     }
     
-    /**
-     * Returns the current age of this grass (for debugging).
-     */
     public int getAge() {
         return age;
     }
 
     public void act(List<Animal> newGrass) {
+        // Only update grass every 5 act calls.
+        actCounter++;
+        if(actCounter % 25 != 0) {
+            return;
+        }
+        // Proceed with normal actions.
+        if(getField() == null) {
+            return;
+        }
         incrementAge();
-        // You could implement reproduction if desired.
+        spread(newGrass);
     }
 
     private void incrementAge() {
@@ -41,8 +47,22 @@ public class Grass extends Animal {
     
     @Override
     public int getFoodValue() {
-        // Using Math.min so that food value increases with age up to MAX_AGEING.
-        int value = min(age, MAX_AGEING);
-        return value;
+        return min(age, MAX_AGEING);
+    }
+    
+    /**
+     * Spreading mechanism: With a set probability, produce new grass
+     * in all free adjacent locations.
+     */
+    private void spread(List<Animal> newGrass) {
+        double reproductionProbability = 0.05; // 10% chance to reproduce per act cycle.
+        if(rand.nextDouble() < reproductionProbability) {
+            List<Location> free = getField().getFreeAdjacentLocations(getLocation());
+            for(Location loc : free) {
+                Grass offspring = new Grass(false, getField(), loc, getColor());
+                newGrass.add(offspring);
+                getField().place(offspring, loc);
+            }
+        }
     }
 }

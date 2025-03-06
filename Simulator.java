@@ -13,10 +13,9 @@ import javafx.scene.paint.Color;
  */
 
 public class Simulator {
-
-    private static final double COYOTE_CREATION_PROBABILITY = 0.03;
-    private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
-    private static final double WOLF_CREATION_PROBABILITY = 0.02;
+    private static final double COYOTE_CREATION_PROBABILITY = 0.02;
+    private static final double SQUIRREL_CREATION_PROBABILITY = 0.09;
+    private static final double WOLF_CREATION_PROBABILITY = 0.012;
     private static final double MOUSE_CREATION_PROBABILITY = 0.10;
     private static final double DEER_CREATION_PROBABILITY = 0.06;
 
@@ -101,7 +100,7 @@ public class Simulator {
                 } else {
                     Location location = new Location(row, col);
                     Grass grass = new Grass(true, field, location, Color.DARKSEAGREEN);
-                    plants.add(grass);
+                    animals.add(grass);
                 }
             }
         }

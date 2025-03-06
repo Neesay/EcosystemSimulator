@@ -43,7 +43,6 @@ public class Grass extends Animal {
     public int getFoodValue() {
         // Using Math.min so that food value increases with age up to MAX_AGEING.
         int value = min(age, MAX_AGEING);
-        System.out.println("Grass at " + getLocation() + " has age " + age + " and food value " + value);
         return value;
     }
 }

@@ -13,10 +13,12 @@ public abstract class Animal {
     public int GENDER; // 0 for male and 1 for female
     private static final Random rand = Randomizer.getRandom();
 
+    private boolean diseased = false;
     private boolean alive;
     private Field field;
     private Location location;
     private Color color = Color.BLACK;
+    
 
     // The gene object now holds breeding/age/metabolism fields.
     public Gene gene;
@@ -72,6 +74,7 @@ public abstract class Animal {
             field = null;
         }
     }
+
 
     /**
      * Return the animal's location.

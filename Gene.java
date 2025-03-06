@@ -61,9 +61,12 @@ public class Gene {
         this.MAX_LITTER_SIZE = mutate(parent2.getLitterSizeFromGene());
         this.DISEASE_PROBABILITY = mutate(parent2.getDiseaseProbabilityFromGene(), 0.01);
         this.METABOLISM = mutate(parent2.getMetabolismFromGene(), 0.01);
+        // FIX: Set MAX_FOOD_VALUE from one of the parents (or average, if you prefer)
+        this.MAX_FOOD_VALUE = mutate(parent1.getFoodValue());
         
         createGeneString();
     }
+
     
     // Helper method for integer genes.
     private int mutate(int value) {

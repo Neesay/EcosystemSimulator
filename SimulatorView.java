@@ -155,18 +155,21 @@ public class SimulatorView extends Application {
         new Thread(() -> {
             for (int gen = 1; gen <= numStep; gen++) {
                 simulator.simulateOneStep();
-                simulator.delay(500);
+                simulator.delay(100);
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });
-
+    
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
-                    reset();
+                    Platform.runLater(() -> {
+                        reset();
+                    });
                 }
             }
         }).start();
     }
+
 
     /**
      * Reset the simulation to a starting position.

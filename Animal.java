@@ -11,7 +11,7 @@ import java.util.Random;
 public abstract class Animal {
     public int GENDER; // 0 for male and 1 for female
     private static final Random rand = Randomizer.getRandom();
-
+    protected boolean disease;
     private boolean alive;
     private Field field;
     private Location location;
@@ -20,8 +20,7 @@ public abstract class Animal {
     // The gene object now holds breeding/age/metabolism fields.
     public Gene gene;
     
-    // New variable to track disease status.
-    private boolean diseased = false;
+ 
 
     /**
      * Create a new animal at location in field.
@@ -178,54 +177,14 @@ public abstract class Animal {
         return gene.getMetabolismFromGene();
     }
     
-    // New methods for disease spreading:
-    
-    /**
-     * Returns whether this animal is diseased.
-     * @return true if diseased, false otherwise.
-     */
-    public boolean isDiseased() {
-        return diseased;
-    }
-    
     /**
      * Sets the disease status of this animal.
      * @param diseased true if the animal should be marked as diseased.
      */
-    public void setDiseased(boolean diseased) {
-        this.diseased = diseased;
-        System.out.println("called setDiseased()");
-    }
+    public void setDiseased(boolean disease) {}
     
-    /**
-     * Spread disease to adjacent animals of the same species.
-     * For each adjacent animal (of the same class) that is not already diseased,
-     * it is infected with a probability of 0.05.
-     */
-    public void diseaseSpread() {
-        double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
-        if (isDiseased()){
-            System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
-        }
-        // Only spread disease if this animal is already diseased.
-        if (!isDiseased()) {
-            return;
-        }
-        
-        // Retrieve all adjacent locations.
-        List<Location> adjacent = getField().adjacentLocations(getLocation());
-        for (Location loc : adjacent) {
-            Animal other = getField().getObjectAt(loc);
-            if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
-                System.out.println("Checking adjacent animal at " + loc + " (" + other.getClass().getSimpleName() + ")");
-                if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
-                    other.setDiseased(true);
-                    System.out.println("Infected animal at " + loc);
-                } else {
-                    System.out.println("Did not infect animal at " + loc);
-                }
-            }
-        }
+    public boolean isDiseased() {
+        return disease;
     }
 }
 

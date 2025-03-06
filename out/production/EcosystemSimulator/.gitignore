@@ -1,3 +1,7 @@
 *.class
 *.ctxt
 *.bluej
+*.xml
+*.tmp
+~$osystemSimulator Report.docx
+hs_err_pid218060.log

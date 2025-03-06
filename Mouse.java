@@ -10,7 +10,7 @@ public class Mouse extends Prey {
         // Initialize gene parameters for Mice.
         gene.BREEDING_AGE = rand.nextInt(2, 5);
         gene.MAX_AGE = rand.nextInt(4, 38);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.48, 0.5);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.28, 0.36);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
         gene.MAX_LITTER_SIZE = rand.nextInt(7, 11);
         gene.MAX_FOOD_VALUE = rand.nextInt(9, 15);

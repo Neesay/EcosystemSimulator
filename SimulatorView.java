@@ -159,14 +159,17 @@ public class SimulatorView extends Application {
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });
-
+    
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
-                    reset();
+                    Platform.runLater(() -> {
+                        reset();
+                    });
                 }
             }
         }).start();
     }
+
 
     /**
      * Reset the simulation to a starting position.

@@ -112,7 +112,7 @@ Introduce random weather conditions (such as droughts or heavy rain) that tempor
 Interactive Control Panel: done
 Add a simple user control interface (using JavaFX controls) that lets the user pause/resume the simulation and adjust key parameters (like disease spread probability or reproduction rates) in real time. This interactivity can enhance the simulation’s usability and allow for dynamic experimentation.
 
-Population Trend Graph: not implemented
+Population Trend Graph: done
 Integrate a real-time chart (e.g., using JavaFX’s LineChart) that plots the population of each species over time. This visual feedback not only enriches the simulation’s presentation but also helps analyze long-term ecological trends.
 
 Detailed Simulation Logging: not implemented

@@ -1,6 +1,8 @@
 import java.util.List;
 import javafx.scene.paint.Color;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class representing shared characteristics of animals.
@@ -16,6 +18,16 @@ public abstract class Animal {
     private Field field;
     private Location location;
     private Color color = Color.BLACK;
+    // Tracking variables and hashmaps for logging information:
+    public static int totalDeaths = 0;
+    public static int totalBirths = 0;
+    public static int totalDiseaseCatches = 0;
+    public static int totalDiseaseSpreads = 0;
+    public static Map<String, Integer> deathsBySpecies = new HashMap<>();
+    public static Map<String, Integer> birthsBySpecies = new HashMap<>();
+    public static Map<String, Integer> diseaseCatchesBySpecies = new HashMap<>();
+    public static Map<String, Integer> diseaseSpreadsBySpecies = new HashMap<>();
+
 
     // The gene object now holds breeding/age/metabolism fields.
     public Gene gene;
@@ -62,17 +74,23 @@ public abstract class Animal {
 
     /**
      * Indicate that the animal is no longer alive.
-     * It is removed from the field.
+     * It is removed from the field, and the death is logged.
      */
     protected void setDead() {
         alive = false;
-        if(location != null) {
+        if (location != null) {
             field.clear(location);
             field.place(new Grass(true, field, location, Color.DARKSEAGREEN), location);
             location = null;
             field = null;
         }
+        
+        // Log the death: increment total deaths and update the species death count.
+        totalDeaths++;
+        String species = this.getClass().getSimpleName();
+        deathsBySpecies.put(species, deathsBySpecies.getOrDefault(species, 0) + 1);
     }
+
 
     /**
      * Return the animal's location.

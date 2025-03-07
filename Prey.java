@@ -92,6 +92,10 @@ public abstract class Prey extends Animal {
         if (!disease) {
             if (rand.nextDouble() < gene.DISEASE_PROBABILITY) {
                 disease = true;
+                // Log the event of disease catching.
+                Animal.totalDiseaseCatches++;
+                String species = this.getClass().getSimpleName();
+                Animal.diseaseCatchesBySpecies.put(species, Animal.diseaseCatchesBySpecies.getOrDefault(species, 0) + 1);
             }
         } else {
             lifeLeft--;
@@ -100,6 +104,8 @@ public abstract class Prey extends Animal {
             }
         }
     }
+
+
 
     /**
      * Generic method for giving birth. Only females give birth.
@@ -119,9 +125,15 @@ public abstract class Prey extends Animal {
                 }
                 young.gene = new Gene(this, mate);
                 newOffspring.add(young);
+                // Increment global births counter.
+                Animal.totalBirths++;
+                // Update births counter for this species.
+                String species = this.getClass().getSimpleName();
+                Animal.birthsBySpecies.put(species, Animal.birthsBySpecies.getOrDefault(species, 0) + 1);
             }
         }
     }
+
 
     /**
      * Determines the number of births if breeding occurs.
@@ -179,22 +191,32 @@ public abstract class Prey extends Animal {
      */
     public void diseaseSpread() {
         double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
-        // Only spread disease if this animal is already diseased.
-        if (!isDiseased()) {
+        System.out.println(getClass().getSimpleName() + " at " + getLocation() 
+                + " attempting to spread disease. Diseased: " + isDiseased());
+        
+        // Only attempt to spread if this animal is diseased.
+        if (!isDiseased() || !isAlive()) {
             return;
         }
         
-        if (!isAlive()) {
-            return;
-        }
-
         // Retrieve all adjacent locations.
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
             Animal other = getField().getObjectAt(loc);
+            // Check that the adjacent animal exists, is of the same species, and is not already diseased.
             if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
+                System.out.println("Checking adjacent " + other.getClass().getSimpleName() 
+                        + " at " + loc);
                 if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
                     other.setDiseased(true);
+                    totalDiseaseSpreads++;
+                    String species = other.getClass().getSimpleName();
+                    diseaseSpreadsBySpecies.put(species, 
+                            diseaseSpreadsBySpecies.getOrDefault(species, 0) + 1);
+                    System.out.println("Infected " + species + " at " + loc);
+                } else {
+                    System.out.println("Did not infect " + other.getClass().getSimpleName() 
+                            + " at " + loc);
                 }
             }
         }

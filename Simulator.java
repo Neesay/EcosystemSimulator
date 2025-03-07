@@ -19,9 +19,8 @@ public class Simulator {
     private static final double MOUSE_CREATION_PROBABILITY = 0.15;
     private static final double DEER_CREATION_PROBABILITY = 0.06;
 
-    private List<Animal> animals;
-    private List<Animal> plants;
-    private Field field;
+    private final List<Animal> animals;
+    private final Field field;
     private int step;
     
     /**
@@ -30,8 +29,6 @@ public class Simulator {
      * @param width Width of the field. Must be greater than zero.
      */
     public Simulator(int depth, int width) {
-        
-        plants = new ArrayList<>();
         animals = new ArrayList<>();
         field = new Field(depth, width);
 
@@ -84,7 +81,7 @@ public class Simulator {
                     animals.add(coyote);
                 } else if(rand.nextDouble() <= SQUIRREL_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Squirrel squirrel = new Squirrel(field, location, Color.CYAN);
+                    Squirrel squirrel = new Squirrel(field, location, Color.BURLYWOOD);
                     animals.add(squirrel);
                 } else if(rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);

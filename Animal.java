@@ -17,8 +17,8 @@ public abstract class Animal {
     private Location location;
     private Color color = Color.BLACK;
     public Gene gene;
-    
- 
+
+
 
     /**
      * Create a new animal at location in field.
@@ -174,15 +174,24 @@ public abstract class Animal {
     public double getMetabolismFromGene() {
         return gene.getMetabolismFromGene();
     }
-    
+
     /**
      * Sets the disease status of this animal.
      * @param disease true if the animal should be marked as diseased.
      */
     public void setDiseased(boolean disease) {}
-    
+
     public boolean isDiseased() {
         return disease;
     }
+
+    public static int clampInt(int value, int min, int max) {
+        return Math.max(min, Math.min(value, max));
+    }
+
+    public static double clampDouble(double value, double min, double max) {
+        return Math.max(min, Math.min(value, max));
+    }
+
 }
 

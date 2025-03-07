@@ -8,7 +8,6 @@ import static java.lang.Math.min;
  */
 public class Grass extends Animal {
     private static final int MAX_AGEING = 5;
-    private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
     private int age;
 

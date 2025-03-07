@@ -14,7 +14,7 @@ public class Mouse extends Prey {
         gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(10, 15), 1, 12);
         gene.MAX_FOOD_VALUE = Math.max(1, rand.nextInt(5, 7));
         gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 0.5), 0.25, 1.0);
-        age = rand.nextInt(gene.MAX_AGE);
+        age = rand.nextInt(1, gene.MAX_AGE);
         foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
         lifeLeft = 10;
         disease = false;

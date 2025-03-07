@@ -199,6 +199,7 @@ public abstract class Animal {
      */
     public void diseaseSpread() {
         double prob_of_spread = 0.05;
+
         if (!isDiseased()) {
             return;
         }

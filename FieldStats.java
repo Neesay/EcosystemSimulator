@@ -1,22 +1,18 @@
 import java.util.HashMap;
+import java.util.Set;
 
 /**
- * This class collects and provides some statistical data on the state
- * of a field. It is flexible: it will create and maintain a counter
- * for any class of object that is found within the field.
- *
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * This class collects and provides detailed statistical data on the state
+ * of a field. In addition to counting the number of animals per species, it
+ * also tracks average gene values and disease frequency.
  */
-
 public class FieldStats {
-    
+
     private HashMap<Class, Counter> counters;
     private boolean countsValid;
 
     /**
-     * Construct a FieldStats object.  Set up a collection for counters for
-     * each type of animal that we might find
+     * Construct a FieldStats object.
      */
     public FieldStats() {
         counters = new HashMap<>();
@@ -24,53 +20,60 @@ public class FieldStats {
     }
 
     /**
-     * Get details of what is in the field.
-     * @return A string describing what is in the field.
+     * Get detailed statistics of what is in the field.
+     * @return A string describing counts and average gene values per species,
+     *         and the frequency of disease outbreaks.
      */
     public String getPopulationDetails(Field field) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         if (!countsValid) {
             generateCounts(field);
         }
-        for (Class key : counters.keySet()) {
+        Set<Class> keys = counters.keySet();
+        buffer.append("\n");
+        for (Class key : keys) {
             Counter info = counters.get(key);
             buffer.append(info.getName());
-            buffer.append(": ");
-            buffer.append(info.getCount());
-            buffer.append(' ');
+            buffer.append(": Count = ").append(info.getCount());
+            buffer.append("| BA: ").append(String.format("%.2f", info.getAverageBreedingAge()));
+            buffer.append("| LS = ").append(String.format("%.2f", info.getAverageLifeSpan()));
+            buffer.append("| BP = ").append(String.format("%.2f", info.getAverageBreedingProbability()));
+            buffer.append("| LS = ").append(String.format("%.2f", info.getAverageLitterSize()));
+            buffer.append("| DP = ").append(String.format("%.2f", info.getAverageDiseaseProbability()));
+            buffer.append("| M = ").append(String.format("%.2f", info.getAverageMetabolism()));
+            buffer.append("| FV = ").append(String.format("%.2f", info.getAverageFoodValue()));
+            buffer.append("| DF = ").append(String.format("%.2f", info.getDiseaseFrequency()));
+            buffer.append("\n");
         }
         return buffer.toString();
     }
 
     /**
-     * Invalidate the current set of statistics; reset all
-     * counts to zero.
+     * Invalidate the current set of statistics; reset all counts.
      */
     public void reset() {
         countsValid = false;
-        for (Class key : counters.keySet()) {
-            Counter count = counters.get(key);
-            count.reset();
+        for (Counter counter : counters.values()) {
+            counter.reset();
         }
     }
 
     /**
-     * Increment the count for one class of animal
-     * @param animalClass The class of animal to increment.
+     * Increment the count for a given species, recording its gene data.
+     * @param animalClass The class of animal.
+     * @param animal The animal instance to record.
      */
-    public void incrementCount(Class animalClass) {
-        Counter count = counters.get(animalClass);
-
-        if (count == null) {
-            // We do not have a counter for this species yet. Create one.
-            count = new Counter(animalClass.getName());
-            counters.put(animalClass, count);
+    public void incrementCount(Class animalClass, Animal animal) {
+        Counter counter = counters.get(animalClass);
+        if (counter == null) {
+            counter = new Counter(animalClass.getSimpleName());
+            counters.put(animalClass, counter);
         }
-        count.increment();
+        counter.increment(animal);
     }
 
     /**
-     * Indicate that an animal count has been completed.
+     * Indicate that the animal counts have been fully updated.
      */
     public void countFinished() {
         countsValid = true;
@@ -78,37 +81,32 @@ public class FieldStats {
 
     /**
      * Determine whether the simulation is still viable.
-     * I.e., should it continue to run.
-     * @return true If there is more than one animal form alive
+     * @return true if at least one species is present.
      */
     public boolean isViable(Field field) {
         int nonZero = 0;
         if (!countsValid) {
             generateCounts(field);
         }
-        for (Class key : counters.keySet()) {
-            Counter info = counters.get(key);
-            if (info.getCount() > 0) {
+        for (Counter counter : counters.values()) {
+            if (counter.getCount() > 0) {
                 nonZero++;
             }
         }
-
         return nonZero >= 1;
     }
 
     /**
-     * Generate counts of the number of animals.
-     * These are not kept up to date.
-     * @param field The field to generate the stats for.
+     * Generate counts for all animals in the field.
+     * @param field The field to generate statistics for.
      */
     private void generateCounts(Field field) {
         reset();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
                 Animal animal = field.getObjectAt(row, col);
-
                 if (animal != null) {
-                    incrementCount(animal.getClass());
+                    incrementCount(animal.getClass(), animal);
                 }
             }
         }

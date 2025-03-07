@@ -54,10 +54,10 @@ public class Gene {
     public Gene(Animal parent1, Animal parent2) {
         this.BREEDING_AGE = mutate(parent1.getBreedingAgeFromGene(), 12, 90);
         this.MAX_AGE = mutate(parent1.getLifeSpanFromGene(), 10, 120);
-        this.BREEDING_PROBABILITY = mutate(parent1.getBreedingProbabilityFromGene(), 0.0, 0.50, 0.01);
+        this.BREEDING_PROBABILITY = mutate(parent1.getBreedingProbabilityFromGene(), 0.0, 0.50);
         this.MAX_LITTER_SIZE = mutate(parent2.getLitterSizeFromGene(), 1, 12);
-        this.DISEASE_PROBABILITY = mutate(parent2.getDiseaseProbabilityFromGene(), 0.0, 0.50, 0.01);
-        this.METABOLISM = mutate(parent2.getMetabolismFromGene(), 0.25, 1.0, 0.01);
+        this.DISEASE_PROBABILITY = mutate(parent2.getDiseaseProbabilityFromGene(), 0.0, 0.50);
+        this.METABOLISM = mutate(parent2.getMetabolismFromGene(), 0.25, 1.0);
         this.MAX_FOOD_VALUE = Math.max(1, parent1.getFoodValue());
 
         createGeneString();
@@ -71,10 +71,10 @@ public class Gene {
         return clampInt(result, min, max);
     }
 
-    private double mutate(double value, double min, double max, double delta) {
+    private double mutate(double value, double min, double max) {
         double result = value;
         if (rand.nextDouble() < 0.20) {
-            result = value + (rand.nextDouble() < 0.50 ? delta : -delta);
+            result = value + (rand.nextDouble() < 0.50 ? 0.01 : -0.01);
         }
         return clampDouble(result, min, max);
     }

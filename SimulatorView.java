@@ -106,7 +106,7 @@ public class SimulatorView extends Application {
                 Animal animal = field.getObjectAt(row, col);
 
                 if (animal != null && animal.isAlive()) {
-                    stats.incrementCount(animal.getClass());
+                    stats.incrementCount(animal.getClass(), animal);
                     fieldCanvas.drawMark(col, row, animal.getColor());
                     // Save the animal's color for the legend if not already added.
                     legendMap.putIfAbsent(animal.getClass(), animal.getColor());
@@ -151,7 +151,7 @@ public class SimulatorView extends Application {
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });
-    
+
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
                     Platform.runLater(this::reset);

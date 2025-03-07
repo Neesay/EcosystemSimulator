@@ -317,13 +317,14 @@ public class SimulatorView extends Application {
      * @return A string representing the simulation log.
      */
     private String getSimulationLog() {
+        // Use actual counters from Animal class.
         int totalDeaths = Animal.totalDeaths;
         int totalBirths = Animal.totalBirths;
         int diseaseCatches = Animal.totalDiseaseCatches;
         int diseaseSpreads = Animal.totalDiseaseSpreads;
         
         int generation = simulator.getStep();
-        // Compute the factor for averaging per 50 generations. Ensure factor is at least 1.
+        // Compute factor for averaging per 50 generations (ensure factor is at least 1).
         double factor = generation / 50.0;
         if (factor < 1) {
             factor = 1;
@@ -336,17 +337,20 @@ public class SimulatorView extends Application {
         sb.append("Animals Catching Disease: ").append(diseaseCatches).append("\n");
         sb.append("Disease Spreads: ").append(diseaseSpreads).append("\n\n");
         sb.append("Averages per 50 generations:\n");
-        // Iterate over each species and compute the average deaths and births.
+        // Iterate over each species to calculate averages.
         for (String species : Animal.deathsBySpecies.keySet()) {
             int speciesDeaths = Animal.deathsBySpecies.get(species);
             int speciesBirths = Animal.birthsBySpecies.getOrDefault(species, 0);
+            double avgDeaths = speciesDeaths / factor;
+            double avgBirths = speciesBirths / factor;
             sb.append(species)
-              .append(" - Avg Deaths: ").append(speciesDeaths / factor)
-              .append(", Avg Births: ").append(speciesBirths / factor)
+              .append(" - Avg Deaths: ").append(String.format("%.1f", avgDeaths))
+              .append(", Avg Births: ").append(String.format("%.1f", avgBirths))
               .append("\n");
         }
         return sb.toString();
     }
+
 
 
     public static void main(String[] args) {

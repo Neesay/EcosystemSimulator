@@ -18,6 +18,8 @@ public abstract class Animal {
     private Field field;
     private Location location;
     private Color color = Color.BLACK;
+    public static boolean LOGGING_ENABLED = false;
+
     // Tracking variables and hashmaps for logging information:
     public static int totalDeaths = 0;
     public static int totalBirths = 0;

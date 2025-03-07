@@ -115,7 +115,7 @@ Add a simple user control interface (using JavaFX controls) that lets the user p
 Population Trend Graph: done
 Integrate a real-time chart (e.g., using JavaFX’s LineChart) that plots the population of each species over time. This visual feedback not only enriches the simulation’s presentation but also helps analyze long-term ecological trends.
 
-Detailed Simulation Logging: not implemented
+Detailed Simulation Logging: done
 Implement a logging mechanism that records simulation events (births, deaths, disease outbreaks, weather events) and population statistics to a file. This extra data layer can be used for post-simulation analysis and debugging, showing a deeper level of system insight.
 
 Enhanced Animal Behaviors: not implemented

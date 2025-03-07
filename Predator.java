@@ -177,11 +177,10 @@ public abstract class Predator extends Animal {
      * Spread disease to adjacent animals of the same species.
      * For each adjacent animal (of the same class) that is not already diseased,
      * it is infected with a probability of 0.05.
+     * Logs events only if LOGGING_ENABLED is true.
      */
     public void diseaseSpread() {
         double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
-        System.out.println(getClass().getSimpleName() + " at " + getLocation() 
-                + " attempting to spread disease. Diseased: " + isDiseased());
         
         // Only attempt to spread if this animal is diseased.
         if (!isDiseased() || !isAlive()) {
@@ -194,21 +193,16 @@ public abstract class Predator extends Animal {
             Animal other = getField().getObjectAt(loc);
             // Check that the adjacent animal exists, is of the same species, and is not already diseased.
             if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
-                System.out.println("Checking adjacent " + other.getClass().getSimpleName() 
-                        + " at " + loc);
                 if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
                     other.setDiseased(true);
                     totalDiseaseSpreads++;
                     String species = other.getClass().getSimpleName();
                     diseaseSpreadsBySpecies.put(species, 
                             diseaseSpreadsBySpecies.getOrDefault(species, 0) + 1);
-                    System.out.println("Infected " + species + " at " + loc);
-                } else {
-                    System.out.println("Did not infect " + other.getClass().getSimpleName() 
-                            + " at " + loc);
-                }
+                } 
             }
         }
     }
+
 }
     

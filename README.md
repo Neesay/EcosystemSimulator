@@ -104,3 +104,19 @@ Deer
     - set number of steps til death
     - set the probability of catching a disease
     - 
+    
+possible extra features:
+Dynamic Weather Events: not implemented
+Introduce random weather conditions (such as droughts or heavy rain) that temporarily affect plant growth and animal reproduction. For example, during a drought, plant reproduction or food value could be reduced, influencing both prey and predator dynamics.
+
+Interactive Control Panel: done
+Add a simple user control interface (using JavaFX controls) that lets the user pause/resume the simulation and adjust key parameters (like disease spread probability or reproduction rates) in real time. This interactivity can enhance the simulation’s usability and allow for dynamic experimentation.
+
+Population Trend Graph: not implemented
+Integrate a real-time chart (e.g., using JavaFX’s LineChart) that plots the population of each species over time. This visual feedback not only enriches the simulation’s presentation but also helps analyze long-term ecological trends.
+
+Detailed Simulation Logging: not implemented
+Implement a logging mechanism that records simulation events (births, deaths, disease outbreaks, weather events) and population statistics to a file. This extra data layer can be used for post-simulation analysis and debugging, showing a deeper level of system insight.
+
+Enhanced Animal Behaviors: not implemented
+Introduce additional, species-specific behaviors without altering their core traits. For example, add a simple territorial behavior for predators where they avoid overcrowded areas, or a grouping mechanism for prey (like mice or squirrels) that slightly boosts their survival chance when near each other.

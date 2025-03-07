@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.Group;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -15,9 +16,7 @@ import java.util.Map;
 /**
  * A graphical view of the simulation grid. The view displays a rectangle for
  * each location and shows a legend with colored squares for each animal type.
- *
- * @author David J. Barnes,
- * @version 2024.02.03
+ * It also provides an interactive control panel to pause/resume the simulation.
  */
 public class SimulatorView extends Application {
 
@@ -32,17 +31,15 @@ public class SimulatorView extends Application {
     private final String POPULATION_PREFIX = "Population: ";
 
     private Label genLabel, population, infoLabel;
-    private HBox legendPane;  // New legend pane
+    private HBox legendPane;
+    
+    // Flag to control pausing/resuming the simulation.
+    private volatile boolean paused = false;
 
     private FieldCanvas fieldCanvas;
     private FieldStats stats;
     private Simulator simulator;
 
-    /**
-     * Create a view of the given width and height.
-     * @param height The simulation's height.
-     * @param width  The simulation's width.
-     */
     @Override
     public void start(Stage stage) {
 
@@ -57,19 +54,35 @@ public class SimulatorView extends Application {
         infoLabel = new Label("  ");
         population = new Label(POPULATION_PREFIX);
 
-        // Create a new legend pane to display colored squares with animal names.
+        // Legend pane for displaying species colors.
         legendPane = new HBox();
         legendPane.setSpacing(10);
 
+        // Create control panel with a Pause/Resume button.
+        HBox controlPane = new HBox();
+        controlPane.setSpacing(10);
+        Button pauseButton = new Button("Pause");
+        pauseButton.setOnAction(e -> {
+            paused = !paused;
+            if (paused) {
+                pauseButton.setText("Resume");
+                setInfoText("Simulation Paused");
+            } else {
+                pauseButton.setText("Pause");
+                setInfoText("Simulation Running");
+            }
+        });
+        controlPane.getChildren().add(pauseButton);
+
         BorderPane bPane = new BorderPane();
         HBox infoPane = new HBox();
-
         infoPane.setSpacing(10);
-        infoPane.getChildren().addAll(genLabel, infoLabel);
+        // Add the control panel to the top info pane.
+        infoPane.getChildren().addAll(genLabel, infoLabel, controlPane);
         bPane.setTop(infoPane);
         bPane.setCenter(fieldCanvas);
 
-        // Create a bottom pane that holds both population info and the legend.
+        // Bottom pane with population info and legend.
         VBox bottomPane = new VBox();
         bottomPane.setSpacing(5);
         bottomPane.getChildren().addAll(population, legendPane);
@@ -87,35 +100,33 @@ public class SimulatorView extends Application {
     }
 
     /**
-     * Display a short information label at the top of the window.
+     * Sets the informational text at the top of the window.
+     * @param text The text to display.
      */
     public void setInfoText(String text) {
         infoLabel.setText(text);
     }
 
     /**
-     * Show the current status of the field.
+     * Updates the canvas with the current simulation generation and field state.
+     * Also updates the legend with species colors.
      * @param generation The current generation.
-     * @param field The field whose status is to be displayed.
+     * @param field The simulation field.
      */
     public void updateCanvas(int generation, Field field) {
         genLabel.setText(GENERATION_PREFIX + generation);
         stats.reset();
 
-        // A map to store each animal type (class) and its representative color.
         Map<Class<?>, Color> legendMap = new HashMap<>();
 
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
                 Animal animal = field.getObjectAt(row, col);
-
                 if (animal != null && animal.isAlive()) {
                     stats.incrementCount(animal.getClass());
                     fieldCanvas.drawMark(col, row, animal.getColor());
-                    // Save the animal's color for the legend if not already added.
                     legendMap.putIfAbsent(animal.getClass(), animal.getColor());
-                }
-                else {
+                } else {
                     fieldCanvas.drawMark(col, row, EMPTY_COLOR);
                 }
             }
@@ -124,66 +135,67 @@ public class SimulatorView extends Application {
         stats.countFinished();
         population.setText(POPULATION_PREFIX + stats.getPopulationDetails(field));
 
-        // Update the legend: clear previous legend items.
         legendPane.getChildren().clear();
         for (Map.Entry<Class<?>, Color> entry : legendMap.entrySet()) {
-            // Create a small square (10x10) with the animal's color.
             Rectangle colorSquare = new Rectangle(10, 10, entry.getValue());
-            // Create a label with the animal's type name.
             Label animalLabel = new Label(entry.getKey().getSimpleName());
-            // Group the square and label into an HBox.
             HBox legendItem = new HBox(5, colorSquare, animalLabel);
             legendPane.getChildren().add(legendItem);
         }
     }
 
     /**
-     * Determine whether the simulation should continue to run.
-     * @return true If there is more than one species alive.
+     * Determines whether the simulation is viable (more than one species is alive).
+     * @param field The simulation field.
+     * @return true if viable, false otherwise.
      */
     public boolean isViable(Field field) {
         return stats.isViable(field);
     }
 
     /**
-     * Run the simulation from its current state for the given number of
-     * generations. Stop before the given number of generations if the
-     * simulation ceases to be viable.
-     * @param numStep The number of generations to run for.
+     * Runs the simulation for a given number of generations.
+     * Pauses the simulation if the pause flag is set.
+     * @param numStep The number of generations to run.
      */
     public void simulate(int numStep) {
         new Thread(() -> {
             for (int gen = 1; gen <= numStep; gen++) {
+                // Check if simulation is paused.
+                while (paused) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        // Handle interruption if necessary.
+                    }
+                }
                 simulator.simulateOneStep();
                 simulator.delay(100);
+<<<<<<< Updated upstream
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });
     
+=======
+                Platform.runLater(() -> updateCanvas(simulator.getStep(), simulator.getField()));
+>>>>>>> Stashed changes
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
-                    Platform.runLater(() -> {
-                        reset();
-                    });
+                    Platform.runLater(() -> reset());
                 }
             }
         }).start();
     }
 
-
     /**
-     * Reset the simulation to a starting position.
+     * Resets the simulation to the starting state.
      */
     public void reset() {
         simulator.reset();
         updateCanvas(simulator.getStep(), simulator.getField());
     }
 
-    /**
-     * Application main that loads and initializes the specified Application class
-     * on the JavaFX Application Thread.
-     */
-    public static void main(String args[]){
+    public static void main(String[] args) {
         launch(args);
     }
 }

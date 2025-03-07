@@ -11,9 +11,10 @@ public class Deer extends Prey {
         foodLevel = rand.nextInt(8);
         gene.BREEDING_AGE = Gene.clampInt(rand.nextInt(9, 16), 12, 90);
         gene.MAX_AGE = Gene.clampInt(rand.nextInt(45, 65), 10, 120);
-        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.140, 0.321), 0.0, 0.50);
-        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 3), 1, 12);
+        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.13, 0.18), 0.0, 0.30);
+        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 2), 1, 4);
         gene.MAX_FOOD_VALUE = rand.nextInt(15, 22);
+        gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.05, 0.1), 0.0, 0.50);
         gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 1.0), 0.25, 1.0);
         age = rand.nextInt(gene.MAX_AGE);
         foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);

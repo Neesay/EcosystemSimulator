@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
@@ -19,13 +20,12 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.layout.Priority;
 
 /**
  * A graphical view of the simulation grid. The view displays a rectangle for
  * each location, shows a legend with colored squares for each animal type, and
  * provides an interactive control panel with buttons to pause/resume the simulation,
- * show a population chart, and display detailed simulation logs.
+ * show a population chart, view detailed simulation logs, and restart the simulation.
  */
 public class SimulatorView extends Application {
 
@@ -41,7 +41,7 @@ public class SimulatorView extends Application {
     private Label genLabel, population, infoLabel;
     private HBox legendPane;
     
-    // Control flags for pausing the simulation.
+    // Control flag for pausing the simulation.
     private volatile boolean paused = false;
 
     private FieldCanvas fieldCanvas;
@@ -51,10 +51,6 @@ public class SimulatorView extends Application {
     // Map for the chart series (used in the chart feature).
     private Map<String, XYChart.Series<Number, Number>> seriesMap = new HashMap<>();
 
-    /**
-     * Create a view of the given width and height.
-     * @param stage stage of JavaFX
-     */
     @Override
     public void start(Stage stage) {
         stats = new FieldStats();
@@ -68,10 +64,11 @@ public class SimulatorView extends Application {
         infoLabel = new Label("  ");
         population = new Label(POPULATION_PREFIX);
 
+        // Legend pane for species colors.
         legendPane = new HBox();
         legendPane.setSpacing(10);
 
-        // Create control panel with Pause/Resume, Show Chart, and Show Log buttons.
+        // Create control panel with Pause/Resume, Show Chart, Show Log, and Restart buttons.
         HBox controlPane = new HBox();
         controlPane.setSpacing(10);
         Button pauseButton = new Button("Pause");
@@ -89,12 +86,17 @@ public class SimulatorView extends Application {
         chartButton.setOnAction(e -> showChart());
         Button logButton = new Button("Show Log");
         logButton.setOnAction(e -> showLog());
-        controlPane.getChildren().addAll(pauseButton, chartButton, logButton);
+        Button restartButton = new Button("Restart");
+        restartButton.setOnAction(e -> {
+            reset();
+            setInfoText("Simulation Restarted");
+        });
+        controlPane.getChildren().addAll(pauseButton, chartButton, logButton, restartButton);
 
         BorderPane bPane = new BorderPane();
         HBox infoPane = new HBox();
         infoPane.setSpacing(10);
-        // Add the control panel to the info pane.
+        // Add control panel to the top pane.
         infoPane.getChildren().addAll(genLabel, infoLabel, controlPane);
         bPane.setTop(infoPane);
         bPane.setCenter(fieldCanvas);
@@ -184,7 +186,7 @@ public class SimulatorView extends Application {
                     }
                 }
                 simulator.simulateOneStep();
-                simulator.delay(100);
+                simulator.delay(300);
                 Platform.runLater(() -> updateCanvas(simulator.getStep(), simulator.getField()));
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
@@ -204,7 +206,6 @@ public class SimulatorView extends Application {
 
     /**
      * Displays a new window with a line chart tracking population trends.
-     * (Existing chart feature.)
      */
     private void showChart() {
         NumberAxis xAxis = new NumberAxis();
@@ -291,17 +292,14 @@ public class SimulatorView extends Application {
         logArea.setEditable(false);
         logArea.setWrapText(true);
         
-        // Create a VBox and ensure the TextArea grows to fill available space.
         VBox logPane = new VBox();
         logPane.getChildren().add(logArea);
         VBox.setVgrow(logArea, Priority.ALWAYS);
         
-        // Increase the scene height to 600 pixels for a larger display.
         Scene logScene = new Scene(logPane, 600, 600);
         logStage.setScene(logScene);
         logStage.show();
         
-        // Update the log area every second.
         Timeline logTimeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             String logText = getSimulationLog();
             logArea.setText(logText);
@@ -310,23 +308,19 @@ public class SimulatorView extends Application {
         logTimeline.play();
     }
     
-    
     /**
-     * Retrieves the simulation logging information using actual counters.
+     * Retrieves simulation logging information using actual counters.
      * This includes total deaths, total births, disease catches, and disease spreads,
-     * as well as the average deaths and births per 50 generations for each species.
-     *
+     * as well as average deaths and births per 50 generations for each species.
      * @return A string representing the simulation log.
      */
     private String getSimulationLog() {
-        // Use actual counters from Animal class.
         int totalDeaths = Animal.totalDeaths;
         int totalBirths = Animal.totalBirths;
         int diseaseCatches = Animal.totalDiseaseCatches;
         int diseaseSpreads = Animal.totalDiseaseSpreads;
         
         int generation = simulator.getStep();
-        // Compute factor for averaging per 50 generations (ensure factor is at least 1).
         double factor = generation / 50.0;
         if (factor < 1) {
             factor = 1;
@@ -339,7 +333,6 @@ public class SimulatorView extends Application {
         sb.append("Animals Catching Disease: ").append(diseaseCatches).append("\n");
         sb.append("Disease Spreads: ").append(diseaseSpreads).append("\n\n");
         sb.append("Averages per 50 generations:\n");
-        // Iterate over each species to calculate averages.
         for (String species : Animal.deathsBySpecies.keySet()) {
             int speciesDeaths = Animal.deathsBySpecies.get(species);
             int speciesBirths = Animal.birthsBySpecies.getOrDefault(species, 0);
@@ -352,8 +345,6 @@ public class SimulatorView extends Application {
         }
         return sb.toString();
     }
-
-
 
     public static void main(String[] args) {
         launch(args);

@@ -12,9 +12,9 @@ public class Wolf extends Predator {
         // Initialize gene parameters for Wolf.
         foodLevel = rand.nextInt(14); // base food value of 15.
         gene.BREEDING_AGE = rand.nextInt(15, 21);
-        gene.MAX_AGE = rand.nextInt(40, 50);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.195, 0.24);
-        gene.DISEASE_PROBABILITY = rand.nextDouble(0.36, 0.41);
+        gene.MAX_AGE = rand.nextInt(60, 70);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.15, 0.2);
+        gene.DISEASE_PROBABILITY = rand.nextDouble(0.1, 0.2);
         gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(1, 3));
         gene.METABOLISM = rand.nextDouble(0.25, 1);
         age = rand.nextInt(1, gene.MAX_AGE);

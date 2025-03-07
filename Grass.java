@@ -28,8 +28,8 @@ public class Grass extends Animal {
     @Override
     public void act(List<Animal> newGrass) {
         actCounter++;
-        // Only act every 25 steps to slow down reproduction.
-        if (actCounter % 25 != 0) {
+        // Only act every 5 steps
+        if (actCounter % 5 != 0) {
             return;
         }
         // Check that field and location are not null
@@ -61,7 +61,7 @@ public class Grass extends Animal {
         if (getField() == null || getLocation() == null) {
             return;
         }
-        double reproductionProbability = 0.1; // 1% chance to reproduce
+        double reproductionProbability = 0.1; // 10% chance to reproduce
         if (rand.nextDouble() < reproductionProbability) {
             List<Location> free = getField().getFreeAdjacentLocations(getLocation());
             for (Location loc : free) {

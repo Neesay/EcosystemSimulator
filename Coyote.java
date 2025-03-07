@@ -8,14 +8,14 @@ public class Coyote extends Predator {
         foodLevel = rand.nextInt(8);
         // Initialize gene-controlled parameters via clamped random values.
         gene.BREEDING_AGE = Gene.clampInt(rand.nextInt(10, 17), 12, 90);
-        gene.MAX_AGE = Gene.clampInt(rand.nextInt(30, 40), 10, 120);
-        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.3, 0.35), 0.0, 0.50);
-        gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.31, 0.36), 0.0, 0.50);
-        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 4), 1, 12);
+        gene.MAX_AGE = Gene.clampInt(rand.nextInt(50, 60), 10, 120);
+        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.2, 0.25), 0.0, 0.50);
+        gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.15, 0.2), 0.0, 0.50);
+        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 4), 1, 5);
         gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 1), 0.25, 1.0);
         // Use getter for life span so we don't access gene.MAX_AGE directly.
         age = rand.nextInt(1, gene.MAX_AGE);
-        lifeLeft = 12;
+        lifeLeft = 10;
         createGeneString();
     }
 
@@ -66,6 +66,13 @@ public class Coyote extends Predator {
         if (foodLocation != null) {
             return foodLocation;
         }
+        
+        // 20% chance of not finding food
+        if (rand.nextDouble(1) < 0.2) {
+            return null;
+        }
+        
+        
         // No live prey found; try scavenging.
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
@@ -74,7 +81,7 @@ public class Coyote extends Predator {
                 // Assume fresh carcass is indicated by a young grass patch (e.g., age less than 2).
                 if (grass.getAge() < 2) {
                     if (Randomizer.getRandom().nextDouble() < 0.5) {
-                        int scavengedBonus = 3;
+                        int scavengedBonus = 1;
                         foodLevel += scavengedBonus;
                         //System.out.println("Coyote at " + getLocation() + " scavenged a carcass for a bonus of " + scavengedBonus + " food units.");
                         return loc;

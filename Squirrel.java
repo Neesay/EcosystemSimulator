@@ -8,9 +8,9 @@ public class Squirrel extends Prey {
         // Initialize gene parameters for Squirrel.
         gene.BREEDING_AGE = rand.nextInt(3, 8);
         gene.MAX_AGE = rand.nextInt(6, 48);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.285, 0.335);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.4, 0.45);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
-        gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(3, 6));
+        gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(6, 10));
         gene.MAX_FOOD_VALUE = rand.nextInt(12, 16); 
         gene.METABOLISM = rand.nextDouble(0.1, 0.3);  
 
@@ -24,6 +24,16 @@ public class Squirrel extends Prey {
     @Override
     protected Prey createOffspring(Location loc) {
         return new Squirrel(getField(), loc, getColor());
+    }
+    
+    /**
+     * Override the canBreed() method to relax the requirement for an adjacent opposite-gender animal.
+     * This change allows squirrels to reproduce as soon as they reach breeding age,
+     * addressing the issue of low reproduction rates.
+     */
+    @Override
+    protected boolean canBreed() {
+        return age >= gene.BREEDING_AGE;
     }
 
     /**

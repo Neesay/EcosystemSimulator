@@ -13,9 +13,9 @@ import javafx.scene.paint.Color;
 
 public class Simulator {
     private static final double COYOTE_CREATION_PROBABILITY = 0.025;
-    private static final double SQUIRREL_CREATION_PROBABILITY = 0.08;
-    private static final double WOLF_CREATION_PROBABILITY = 0.012;
-    private static final double MOUSE_CREATION_PROBABILITY = 0.15;
+    private static final double SQUIRREL_CREATION_PROBABILITY = 0.15;
+    private static final double WOLF_CREATION_PROBABILITY = 0.02;
+    private static final double MOUSE_CREATION_PROBABILITY = 0.2;
     private static final double DEER_CREATION_PROBABILITY = 0.06;
 
     private final List<Animal> animals;
@@ -80,7 +80,7 @@ public class Simulator {
                     animals.add(coyote);
                 } else if(rand.nextDouble() <= SQUIRREL_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Squirrel squirrel = new Squirrel(field, location, Color.BURLYWOOD);
+                    Squirrel squirrel = new Squirrel(field, location, Color.CYAN);
                     animals.add(squirrel);
                 } else if(rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);

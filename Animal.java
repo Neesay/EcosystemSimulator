@@ -23,6 +23,8 @@ public abstract class Animal {
     public static int totalBirths = 0;
     public static int totalDiseaseCatches = 0;
     public static int totalDiseaseSpreads = 0;
+    
+    // Hash maps for data logger in order to keep track of different data.
     public static Map<String, Integer> deathsBySpecies = new HashMap<>();
     public static Map<String, Integer> birthsBySpecies = new HashMap<>();
     public static Map<String, Integer> diseaseCatchesBySpecies = new HashMap<>();

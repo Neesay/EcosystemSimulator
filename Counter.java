@@ -3,8 +3,8 @@
  * This version also tracks cumulative gene values and diseased counts
  * so that average gene values and disease frequency can be computed.
  *
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (extended)
+ * @author Yaseen Alam and Ulvis Turkers
+ * @version 04/03/2025
  */
 public class Counter {
 
@@ -22,8 +22,9 @@ public class Counter {
     private int diseasedCount;
 
     /**
-     * Provide a name for one of the simulation types.
-     * @param name A class of animal
+     * Provides a name for one of the simulation types.
+     *
+     * @param name A class of animal.
      */
     public Counter(String name) {
         this.name = name;
@@ -31,22 +32,27 @@ public class Counter {
     }
 
     /**
-     * @return The short description of this type.
+     * Retrieves the short description of this type.
+     *
+     * @return The name of this type.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @return The current count for this type.
+     * Retrieves the current count for this type.
+     *
+     * @return The count as an integer.
      */
     public int getCount() {
         return count;
     }
 
     /**
-     * Increment the counter and add this animal's gene data.
-     * @param animal The animal to record.
+     * Increments the counter and adds the animal's gene data.
+     *
+     * @param animal The animal whose data is to be recorded.
      */
     public void increment(Animal animal) {
         if (animal.gene != null) {
@@ -67,7 +73,7 @@ public class Counter {
     }
 
     /**
-     * Reset the counter and all cumulative values.
+     * Resets the counter and all cumulative values.
      */
     public void reset() {
         count = 0;
@@ -81,36 +87,74 @@ public class Counter {
         diseasedCount = 0;
     }
 
-    // Getter methods for average values:
-
+    /**
+     * Computes the average breeding age from the accumulated data.
+     *
+     * @return The average breeding age as a double.
+     */
     public double getAverageBreedingAge() {
         return count == 0 ? 0.0 : (double) totalBreedingAge / count;
     }
 
+    /**
+     * Computes the average life span from the accumulated data.
+     *
+     * @return The average life span as a double.
+     */
     public double getAverageLifeSpan() {
         return count == 0 ? 0.0 : (double) totalLifeSpan / count;
     }
 
+    /**
+     * Computes the average breeding probability from the accumulated data.
+     *
+     * @return The average breeding probability as a double.
+     */
     public double getAverageBreedingProbability() {
         return count == 0 ? 0.0 : totalBreedingProbability / count;
     }
 
+    /**
+     * Computes the average litter size from the accumulated data.
+     *
+     * @return The average litter size as a double.
+     */
     public double getAverageLitterSize() {
         return count == 0 ? 0.0 : (double) totalLitterSize / count;
     }
 
+    /**
+     * Computes the average disease probability from the accumulated data.
+     *
+     * @return The average disease probability as a double.
+     */
     public double getAverageDiseaseProbability() {
         return count == 0 ? 0.0 : totalDiseaseProbability / count;
     }
 
+    /**
+     * Computes the average metabolism from the accumulated data.
+     *
+     * @return The average metabolism as a double.
+     */
     public double getAverageMetabolism() {
         return count == 0 ? 0.0 : totalMetabolism / count;
     }
 
+    /**
+     * Computes the average food value from the accumulated data.
+     *
+     * @return The average food value as a double.
+     */
     public double getAverageFoodValue() {
         return count == 0 ? 0.0 : (double) totalFoodValue / count;
     }
 
+    /**
+     * Computes the frequency of diseased animals.
+     *
+     * @return The disease frequency as a double.
+     */
     public double getDiseaseFrequency() {
         return count == 0 ? 0.0 : (double) diseasedCount / count;
     }

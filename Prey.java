@@ -176,7 +176,7 @@ public abstract class Prey extends Animal {
     
     /**
      * Sets the disease status of this animal.
-     * @param diseased true if the animal should be marked as diseased.
+     * @param disease true if the animal should be marked as diseased.
      */
     public void setDiseased(boolean disease) {
         this.disease = disease;

@@ -6,14 +6,12 @@ public class Coyote extends Predator {
     public Coyote(Field field, Location location, Color col) {
         super(field, location, col);
         foodLevel = rand.nextInt(8);
-        // Initialize gene-controlled parameters via clamped random values.
-        gene.BREEDING_AGE = Gene.clampInt(rand.nextInt(10, 17), 12, 90);
-        gene.MAX_AGE = Gene.clampInt(rand.nextInt(30, 40), 10, 120);
-        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.3, 0.35), 0.0, 0.50);
-        gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.31, 0.36), 0.0, 0.50);
-        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 4), 1, 12);
-        gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 1), 0.25, 1.0);
-        // Use getter for life span so we don't access gene.MAX_AGE directly.
+        gene.BREEDING_AGE = rand.nextInt(10, 17);
+        gene.MAX_AGE = rand.nextInt(30, 40);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.3, 0.35);
+        gene.DISEASE_PROBABILITY = rand.nextDouble(0.31, 0.36);
+        gene.MAX_LITTER_SIZE = rand.nextInt(1, 4);
+        gene.METABOLISM = rand.nextDouble(0.25, 1);
         age = rand.nextInt(1, gene.MAX_AGE);
         lifeLeft = 12;
         createGeneString();
@@ -31,7 +29,6 @@ public class Coyote extends Predator {
      */
     @Override
     public void act(List<Animal> newPredators) {
-        // Check for group presence: count nearby coyotes.
         List<Animal> neighbours = getField().getLivingNeighbours(getLocation());
         int groupCount = 0;
         for (Animal animal : neighbours) {
@@ -41,7 +38,6 @@ public class Coyote extends Predator {
         }
         boolean inGroup = groupCount >= 2;
 
-        // Execute standard predator actions.
         super.act(newPredators);
 
         // If solitary (not in a group) and still alive, make an extra move to simulate speed.
@@ -49,7 +45,6 @@ public class Coyote extends Predator {
             Location extraMove = getField().getFreeAdjacentLocation(getLocation());
             if (extraMove != null) {
                 setLocation(extraMove);
-                //System.out.println("Solitary coyote at " + getLocation() + " moves extra fast.");
             }
         }
     }
@@ -61,7 +56,6 @@ public class Coyote extends Predator {
      */
     @Override
     protected Location findFood() {
-        // Attempt normal hunting.
         Location foodLocation = super.findFood();
         if (foodLocation != null) {
             return foodLocation;

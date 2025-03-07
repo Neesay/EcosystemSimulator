@@ -62,6 +62,27 @@ public abstract class Predator extends Animal {
     }
 
     /**
+     * Handles the disease state.
+     */
+    protected void handleDisease() {
+        if (!disease) {
+            if (rand.nextDouble() < gene.DISEASE_PROBABILITY) {
+                disease = true;
+                // Log the event of disease catching.
+                Animal.totalDiseaseCatches++;
+                String species = this.getClass().getSimpleName();
+                Animal.diseaseCatchesBySpecies.put(species, Animal.diseaseCatchesBySpecies.getOrDefault(species, 0) + 1);
+            }
+        } else {
+            lifeLeft--;
+            if (lifeLeft <= 0) {
+                setDead();
+            }
+        }
+    }
+
+
+    /**
      * Looks for food in adjacent locations.
      * Checks if the animal is an instance of Prey.
      * If a live prey is found, it is killed, foodLevel is increased, and its location returned.
@@ -99,9 +120,15 @@ public abstract class Predator extends Animal {
                 }
                 young.gene = new Gene(this, mate);
                 newPredators.add(young);
+                // Increment global births counter.
+                Animal.totalBirths++;
+                // Update births counter for this species.
+                String species = this.getClass().getSimpleName();
+                Animal.birthsBySpecies.put(species, Animal.birthsBySpecies.getOrDefault(species, 0) + 1);
             }
         }
-    }
+}
+
 
     /**
      * Returns the number of births, if breeding occurs.
@@ -131,4 +158,48 @@ public abstract class Predator extends Animal {
     public int getFoodValue() {
         return 0;
     }
+    
+    public boolean isDiseased() {
+        return disease;
+    }
+    
+    /**
+     * Sets the disease status of this animal.
+     * @param diseased true if the animal should be marked as diseased.
+     */
+    public void setDiseased(boolean disease) {
+        this.disease = disease;
+    }
+    
+    /**
+     * Spread disease to adjacent animals of the same species.
+     * For each adjacent animal (of the same class) that is not already diseased,
+     * it is infected with a probability of 0.05.
+     * Logs events only if LOGGING_ENABLED is true.
+     */
+    public void diseaseSpread() {
+        double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
+        
+        // Only attempt to spread if this animal is diseased.
+        if (!isDiseased() || !isAlive()) {
+            return;
+        }
+        
+        // Retrieve all adjacent locations.
+        List<Location> adjacent = getField().adjacentLocations(getLocation());
+        for (Location loc : adjacent) {
+            Animal other = getField().getObjectAt(loc);
+            // Check that the adjacent animal exists, is of the same species, and is not already diseased.
+            if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
+                if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
+                    other.setDiseased(true);
+                    totalDiseaseSpreads++;
+                    String species = other.getClass().getSimpleName();
+                    diseaseSpreadsBySpecies.put(species, 
+                            diseaseSpreadsBySpecies.getOrDefault(species, 0) + 1);
+                } 
+            }
+        }
+    }
+
 }

@@ -16,8 +16,6 @@ public abstract class Animal {
     private Field field;
     private Location location;
     private Color color = Color.BLACK;
-
-    // The gene object now holds breeding/age/metabolism fields.
     public Gene gene;
     
  
@@ -179,7 +177,7 @@ public abstract class Animal {
     
     /**
      * Sets the disease status of this animal.
-     * @param diseased true if the animal should be marked as diseased.
+     * @param disease true if the animal should be marked as diseased.
      */
     public void setDiseased(boolean disease) {}
     

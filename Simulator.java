@@ -80,23 +80,23 @@ public class Simulator {
             for(int col = 0; col < field.getWidth(); col++) {
                 if(rand.nextDouble() <= COYOTE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Coyote coyote = new Coyote(true, field, location, Color.DARKSALMON);
+                    Coyote coyote = new Coyote(field, location, Color.DARKSALMON);
                     animals.add(coyote);
                 } else if(rand.nextDouble() <= SQUIRREL_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Squirrel squirrel = new Squirrel(true, field, location, Color.CYAN);
+                    Squirrel squirrel = new Squirrel(field, location, Color.CYAN);
                     animals.add(squirrel);
                 } else if(rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Wolf wolf = new Wolf(true, field, location, Color.BLACK);
+                    Wolf wolf = new Wolf(field, location, Color.BLACK);
                     animals.add(wolf);
                 } else if(rand.nextDouble() <= MOUSE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Mouse mouse = new Mouse(true, field, location, Color.GREY);
+                    Mouse mouse = new Mouse(field, location, Color.GREY);
                     animals.add(mouse);
                 } else if(rand.nextDouble() <= DEER_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Deer deer = new Deer(true, field, location, Color.RED);
+                    Deer deer = new Deer(field, location, Color.RED);
                     animals.add(deer);
                 } else {
                     Location location = new Location(row, col);

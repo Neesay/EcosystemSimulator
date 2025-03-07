@@ -55,7 +55,7 @@ public abstract class Predator extends Animal {
     }
 
     protected void incrementHunger() {
-        foodLevel -= 1 + gene.METABOLISM;
+        foodLevel -= (int) (1 + gene.METABOLISM);
         if (foodLevel <= 0) {
             setDead();
         }
@@ -85,12 +85,11 @@ public abstract class Predator extends Animal {
     protected Location findFood() {
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
-            Object animal = getField().getObjectAt(loc);
+            Animal animal = getField().getObjectAt(loc);
             if (animal instanceof Prey) {
-                Animal prey = (Animal) animal;
-                if (prey.isAlive()) {
-                    prey.setDead();
-                    foodLevel += prey.getFoodValue();
+                if (animal.isAlive()) {
+                    animal.setDead();
+                    foodLevel += animal.getFoodValue();
                     return loc;
                 }
             }
@@ -103,13 +102,13 @@ public abstract class Predator extends Animal {
      * Uses a factory method createYoung(Location) to create an offspring.
      */
     protected void giveBirth(List<Animal> newPredators) {
-        if (getGender() == 1) { // Only females reproduce.
+        if (getGender() == 1) {
             List<Location> free = getField().getFreeAdjacentLocations(getLocation());
             int births = breed();
             for (int b = 0; b < births && !free.isEmpty(); b++) {
-                Location loc = free.remove(0);
-                Predator young = createYoung(loc);
-                // Find a mate; if none is found, use this as fallback.
+                Location loc = free.removeFirst();
+                Predator young = createOffspring(loc);
+
                 Animal mate = getField().findParent(getLocation(), getGender());
                 if (mate == null) {
                     mate = this;
@@ -142,21 +141,16 @@ public abstract class Predator extends Animal {
      * Factory method to create a new offspring.
      * Each concrete predator must implement this method.
      */
-    protected abstract Predator createYoung(Location loc);
+    protected abstract Predator createOffspring(Location loc);
 
     @Override
     public int getFoodValue() {
-        // Predators are not prey.
         return 0;
     }
-    
-    public boolean isDiseased() {
-        return disease;
-    }
-    
+
     /**
      * Sets the disease status of this animal.
-     * @param diseased true if the animal should be marked as diseased.
+     * @param disease true if the animal should be marked as diseased.
      */
     public void setDiseased(boolean disease) {
         this.disease = disease;
@@ -169,11 +163,10 @@ public abstract class Predator extends Animal {
      * it is infected with a probability of 0.05.
      */
     public void diseaseSpread() {
-        double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
+        double prob_of_spread = 0.05;
         if (isDiseased()){
             System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
         }
-        // Only spread disease if this animal is already diseased.
         if (!isDiseased()) {
             return;
         }
@@ -181,8 +174,7 @@ public abstract class Predator extends Animal {
         if (!isAlive()) {
             return;
         }
-        
-        // Retrieve all adjacent locations.
+
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
             Animal other = getField().getObjectAt(loc);

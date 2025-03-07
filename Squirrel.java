@@ -5,9 +5,8 @@ import javafx.scene.paint.Color;
  */
 public class Squirrel extends Prey {
 
-    public Squirrel(boolean randomAge, Field field, Location location, Color col) {
+    public Squirrel(Field field, Location location, Color col) {
         super(field, location, col);
-        // Initialize gene parameters for Squirrel.
         gene.BREEDING_AGE = rand.nextInt(3, 8);
         gene.MAX_AGE = rand.nextInt(6, 48);
         gene.BREEDING_PROBABILITY = rand.nextDouble(0.307, 0.356);
@@ -18,13 +17,13 @@ public class Squirrel extends Prey {
 
         age = rand.nextInt(gene.MAX_AGE);
         foodLevel = rand.nextInt(gene.MAX_FOOD_VALUE);
-        lifeLeft = 10; // increased survival buffer
+        lifeLeft = 10;
         disease = false;
         createGeneString();
     }
 
     @Override
-    protected Prey createYoung(Location loc) {
-        return new Squirrel(false, getField(), loc, getColor());
+    protected Prey createOffspring(Location loc) {
+        return new Squirrel( getField(), loc, getColor());
     }
 }

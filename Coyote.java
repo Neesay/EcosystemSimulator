@@ -5,9 +5,8 @@ import javafx.scene.paint.Color;
  */
 public class Coyote extends Predator {
 
-    public Coyote(boolean randomAge, Field field, Location location, Color col) {
+    public Coyote(Field field, Location location, Color col) {
         super(field, location, col);
-        // Initialize gene parameters for Coyote.
         foodLevel = rand.nextInt(8);
         gene.BREEDING_AGE = rand.nextInt(10, 17);
         gene.MAX_AGE = rand.nextInt(30, 40);
@@ -21,9 +20,7 @@ public class Coyote extends Predator {
     }
 
     @Override
-    protected Predator createYoung(Location loc) {
-        return new Coyote(false, getField(), loc, getColor());
+    protected Predator createOffspring(Location loc) {
+        return new Coyote(getField(), loc, getColor());
     }
-
-    // The act() method is inherited from Predator.
 }

@@ -5,16 +5,14 @@ import javafx.scene.paint.Color;
  */
 public class Deer extends Prey {
 
-    public Deer(boolean randomAge, Field field, Location location, Color col) {
+    public Deer(Field field, Location location, Color col) {
         super(field, location, col);
-        // Initialize gene parameters for Deer.
         gene.BREEDING_AGE = rand.nextInt(9, 16);
         gene.MAX_AGE = rand.nextInt(45, 65);
         gene.BREEDING_PROBABILITY = rand.nextDouble(0.255, 0.321);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
         gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(1, 3));
         gene.MAX_FOOD_VALUE = rand.nextInt(15, 22);
-        // Increase metabolism so deer lose food faster.
         gene.METABOLISM = rand.nextDouble(0.25, 1.0);
 
         age = rand.nextInt(gene.MAX_AGE);
@@ -25,7 +23,7 @@ public class Deer extends Prey {
     }
 
     @Override
-    protected Prey createYoung(Location loc) {
-        return new Deer(false, getField(), loc, getColor());
+    protected Prey createOffspring(Location loc) {
+        return new Deer(getField(), loc, getColor());
     }
 }

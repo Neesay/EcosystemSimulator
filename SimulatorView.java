@@ -32,7 +32,7 @@ public class SimulatorView extends Application {
     private final String POPULATION_PREFIX = "Population: ";
 
     private Label genLabel, population, infoLabel;
-    private HBox legendPane;  // New legend pane
+    private HBox legendPane;
 
     private FieldCanvas fieldCanvas;
     private FieldStats stats;
@@ -40,8 +40,7 @@ public class SimulatorView extends Application {
 
     /**
      * Create a view of the given width and height.
-     * @param height The simulation's height.
-     * @param width  The simulation's width.
+     * @param stage stage of JavaFX
      */
     @Override
     public void start(Stage stage) {
@@ -57,7 +56,6 @@ public class SimulatorView extends Application {
         infoLabel = new Label("  ");
         population = new Label(POPULATION_PREFIX);
 
-        // Create a new legend pane to display colored squares with animal names.
         legendPane = new HBox();
         legendPane.setSpacing(10);
 
@@ -69,7 +67,6 @@ public class SimulatorView extends Application {
         bPane.setTop(infoPane);
         bPane.setCenter(fieldCanvas);
 
-        // Create a bottom pane that holds both population info and the legend.
         VBox bottomPane = new VBox();
         bottomPane.setSpacing(5);
         bottomPane.getChildren().addAll(population, legendPane);
@@ -81,6 +78,7 @@ public class SimulatorView extends Application {
         stage.setScene(scene);
         stage.setTitle("Predator/Prey Simulation");
         updateCanvas(simulator.getStep(), simulator.getField());
+        setInfoText("Helllo");
         stage.show();
 
         simulate(2000);
@@ -102,7 +100,6 @@ public class SimulatorView extends Application {
         genLabel.setText(GENERATION_PREFIX + generation);
         stats.reset();
 
-        // A map to store each animal type (class) and its representative color.
         Map<Class<?>, Color> legendMap = new HashMap<>();
 
         for (int row = 0; row < field.getDepth(); row++) {
@@ -124,14 +121,10 @@ public class SimulatorView extends Application {
         stats.countFinished();
         population.setText(POPULATION_PREFIX + stats.getPopulationDetails(field));
 
-        // Update the legend: clear previous legend items.
         legendPane.getChildren().clear();
         for (Map.Entry<Class<?>, Color> entry : legendMap.entrySet()) {
-            // Create a small square (10x10) with the animal's color.
             Rectangle colorSquare = new Rectangle(10, 10, entry.getValue());
-            // Create a label with the animal's type name.
             Label animalLabel = new Label(entry.getKey().getSimpleName());
-            // Group the square and label into an HBox.
             HBox legendItem = new HBox(5, colorSquare, animalLabel);
             legendPane.getChildren().add(legendItem);
         }
@@ -162,9 +155,7 @@ public class SimulatorView extends Application {
     
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
-                    Platform.runLater(() -> {
-                        reset();
-                    });
+                    Platform.runLater(this::reset);
                 }
             }
         }).start();

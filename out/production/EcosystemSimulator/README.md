@@ -1,12 +1,11 @@
 # EcosystemSimulator
 
 # To-Do:
-At the moment:
-    - mutation, 20% chance to decide to mutate, 50% of the time you add one value and subtract one value
-    - 
+- make buttons for generations, pause play button like: <<  ||  |>  >>
+- bird and worm prey
 
-Animals   Age
-Wolf       
+Animals  
+Wolf       - hunts in packs(pack of 3+) for deers, but hunts squirrels and mice without packs
 Coyote     
 Squirrel   
 Mice       

@@ -5,9 +5,8 @@ import javafx.scene.paint.Color;
  */
 public class Wolf extends Predator {
 
-    public Wolf(boolean randomAge, Field field, Location location, Color col) {
+    public Wolf(Field field, Location location, Color col) {
         super(field, location, col);
-        // Initialize gene parameters for Wolf.
         foodLevel = rand.nextInt(14); // base food value of 15.
         gene.BREEDING_AGE = rand.nextInt(15, 21);
         gene.MAX_AGE = rand.nextInt(40, 50);
@@ -21,9 +20,7 @@ public class Wolf extends Predator {
     }
 
     @Override
-    protected Predator createYoung(Location loc) {
-        return new Wolf(false, getField(), loc, getColor());
+    protected Predator createOffspring(Location loc) {
+        return new Wolf(getField(), loc, getColor());
     }
-
-    // The act() method is inherited from Predator.
 }

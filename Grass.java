@@ -10,9 +10,8 @@ public class Grass extends Animal {
     private static final int MAX_AGEING = 5;
     private static final Color color = Color.DARKSEAGREEN;
     private static final Random rand = Randomizer.getRandom();
-    private int age;  // Instance variable.
-    
-    // New variable: only act every 5 steps.
+    private int age;
+
     private int actCounter = 0;
 
     public Grass(boolean randomAge, Field field, Location location, Color col) {
@@ -28,12 +27,10 @@ public class Grass extends Animal {
     }
 
     public void act(List<Animal> newGrass) {
-        // Only update grass every 5 act calls.
         actCounter++;
         if(actCounter % 5 != 0) {
             return;
         }
-        // Proceed with normal actions.
         if(getField() == null) {
             return;
         }
@@ -55,7 +52,7 @@ public class Grass extends Animal {
      * in all free adjacent locations.
      */
     private void spread(List<Animal> newGrass) {
-        double reproductionProbability = 0.01; // 1% chance to reproduce per act cycle.
+        double reproductionProbability = 0.01;
         if(rand.nextDouble() < reproductionProbability) {
             List<Location> free = getField().getFreeAdjacentLocations(getLocation());
             for(Location loc : free) {

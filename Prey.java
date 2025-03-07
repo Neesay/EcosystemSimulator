@@ -38,10 +38,10 @@ public abstract class Prey extends Animal {
                 setLocation(foodLocation);
             } else {
                 setDead();
-                return; // Exit act() if the animal is dead.
+                return;
             }
             handleDisease();
-            diseaseSpread(); // Now safe to call since the animal is alive.
+            diseaseSpread();
         }
     }
 
@@ -55,7 +55,7 @@ public abstract class Prey extends Animal {
     }
 
     protected void incrementHunger() {
-        foodLevel -= 1 + gene.METABOLISM;
+        foodLevel -= (int) (1 + gene.METABOLISM);
         if (foodLevel <= 0) {
             setDead();
         }
@@ -71,8 +71,7 @@ public abstract class Prey extends Animal {
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
             Object obj = getField().getObjectAt(loc);
-            if (obj instanceof Grass) {
-                Grass grass = (Grass) obj;
+            if (obj instanceof Grass grass) {
                 int grassFood = grass.getFoodValue();
                 foodLevel = Math.min(foodLevel + grassFood, gene.MAX_FOOD_VALUE);
                 grass.setDead();
@@ -114,7 +113,7 @@ public abstract class Prey extends Animal {
             int births = breed();
             for (int b = 0; b < births && !free.isEmpty(); b++) {
                 Location loc = free.remove(0);
-                Prey young = createYoung(loc);
+                Prey young = createOffspring(loc);
                 // Find a mate; if none is found, use self as fallback.
                 Animal mate = getField().findParent(getLocation(), getGender());
                 if (mate == null) {
@@ -156,7 +155,7 @@ public abstract class Prey extends Animal {
      * @param loc The location at which the new prey will be placed.
      * @return A new instance of the prey.
      */
-    protected abstract Prey createYoung(Location loc);
+    protected abstract Prey createOffspring(Location loc);
     
     
     // New methods for disease spreading:
@@ -171,7 +170,7 @@ public abstract class Prey extends Animal {
     
     /**
      * Sets the disease status of this animal.
-     * @param diseased true if the animal should be marked as diseased.
+     * @param disease true if the animal should be marked as diseased.
      */
     public void setDiseased(boolean disease) {
         this.disease = disease;
@@ -184,11 +183,10 @@ public abstract class Prey extends Animal {
      * it is infected with a probability of 0.05.
      */
     public void diseaseSpread() {
-        double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
+        double prob_of_spread = 0.05;
         if (isDiseased()){
             System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
         }
-        // Only spread disease if this animal is already diseased.
         if (!isDiseased()) {
             return;
         }
@@ -196,7 +194,6 @@ public abstract class Prey extends Animal {
             return;
         }
 
-        // Retrieve all adjacent locations.
         List<Location> adjacent = getField().adjacentLocations(getLocation());
         for (Location loc : adjacent) {
             Animal other = getField().getObjectAt(loc);

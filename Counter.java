@@ -49,17 +49,19 @@ public class Counter {
      * @param animal The animal to record.
      */
     public void increment(Animal animal) {
-        if (animal.getGeneString() != null) {
-            count++;
-            totalBreedingAge += animal.getBreedingAgeFromGene();
-            totalLifeSpan += animal.getLifeSpanFromGene();
-            totalBreedingProbability += animal.getBreedingProbabilityFromGene();
-            totalLitterSize += animal.getLitterSizeFromGene();
-            totalDiseaseProbability += animal.getDiseaseProbabilityFromGene();
-            totalMetabolism += animal.getMetabolismFromGene();
-            totalFoodValue += animal.getFoodValue();
-            if (animal.isDiseased()) {
-                diseasedCount++;
+        if (animal.gene != null) {
+            if (animal.getGeneString() != null) {
+                count++;
+                totalBreedingAge += animal.getBreedingAgeFromGene();
+                totalLifeSpan += animal.getLifeSpanFromGene();
+                totalBreedingProbability += animal.getBreedingProbabilityFromGene();
+                totalLitterSize += animal.getLitterSizeFromGene();
+                totalDiseaseProbability += animal.getDiseaseProbabilityFromGene();
+                totalMetabolism += animal.getMetabolismFromGene();
+                totalFoodValue += animal.getFoodValue();
+                if (animal.isDiseased()) {
+                    diseasedCount++;
+                }
             }
         }
     }

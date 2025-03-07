@@ -51,7 +51,7 @@ public class Squirrel extends Prey {
 
         if (predatorNearby) {
             // Hiding: do not move this turn.
-            System.out.println("Squirrel at " + getLocation() + " is hiding due to predator presence.");
+            //System.out.println("Squirrel at " + getLocation() + " is hiding due to predator presence.");
         } else {
             // Erratic Movement: 20% chance to jump erratically.
             Location newLocation = null;
@@ -63,7 +63,7 @@ public class Squirrel extends Prey {
             }
             if (newLocation != null) {
                 setLocation(newLocation);
-                System.out.println("Squirrel moves to " + newLocation);
+                //System.out.println("Squirrel moves to " + newLocation);
             } else {
                 setDead();
                 return;

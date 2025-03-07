@@ -9,7 +9,7 @@ public class Coyote extends Predator {
         // Initialize gene-controlled parameters via clamped random values.
         gene.BREEDING_AGE = Gene.clampInt(rand.nextInt(10, 17), 12, 90);
         gene.MAX_AGE = Gene.clampInt(rand.nextInt(30, 40), 10, 120);
-        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.31, 0.38), 0.0, 0.50);
+        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.3, 0.35), 0.0, 0.50);
         gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.31, 0.36), 0.0, 0.50);
         gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 4), 1, 12);
         gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 1), 0.25, 1.0);
@@ -49,7 +49,7 @@ public class Coyote extends Predator {
             Location extraMove = getField().getFreeAdjacentLocation(getLocation());
             if (extraMove != null) {
                 setLocation(extraMove);
-                System.out.println("Solitary coyote at " + getLocation() + " moves extra fast.");
+                //System.out.println("Solitary coyote at " + getLocation() + " moves extra fast.");
             }
         }
     }
@@ -76,7 +76,7 @@ public class Coyote extends Predator {
                     if (Randomizer.getRandom().nextDouble() < 0.5) {
                         int scavengedBonus = 3;
                         foodLevel += scavengedBonus;
-                        System.out.println("Coyote at " + getLocation() + " scavenged a carcass for a bonus of " + scavengedBonus + " food units.");
+                        //System.out.println("Coyote at " + getLocation() + " scavenged a carcass for a bonus of " + scavengedBonus + " food units.");
                         return loc;
                     }
                 }

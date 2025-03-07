@@ -10,7 +10,7 @@ public class Deer extends Prey {
         // Initialize gene parameters for Deer.
         gene.BREEDING_AGE = rand.nextInt(9, 16);
         gene.MAX_AGE = rand.nextInt(45, 65);
-        gene.BREEDING_PROBABILITY = rand.nextDouble(0.255, 0.321);
+        gene.BREEDING_PROBABILITY = rand.nextDouble(0.25, 0.32);
         gene.DISEASE_PROBABILITY = rand.nextDouble(0.05, 0.1);
         gene.MAX_LITTER_SIZE = Math.max(1, rand.nextInt(1, 3));
         gene.MAX_FOOD_VALUE = rand.nextInt(15, 22);

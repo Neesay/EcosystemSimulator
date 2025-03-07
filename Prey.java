@@ -164,7 +164,6 @@ public abstract class Prey extends Animal {
      * @return A new instance of the prey.
      */
     protected abstract Prey createOffspring(Location loc);
-    protected abstract Prey createYoung(Location loc);
     
         
     /**

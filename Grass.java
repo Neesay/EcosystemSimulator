@@ -1,7 +1,5 @@
 import java.util.*;
-import javafx.scene.paint.Color; 
-import static java.lang.Math.min;
-
+import javafx.scene.paint.Color;
 /**
  * A simple model of grass.
  * Grass ages, dies, and now also reproduces (spreads).
@@ -10,7 +8,6 @@ public class Grass extends Animal {
     private static final int MAX_AGEING = 5;
     private static final Random rand = Randomizer.getRandom();
     private int age;
-
     private int actCounter = 0;
 
     public Grass(boolean randomAge, Field field, Location location, Color col) {
@@ -37,13 +34,13 @@ public class Grass extends Animal {
         spread(newGrass);
     }
 
-    private void incrementAge() {
+    public void incrementAge() {
         age++;
     }
-    
+
     @Override
     public int getFoodValue() {
-        return min(age, MAX_AGEING);
+        return Math.min(age, MAX_AGEING);
     }
     
     /**

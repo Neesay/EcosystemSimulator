@@ -1,9 +1,11 @@
 import javafx.scene.paint.Color;
+import java.util.List;
 
 /**
  * A model of a wolf. Extends Predator.
  */
 public class Wolf extends Predator {
+    private Location territoryCenter;
 
     public Wolf(Field field, Location location, Color col) {
         super(field, location, col);
@@ -11,10 +13,10 @@ public class Wolf extends Predator {
         gene.BREEDING_AGE = Gene.clampInt(rand.nextInt(15, 21), 12, 90);
         gene.MAX_AGE = Gene.clampInt(rand.nextInt(40, 60), 10, 120);
         age = rand.nextInt(1, gene.MAX_AGE);
-        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.21, 0.29), 0.0, 0.50);
-        gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.35, 0.4), 0.0, 0.50);
-        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 3), 1, 12);
-        gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 1), 0.25, 1.0);
+        gene.BREEDING_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.21, 0.32), 0.0, 0.50);
+        gene.DISEASE_PROBABILITY = Gene.clampDouble(rand.nextDouble(0.20, 0.22), 0.0, 0.50);
+        gene.MAX_LITTER_SIZE = Gene.clampInt(rand.nextInt(1, 5), 1, 12);
+        gene.METABOLISM = Gene.clampDouble(rand.nextDouble(0.25, 1.0), 0.25, 1.0);
         lifeLeft = 13;
         createGeneString();
     }
@@ -22,6 +24,88 @@ public class Wolf extends Predator {
     @Override
     protected Predator createOffspring(Location loc) {
         return new Wolf(getField(), loc, getColor());
+    }
+
+    @Override
+    protected Location findFood() {
+        // First, try to find food using the default predator behavior
+        Location foodLocation = super.findFood();
+        if (foodLocation != null) {
+            // If food is found, check for nearby wolves (pack members)
+            List<Animal> neighbours = getField().getLivingNeighbours(getLocation());
+            int packCount = 0;
+            for (Animal animal : neighbours) {
+                if (animal instanceof Wolf && animal != this) {
+                    packCount++;
+                }
+            }
+            if (packCount > 0) {
+                // Apply a bonus to foodLevel for each nearby wolf
+                int bonus = packCount * 2; // e.g., each wolf in the pack adds 2 food units
+                foodLevel += bonus;
+            }
+        }
+        return foodLocation;
+    }
+
+    @Override
+    public void act(List<Animal> newAnimals) {
+        // Perform standard predator behavior first
+        super.act(newAnimals);
+
+        // If the wolf is no longer alive, exit early.
+        if (!isAlive()) return;
+
+        // Check for nearby pack members
+        List<Animal> neighbours = getField().getLivingNeighbours(getLocation());
+        int packCount = 0;
+        for (Animal animal : neighbours) {
+            if (animal instanceof Wolf && animal != this) {
+                packCount++;
+            }
+        }
+
+        if (packCount > 0) {
+            // If pack exists, mark territory: set territory center if not already set
+            if (territoryCenter == null) {
+                territoryCenter = getLocation();
+            }
+        } else {
+            // Clear territory if no pack members are around
+            territoryCenter = null;
+        }
+
+        // If a territory center is set and the wolf isn't already there,
+        // choose an adjacent free location that is closer to the territory center.
+        if (territoryCenter != null && !getLocation().equals(territoryCenter)) {
+            Location best = chooseLocationCloserTo(territoryCenter);
+            if (best != null) {
+                setLocation(best);
+            }
+        }
+    }
+
+    // Choose an adjacent free location that brings the wolf closer to the target (territory center)
+    private Location chooseLocationCloserTo(Location target) {
+        List<Location> freeLocations = getField().getFreeAdjacentLocations(getLocation());
+        if (freeLocations.isEmpty()) return null;
+        Location current = getLocation();
+        int currentDistance = distance(current, target);
+        Location best = null;
+        int bestDistance = currentDistance;
+        for (Location loc : freeLocations) {
+            int d = distance(loc, target);
+            if (d < bestDistance) {
+                bestDistance = d;
+                best = loc;
+            }
+        }
+        return best;
+    }
+
+    // Compute Manhattan distance between two locations
+    private int distance(Location a, Location b) {
+        return Math.abs(a.getRow() - b.getRow()) + Math.abs(a.getCol() - b.getCol());
     }
 }
 

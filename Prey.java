@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 public abstract class Prey extends Animal {
     protected int age;
     protected boolean disease;
-    protected int lifeLeft;
     protected int foodLevel;
     protected static final Random rand = Randomizer.getRandom();
 
@@ -81,28 +80,6 @@ public abstract class Prey extends Animal {
         return null;
     }
 
-
-
-    /**
-     * Handles disease: if not diseased, there's a chance to become diseased;
-     * if already diseased, reduce lifeLeft and possibly die.
-     */
-    protected void handleDisease() {
-        System.out.println("handleDisease()");
-        if (!disease) {
-            if (rand.nextDouble() < gene.DISEASE_PROBABILITY) {
-                disease = true;
-                System.out.println("disease false");
-            }
-        } else {
-            lifeLeft--;
-            System.out.println("decrease life left");
-            if (lifeLeft <= 0) {
-                setDead();
-            }
-        }
-    }
-
     /**
      * Generic method for giving birth. Only females give birth.
      * Uses the abstract factory method createYoung(Location) to create a new instance.
@@ -156,56 +133,4 @@ public abstract class Prey extends Animal {
      * @return A new instance of the prey.
      */
     protected abstract Prey createOffspring(Location loc);
-    
-    
-    // New methods for disease spreading:
-    
-    /**
-     * Returns whether this animal is diseased.
-     * @return true if diseased, false otherwise.
-     */
-    public boolean isDiseased() {
-        return disease;
-    }
-    
-    /**
-     * Sets the disease status of this animal.
-     * @param disease true if the animal should be marked as diseased.
-     */
-    public void setDiseased(boolean disease) {
-        this.disease = disease;
-        System.out.println("called setDiseased()");
-    }
-    
-    /**
-     * Spread disease to adjacent animals of the same species.
-     * For each adjacent animal (of the same class) that is not already diseased,
-     * it is infected with a probability of 0.05.
-     */
-    public void diseaseSpread() {
-        double prob_of_spread = 0.05;
-        if (isDiseased()){
-            System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
-        }
-        if (!isDiseased()) {
-            return;
-        }
-        if (!isAlive()) {
-            return;
-        }
-
-        List<Location> adjacent = getField().adjacentLocations(getLocation());
-        for (Location loc : adjacent) {
-            Animal other = getField().getObjectAt(loc);
-            if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
-                System.out.println("Checking adjacent animal at " + loc + " (" + other.getClass().getSimpleName() + ")");
-                if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
-                    other.setDiseased(true);
-                    System.out.println("Infected animal at " + loc);
-                } else {
-                    System.out.println("Did not infect animal at " + loc);
-                }
-            }
-        }
-    }
 }

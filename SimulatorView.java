@@ -78,7 +78,6 @@ public class SimulatorView extends Application {
         stage.setScene(scene);
         stage.setTitle("Predator/Prey Simulation");
         updateCanvas(simulator.getStep(), simulator.getField());
-        setInfoText("Helllo");
         stage.show();
 
         simulate(2000);

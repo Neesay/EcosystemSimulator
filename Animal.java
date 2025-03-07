@@ -16,6 +16,7 @@ public abstract class Animal {
     private Field field;
     private Location location;
     private Color color = Color.BLACK;
+    protected int lifeLeft;
     public Gene gene;
 
 
@@ -176,22 +177,61 @@ public abstract class Animal {
     }
 
     /**
-     * Sets the disease status of this animal.
-     * @param disease true if the animal should be marked as diseased.
+     * Returns whether this animal is diseased.
+     * @return true if diseased, false otherwise.
      */
-    public void setDiseased(boolean disease) {}
-
     public boolean isDiseased() {
         return disease;
     }
 
-    public static int clampInt(int value, int min, int max) {
-        return Math.max(min, Math.min(value, max));
+    /**
+     * Sets the disease status of this animal.
+     * @param disease true if the animal should be marked as diseased.
+     */
+    public void setDiseased(boolean disease) {
+        this.disease = disease;
     }
 
-    public static double clampDouble(double value, double min, double max) {
-        return Math.max(min, Math.min(value, max));
+    /**
+     * Spread disease to adjacent animals of the same species.
+     * For each adjacent animal (of the same class) that is not already diseased,
+     * it is infected with a probability of 0.05.
+     */
+    public void diseaseSpread() {
+        double prob_of_spread = 0.05;
+        if (!isDiseased()) {
+            return;
+        }
+        if (!isAlive()) {
+            return;
+        }
+
+        List<Location> adjacent = getField().adjacentLocations(getLocation());
+        for (Location loc : adjacent) {
+            Animal other = getField().getObjectAt(loc);
+            if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
+                if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
+                    other.setDiseased(true);
+                }
+            }
+        }
     }
 
+    /**
+     * Handles disease: if not diseased, there's a chance to become diseased;
+     * if already diseased, reduce lifeLeft and possibly die.
+     */
+    protected void handleDisease() {
+        if (!disease) {
+            if (rand.nextDouble() < getDiseaseProbabilityFromGene()) {
+                disease = true;
+            }
+        } else {
+            lifeLeft--;
+            if (lifeLeft <= 0) {
+                setDead();
+            }
+        }
+    }
 }
 

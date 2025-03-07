@@ -160,7 +160,6 @@ public abstract class Predator extends Animal {
      */
     public void setDiseased(boolean disease) {
         this.disease = disease;
-        System.out.println("called setDiseased()");
     }
     
     /**
@@ -170,9 +169,6 @@ public abstract class Predator extends Animal {
      */
     public void diseaseSpread() {
         double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
-        if (isDiseased()){
-            System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
-        }
         // Only spread disease if this animal is already diseased.
         if (!isDiseased()) {
             return;
@@ -187,13 +183,9 @@ public abstract class Predator extends Animal {
         for (Location loc : adjacent) {
             Animal other = getField().getObjectAt(loc);
             if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
-                System.out.println("Checking adjacent animal at " + loc + " (" + other.getClass().getSimpleName() + ")");
                 if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
                     other.setDiseased(true);
-                    System.out.println("Infected animal at " + loc);
-                } else {
-                    System.out.println("Did not infect animal at " + loc);
-                }
+                } 
             }
         }
     }

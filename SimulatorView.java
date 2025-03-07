@@ -171,14 +171,11 @@ public class SimulatorView extends Application {
                 }
                 simulator.simulateOneStep();
                 simulator.delay(100);
-<<<<<<< Updated upstream
+                simulator.delay(10);
                 Platform.runLater(() -> {
                     updateCanvas(simulator.getStep(), simulator.getField());
                 });
-    
-=======
                 Platform.runLater(() -> updateCanvas(simulator.getStep(), simulator.getField()));
->>>>>>> Stashed changes
                 if (!isViable(simulator.getField())) {
                     simulator.delay(3000);
                     Platform.runLater(() -> reset());

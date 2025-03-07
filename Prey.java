@@ -89,15 +89,12 @@ public abstract class Prey extends Animal {
      * if already diseased, reduce lifeLeft and possibly die.
      */
     protected void handleDisease() {
-        System.out.println("handleDisease()");
         if (!disease) {
             if (rand.nextDouble() < gene.DISEASE_PROBABILITY) {
                 disease = true;
-                System.out.println("disease false");
             }
         } else {
             lifeLeft--;
-            System.out.println("decrease life left");
             if (lifeLeft <= 0) {
                 setDead();
             }
@@ -158,9 +155,7 @@ public abstract class Prey extends Animal {
      */
     protected abstract Prey createYoung(Location loc);
     
-    
-    // New methods for disease spreading:
-    
+        
     /**
      * Returns whether this animal is diseased.
      * @return true if diseased, false otherwise.
@@ -175,7 +170,6 @@ public abstract class Prey extends Animal {
      */
     public void setDiseased(boolean disease) {
         this.disease = disease;
-        System.out.println("called setDiseased()");
     }
     
     /**
@@ -185,13 +179,11 @@ public abstract class Prey extends Animal {
      */
     public void diseaseSpread() {
         double prob_of_spread = 0.05; // 5% infection chance for each adjacent animal.
-        if (isDiseased()){
-            System.out.println("diseaseSpread() called for animal at " + getLocation() + ". Diseased: " + isDiseased());
-        }
         // Only spread disease if this animal is already diseased.
         if (!isDiseased()) {
             return;
         }
+        
         if (!isAlive()) {
             return;
         }
@@ -201,12 +193,8 @@ public abstract class Prey extends Animal {
         for (Location loc : adjacent) {
             Animal other = getField().getObjectAt(loc);
             if (other != null && other.getClass().equals(this.getClass()) && !other.isDiseased()) {
-                System.out.println("Checking adjacent animal at " + loc + " (" + other.getClass().getSimpleName() + ")");
                 if (Randomizer.getRandom().nextDouble() < prob_of_spread) {
                     other.setDiseased(true);
-                    System.out.println("Infected animal at " + loc);
-                } else {
-                    System.out.println("Did not infect animal at " + loc);
                 }
             }
         }

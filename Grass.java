@@ -34,6 +34,7 @@ public class Grass extends Animal {
         age = 0;
         // Initialise age randomly if required.
         if (randomAge) {
+            // If randomAge is enabled, set the age to a random value up to MAX_AGEING
             age = rand.nextInt(MAX_AGEING + 1);
         }
     }

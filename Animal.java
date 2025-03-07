@@ -8,7 +8,7 @@ import java.util.Map;
  * A class representing shared characteristics of animals.
  *
  * @author Ulvis Turkers and Yaseen Alam
- * @version ...
+ * @version 04/03/2025
  */
 public abstract class Animal {
     public int GENDER; // 0 for male and 1 for female
@@ -17,10 +17,8 @@ public abstract class Animal {
     private boolean alive;
     private Field field;
     private Location location;
-    private Color color = Color.BLACK;
+    private Color colour = Color.BLACK;
     protected int lifeLeft;
-
-    // Tracking variables and hashmaps for logging information:
     public static int totalDeaths = 0;
     public static int totalBirths = 0;
     public static int totalDiseaseCatches = 0;
@@ -29,18 +27,14 @@ public abstract class Animal {
     public static Map<String, Integer> birthsBySpecies = new HashMap<>();
     public static Map<String, Integer> diseaseCatchesBySpecies = new HashMap<>();
     public static Map<String, Integer> diseaseSpreadsBySpecies = new HashMap<>();
-
-
-    // The gene object now holds breeding/age/metabolism fields.
     public Gene gene;
 
-
-
     /**
-     * Create a new animal at location in field.
+     * Creates a new animal at a location in a field.
      *
-     * @param field The field currently occupied.
+     * @param field    The field currently occupied.
      * @param location The location within the field.
+     * @param col      The initial colour of the animal.
      */
     public Animal(Field field, Location location, Color col) {
         alive = true;
@@ -52,14 +46,15 @@ public abstract class Animal {
     }
 
     /**
-     * Make this animal act - that is: make it do
-     * whatever it wants/needs to do.
+     * Makes this animal act – that is: perform its behaviours as required.
+     *
      * @param newAnimals A list to receive newly born animals.
      */
     abstract public void act(List<Animal> newAnimals);
 
     /**
-     * Check gender of animal.
+     * Checks the gender of the animal.
+     *
      * @return 0 for male or 1 for female.
      */
     public int getGender() {
@@ -67,7 +62,8 @@ public abstract class Animal {
     }
 
     /**
-     * Check whether the animal is alive or not.
+     * Checks whether the animal is alive.
+     *
      * @return true if the animal is still alive.
      */
     protected boolean isAlive() {
@@ -75,8 +71,8 @@ public abstract class Animal {
     }
 
     /**
-     * Indicate that the animal is no longer alive.
-     * It is removed from the field, and the death is logged.
+     * Indicates that the animal is no longer alive.
+     * It is removed from the field and the death is logged.
      */
     protected void setDead() {
         alive = false;
@@ -86,28 +82,29 @@ public abstract class Animal {
             location = null;
             field = null;
         }
-        
+
         // Log the death: increment total deaths and update the species death count.
         totalDeaths++;
         String species = this.getClass().getSimpleName();
         deathsBySpecies.put(species, deathsBySpecies.getOrDefault(species, 0) + 1);
     }
 
-
     /**
-     * Return the animal's location.
-     * @return The animal's location.
+     * Returns the animal's location.
+     *
+     * @return The current location of the animal.
      */
     protected Location getLocation() {
         return location;
     }
 
     /**
-     * Place the animal at the new location in the given field.
-     * @param newLocation The animal's new location.
+     * Places the animal at a new location in the given field.
+     *
+     * @param newLocation The new location for the animal.
      */
     protected void setLocation(Location newLocation) {
-        if(location != null) {
+        if (location != null) {
             field.clear(location);
         }
         location = newLocation;
@@ -115,91 +112,113 @@ public abstract class Animal {
     }
 
     /**
-     * Return the animal's field.
-     * @return The animal's field.
+     * Returns the animal's field.
+     *
+     * @return The field in which the animal resides.
      */
     protected Field getField() {
         return field;
     }
 
     /**
-     * Changes the color of the animal
+     * Changes the colour of the animal.
+     *
+     * @param col The new colour being set.
      */
     public void setColor(Color col) {
-        color = col;
+        colour = col;
     }
 
     /**
-     * Returns the animal's color
+     * Returns the animal's colour.
+     *
+     * @return The current colour of the animal.
      */
     public Color getColor() {
-        return color;
+        return colour;
     }
 
     /**
      * Abstract method for retrieving the food value of prey animals.
+     *
+     * @return The food value as an integer.
      */
     public abstract int getFoodValue();
 
     /**
-     * Create the gene string.
+     * Creates the gene string for the animal.
      */
     public void createGeneString() {
         gene.createGeneString();
     }
 
     /**
-     * Return the gene string.
+     * Returns the gene string.
+     *
+     * @return The gene string.
      */
-    public String getGeneString(){
+    public String getGeneString() {
         return gene.getGeneString();
     }
 
     /**
-     * Return the breeding age (integer) by decoding from the gene string.
+     * Returns the breeding age decoded from the gene string.
+     *
+     * @return The breeding age as an integer.
      */
     public int getBreedingAgeFromGene() {
         return gene.getBreedingAgeFromGene();
     }
 
     /**
-     * Return the life span (integer) by decoding from the gene string.
+     * Returns the life span decoded from the gene string.
+     *
+     * @return The life span as an integer.
      */
     public int getLifeSpanFromGene() {
         return gene.getLifeSpanFromGene();
     }
 
     /**
-     * Return the breeding probability (double) by decoding from the gene string.
+     * Returns the breeding probability decoded from the gene string.
+     *
+     * @return The breeding probability as a double.
      */
     public double getBreedingProbabilityFromGene() {
         return gene.getBreedingProbabilityFromGene();
     }
 
     /**
-     * Return the litter size (integer) by decoding from the gene string.
+     * Returns the litter size decoded from the gene string.
+     *
+     * @return The litter size as an integer.
      */
     public int getLitterSizeFromGene() {
         return gene.getLitterSizeFromGene();
     }
 
     /**
-     * Return the disease probability (double) by decoding from the gene string.
+     * Returns the disease probability decoded from the gene string.
+     *
+     * @return The disease probability as a double.
      */
     public double getDiseaseProbabilityFromGene() {
         return gene.getDiseaseProbabilityFromGene();
     }
 
     /**
-     * Return the metabolism (double) by decoding from the gene string.
+     * Returns the metabolism decoded from the gene string.
+     *
+     * @return The metabolism as a double.
      */
     public double getMetabolismFromGene() {
         return gene.getMetabolismFromGene();
     }
 
     /**
-     * Returns whether this animal is diseased.
-     * @return true if diseased, false otherwise.
+     * Checks whether this animal is diseased.
+     *
+     * @return true if the animal is diseased, false otherwise.
      */
     public boolean isDiseased() {
         return disease;
@@ -207,6 +226,7 @@ public abstract class Animal {
 
     /**
      * Sets the disease status of this animal.
+     *
      * @param disease true if the animal should be marked as diseased.
      */
     public void setDiseased(boolean disease) {
@@ -214,7 +234,7 @@ public abstract class Animal {
     }
 
     /**
-     * Spread disease to adjacent animals of the same species.
+     * Spreads disease to adjacent animals of the same species.
      * For each adjacent animal (of the same class) that is not already diseased,
      * it is infected with a probability of 0.05.
      */
@@ -240,8 +260,8 @@ public abstract class Animal {
     }
 
     /**
-     * Handles disease: if not diseased, there's a chance to become diseased;
-     * if already diseased, reduce lifeLeft and possibly die.
+     * Handles disease: if not diseased, there is a chance to become diseased;
+     * if already diseased, reduces lifeLeft and possibly causes death.
      */
     protected void handleDisease() {
         if (!disease) {
@@ -256,4 +276,3 @@ public abstract class Animal {
         }
     }
 }
-

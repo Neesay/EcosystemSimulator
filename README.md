@@ -1,4 +1,4 @@
-# PreySimulator
+# EcosystemSimulator
 
 A Java-based GUI ecosystem simulation of predator-prey interactions with inheritance-driven species behavior, gene-based evolution mechanics, and real-time visualization. Developed as part of a coursework project.
 

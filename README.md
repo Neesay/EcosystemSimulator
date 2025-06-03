@@ -11,8 +11,6 @@ Includes:
 * Object-Oriented Programming (OOP) principles throughout
 * PDF report outlining design and decisions
 
-This README follows the format of my *Accessify* project—new content for **PreySimulator**.
-
 ---
 
 ## Table of Contents
@@ -47,7 +45,7 @@ javac *.java
 java SimulatorView
 ```
 
-You should see a Swing GUI window visualizing the simulation in real time.
+You should see a Swing GUI window visualising the simulation in real time.
 
 ---
 
@@ -56,7 +54,7 @@ You should see a Swing GUI window visualizing the simulation in real time.
 ### Features:
 
 * **GUI Simulation**: Click `Run` to watch interactions in real-time.
-* **Species**: Deer eat grass; Coyotes hunt deer.
+* **Species**: Deer eat grass; Coyotes hunt deer and etc.
 * **Genetics**: Attributes (e.g., energy, speed) evolve each generation via mutation and inheritance.
 * **Pause & Rerun**: Use GUI controls to step through or restart.
 
@@ -74,17 +72,7 @@ You should see a Swing GUI window visualizing the simulation in real time.
 
 [`EcosystemSimulator Report.pdf`](./EcosystemSimulator%20Report.pdf)
 
-> 💡 *Note: GitHub doesn't render PDFs inline—consider embedding this in your portfolio website.*
-
 ---
-
-## Suggested Screenshots
-
-Add the following to help recruiters understand your work:
-
-* A screenshot of the running simulation (GUI)
-* A UML class diagram (to show your OOP design)
-* Sample gene parameters from `Gene.java`
 
 ```md
 ![Simulation in action](docs/sim-preview.png)

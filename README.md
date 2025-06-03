@@ -44,7 +44,7 @@ javac *.java
 ### 3  Run the simulation
 
 ```bash
-java Main
+java SimulatorView
 ```
 
 You should see a Swing GUI window visualizing the simulation in real time.
@@ -62,7 +62,7 @@ You should see a Swing GUI window visualizing the simulation in real time.
 
 ### Example Workflow:
 
-1. Launch the app: `java Main`
+1. Launch the app: `java SimulatorView`
 2. Observe population changes, hunting behavior, and ecological balance.
 3. Optionally modify gene parameters in `Gene.java` for experimentation.
 

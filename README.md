@@ -74,13 +74,6 @@ You should see a Swing GUI window visualising the simulation in real time.
 
 ---
 
-```md
-![Simulation in action](docs/sim-preview.png)
-![Class design](docs/class-diagram.png)
-```
-
----
-
 ## Contributing
 
 1. Fork the repo
